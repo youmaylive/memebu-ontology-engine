@@ -1,0 +1,10 @@
+{
+  "status": "error",
+  "step": 2,
+  "total_steps": 3,
+  "step_name": "Markdown to Ontology",
+  "progress": 0,
+  "message": "Step 2 (Markdown to Ontology) failed",
+  "error": "Ontology generation failed: Failed to parse JSON-LD: Expecting ',' delimiter: line 3394 column 6 (char 241498)\nResponse preview: {\n  \"@context\": {\n    \"owl\": \"http://www.w3.org/2002/07/owl#\",\n    \"rdf\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\",\n    \"rdfs\": \"http://www.w3.org/2000/01/rdf-schema#\",\n    \"xsd\": \"http://www.w3.",
+  "updated_at": "2026-02-13T19:07:41.850965"
+}

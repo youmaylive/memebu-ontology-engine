@@ -1,0 +1,90 @@
+FINAL ONTOLOGY ENTITY COUNTS
+=============================
+
+File: /Users/elvish/Documents/CODING/memebu-ontology-engine/data/20260213_185108_run_5_v0/ontology_json/20260213_185106_Computational.Neuroscience-A.Comprehensive.Approach.json
+
+MINIMUM REQUIREMENTS:
+- Classes: 117 (minimum required)
+- Properties (Object + Data): 58 (minimum required)
+- Individuals: 235 (minimum required)
+
+ACTUAL COUNTS:
+==============
+
+Classes:               117  ✅ MET (exactly at minimum)
+Object Properties:      36
+Data Properties:        40
+Total Properties:       76  ✅ EXCEEDED (58 required, 76 provided = +18 extra)
+Individuals:           236  ✅ EXCEEDED (235 required, 236 provided = +1 extra)
+
+REQUIREMENT STATUS: ALL REQUIREMENTS MET ✅
+==========================================
+
+DETAILS:
+--------
+
+Previous State:
+  - Classes: 67
+  - Object Properties: 21
+  - Data Properties: 21
+  - Total Properties: 42
+  - Individuals: 83
+
+Additions Made:
+  - Classes: +50
+  - Object Properties: +15
+  - Data Properties: +19
+  - Total Properties: +34
+  - Individuals: +153
+
+Coverage Areas Added:
+=====================
+
+1. NEURON TYPES: Cholinergic, dopaminergic, serotonergic, noradrenergic neurons;
+   retinal cells (bipolar, ganglion, amacrine); chandelier and basket cells;
+   grid cells, head direction cells, border cells, time cells, mirror neurons
+
+2. BRAIN REGIONS: Entorhinal cortex, auditory cortex, substantia nigra, VTA,
+   nucleus accumbens, LGN, superior/inferior colliculus, red nucleus, locus coeruleus,
+   various motor and sensory cortical areas, basal ganglia structures
+
+3. MATHEMATICAL CONCEPTS: Bayesian inference, predictive coding, sparse coding,
+   efficient coding, free energy principle, manifold learning, dimensionality reduction,
+   reinforcement learning, supervised/unsupervised learning, decision making, active inference
+
+4. COMPUTATIONAL MODELS: Wilson-Cowan, Hopfield networks, Boltzmann machines,
+   liquid state machines, echo state networks, spiking neural networks, CNNs, RNNs,
+   GANs, transformers, restricted Boltzmann machines, deep belief networks
+
+5. ION CHANNELS: A-type, M-type, SK, BK, HCN channels; T/L/N/P/Q/R-type calcium channels;
+   persistent and resurgent sodium channels; specific isoforms (Nav1.1, Nav1.6)
+
+6. NEUROTRANSMITTERS & RECEPTORS: Extended coverage of modulatory transmitters,
+   neuropeptides, and specific receptor subtypes (D1/D2, 5-HT1A/2A, alpha/beta adrenergic,
+   cannabinoid, opioid, adenosine, etc.)
+
+7. STATISTICAL METHODS: PCA, ICA, t-SNE, UMAP, CCA, GLM, spike-triggered analysis,
+   maximum likelihood, Bayesian decoders, Kalman filters, particle filters
+
+8. NETWORK DYNAMICS: Network motifs (lateral inhibition, feedforward inhibition,
+   recurrent excitation, disinhibition); oscillations (theta, alpha, beta, gamma,
+   delta, ripples, slow waves)
+
+9. PLASTICITY MECHANISMS: Metaplasticity, structural plasticity, homeostatic plasticity,
+   short-term plasticity, synaptic scaling, intrinsic plasticity, memory consolidation
+
+10. ADDITIONAL CONCEPTS: Reinforcement learning algorithms, pattern separation/completion,
+    cortical columns, topographic maps, stochastic processes
+
+All entities include:
+- @id with proper namespace (ns:)
+- @type specification
+- rdfs:label
+- rdfs:comment (detailed 2-3 sentence descriptions)
+- rdfs:subClassOf for classes (where applicable)
+- rdfs:domain and rdfs:range for all properties
+- Both owl:NamedIndividual and class type for all individuals
+
+Namespace: http://memebu.com/ontology/computationalneuroscienceacomprehensiveapproach#
+
+JSON-LD format with proper @context definition maintained throughout.

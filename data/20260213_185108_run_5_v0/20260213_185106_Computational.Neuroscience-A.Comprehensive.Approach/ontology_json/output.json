@@ -1,0 +1,2906 @@
+{
+  "@context": {
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ns": "http://memebu.com/ontology/output#"
+  },
+  "@graph": [
+    {
+      "@id": "ns:NeuronModel",
+      "@type": "owl:Class",
+      "rdfs:label": "Neuron Model",
+      "rdfs:comment": "A mathematical or computational representation of a neuron that captures its electrical properties, dynamics, and information processing capabilities. Neuron models range from simple integrate-and-fire models to detailed biophysical models with multiple ion channels and compartments."
+    },
+    {
+      "@id": "ns:SimplifiedNeuronModel",
+      "@type": "owl:Class",
+      "rdfs:label": "Simplified Neuron Model",
+      "rdfs:comment": "A reduced mathematical model that captures essential features of neuronal dynamics using minimal computational complexity. These models sacrifice biological detail for mathematical tractability and computational efficiency, making them suitable for large-scale network simulations.",
+      "rdfs:subClassOf": { "@id": "ns:NeuronModel" }
+    },
+    {
+      "@id": "ns:BiophysicalNeuronModel",
+      "@type": "owl:Class",
+      "rdfs:label": "Biophysical Neuron Model",
+      "rdfs:comment": "A detailed computational model that explicitly represents biological mechanisms including ion channels, membrane properties, and cellular morphology. These models are based on experimental measurements of conductances, time constants, and activation kinetics, providing high fidelity to real neuronal behavior.",
+      "rdfs:subClassOf": { "@id": "ns:NeuronModel" }
+    },
+    {
+      "@id": "ns:CompartmentalModel",
+      "@type": "owl:Class",
+      "rdfs:label": "Compartmental Model",
+      "rdfs:comment": "A spatial model that divides a neuron into multiple compartments representing soma, dendrites, and axon, with each compartment having its own electrical properties. Compartmental models capture the spatial distribution of inputs and the effects of dendritic morphology on integration and spike generation.",
+      "rdfs:subClassOf": { "@id": "ns:BiophysicalNeuronModel" }
+    },
+    {
+      "@id": "ns:StochasticModel",
+      "@type": "owl:Class",
+      "rdfs:label": "Stochastic Model",
+      "rdfs:comment": "A mathematical model that incorporates random variability and noise in neuronal dynamics, accounting for channel noise, synaptic unreliability, and other sources of stochasticity. Stochastic models are essential for understanding firing variability and information encoding in the nervous system.",
+      "rdfs:subClassOf": { "@id": "ns:NeuronModel" }
+    },
+    {
+      "@id": "ns:IonChannel",
+      "@type": "owl:Class",
+      "rdfs:label": "Ion Channel",
+      "rdfs:comment": "A transmembrane protein that forms a pore allowing selective passage of ions across cell membranes. Ion channels are fundamental to electrical signaling in neurons, exhibiting properties of conductance, selectivity, and gating that determine neuronal excitability and information processing."
+    },
+    {
+      "@id": "ns:VoltageGatedChannel",
+      "@type": "owl:Class",
+      "rdfs:label": "Voltage-Gated Channel",
+      "rdfs:comment": "An ion channel whose opening and closing is controlled by changes in membrane voltage. Voltage-gated channels are critical for action potential generation and propagation, with different activation and inactivation kinetics that shape the electrical signaling properties of neurons.",
+      "rdfs:subClassOf": { "@id": "ns:IonChannel" }
+    },
+    {
+      "@id": "ns:LigandGatedChannel",
+      "@type": "owl:Class",
+      "rdfs:label": "Ligand-Gated Channel",
+      "rdfs:comment": "An ion channel that opens in response to binding of a specific chemical messenger or neurotransmitter. These channels mediate fast synaptic transmission in the nervous system, converting chemical signals into electrical responses with millisecond precision.",
+      "rdfs:subClassOf": { "@id": "ns:IonChannel" }
+    },
+    {
+      "@id": "ns:MechanosensitiveChannel",
+      "@type": "owl:Class",
+      "rdfs:label": "Mechanosensitive Channel",
+      "rdfs:comment": "An ion channel that responds to mechanical stimuli such as membrane tension, pressure, or stretch. Mechanosensitive channels play crucial roles in touch sensation, hearing, proprioception, and cellular volume regulation in various organisms.",
+      "rdfs:subClassOf": { "@id": "ns:IonChannel" }
+    },
+    {
+      "@id": "ns:Neuron",
+      "@type": "owl:Class",
+      "rdfs:label": "Neuron",
+      "rdfs:comment": "A specialized cell of the nervous system that processes and transmits information through electrical and chemical signals. Neurons exhibit diverse morphologies, electrophysiological properties, and functional roles in neural circuits, forming the fundamental computational units of the brain."
+    },
+    {
+      "@id": "ns:PyramidalCell",
+      "@type": "owl:Class",
+      "rdfs:label": "Pyramidal Cell",
+      "rdfs:comment": "A major class of excitatory neurons characterized by a pyramid-shaped cell body and extensive apical and basal dendritic trees. Pyramidal cells are the primary output neurons of the cerebral cortex and hippocampus, playing central roles in information processing, memory formation, and cognitive functions.",
+      "rdfs:subClassOf": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:Interneuron",
+      "@type": "owl:Class",
+      "rdfs:label": "Interneuron",
+      "rdfs:comment": "A neuron that connects other neurons within the same brain region, typically providing local inhibition or modulation. Interneurons show remarkable diversity in morphology, neurochemistry, and firing patterns, playing crucial roles in shaping network dynamics and information flow.",
+      "rdfs:subClassOf": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:GranuleCell",
+      "@type": "owl:Class",
+      "rdfs:label": "Granule Cell",
+      "rdfs:comment": "A small neuron with a compact cell body and limited dendritic arbor, found in high density in structures like the cerebellum, hippocampus, and olfactory bulb. Granule cells often serve as intermediary processing units, transforming and relaying sensory or motor information within neural circuits.",
+      "rdfs:subClassOf": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:PurkinjeCell",
+      "@type": "owl:Class",
+      "rdfs:label": "Purkinje Cell",
+      "rdfs:comment": "A large GABAergic neuron in the cerebellar cortex with an elaborate, highly branched dendritic tree arranged in a single plane. Purkinje cells are the sole output of the cerebellar cortex and are essential for motor coordination, motor learning, and timing functions through their integration of parallel fiber and climbing fiber inputs.",
+      "rdfs:subClassOf": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:BrainRegion",
+      "@type": "owl:Class",
+      "rdfs:label": "Brain Region",
+      "rdfs:comment": "A anatomically and functionally distinct area of the nervous system with specific cellular composition, connectivity patterns, and computational roles. Brain regions are organized hierarchically and interact through complex networks to support perception, cognition, action, and homeostasis."
+    },
+    {
+      "@id": "ns:Cortex",
+      "@type": "owl:Class",
+      "rdfs:label": "Cortex",
+      "rdfs:comment": "The outer layer of neural tissue in the cerebrum and cerebellum, characterized by laminar organization of neurons and rich connectivity. The cerebral cortex is responsible for higher-order cognitive functions including perception, attention, memory, language, and conscious thought.",
+      "rdfs:subClassOf": { "@id": "ns:BrainRegion" }
+    },
+    {
+      "@id": "ns:Hippocampus",
+      "@type": "owl:Class",
+      "rdfs:label": "Hippocampus",
+      "rdfs:comment": "A curved structure in the medial temporal lobe critical for declarative memory formation, spatial navigation, and contextual processing. The hippocampus exhibits distinct subregions (CA1, CA3, dentate gyrus) with specialized roles in memory encoding, pattern completion, and pattern separation through attractor network dynamics.",
+      "rdfs:subClassOf": { "@id": "ns:BrainRegion" }
+    },
+    {
+      "@id": "ns:Cerebellum",
+      "@type": "owl:Class",
+      "rdfs:label": "Cerebellum",
+      "rdfs:comment": "A large hindbrain structure essential for motor coordination, balance, motor learning, and timing. The cerebellum has a highly regular architecture with parallel processing streams and is thought to compute predictive models of sensorimotor transformations through supervised learning mechanisms.",
+      "rdfs:subClassOf": { "@id": "ns:BrainRegion" }
+    },
+    {
+      "@id": "ns:BarrelCortex",
+      "@type": "owl:Class",
+      "rdfs:label": "Barrel Cortex",
+      "rdfs:comment": "A specialized region of the rodent primary somatosensory cortex containing discrete anatomical units (barrels) that correspond one-to-one with individual facial whiskers. The barrel cortex provides an ideal model system for studying sensory coding, synaptic plasticity, and cortical organization due to its precise somatotopic mapping.",
+      "rdfs:subClassOf": { "@id": "ns:Cortex" }
+    },
+    {
+      "@id": "ns:PrefrontalCortex",
+      "@type": "owl:Class",
+      "rdfs:label": "Prefrontal Cortex",
+      "rdfs:comment": "The anterior portion of the frontal lobe involved in executive functions including working memory, decision making, planning, and behavioral control. The prefrontal cortex maintains task-relevant information through persistent neural activity and recurrent network dynamics, bridging perception and action.",
+      "rdfs:subClassOf": { "@id": "ns:Cortex" }
+    },
+    {
+      "@id": "ns:OlfactoryBulb",
+      "@type": "owl:Class",
+      "rdfs:label": "Olfactory Bulb",
+      "rdfs:comment": "The first central processing station for olfactory information, receiving direct input from olfactory receptor neurons and projecting to olfactory cortex. The bulb contains glomeruli where receptor inputs converge, and mitral/tufted cells that perform pattern separation and temporal coding of odor information.",
+      "rdfs:subClassOf": { "@id": "ns:BrainRegion" }
+    },
+    {
+      "@id": "ns:Synapse",
+      "@type": "owl:Class",
+      "rdfs:label": "Synapse",
+      "rdfs:comment": "A specialized junction between neurons where information is transmitted from one neuron to another through electrical or chemical signals. Synapses are the fundamental sites of neural communication and plasticity, exhibiting diverse properties of strength, dynamics, and modulation that shape network computation."
+    },
+    {
+      "@id": "ns:ChemicalSynapse",
+      "@type": "owl:Class",
+      "rdfs:label": "Chemical Synapse",
+      "rdfs:comment": "A synapse that transmits information through the release of neurotransmitter molecules from the presynaptic terminal, which diffuse across the synaptic cleft and bind to receptors on the postsynaptic membrane. Chemical synapses allow for amplification, integration, and modulation of neural signals.",
+      "rdfs:subClassOf": { "@id": "ns:Synapse" }
+    },
+    {
+      "@id": "ns:ElectricalSynapse",
+      "@type": "owl:Class",
+      "rdfs:label": "Electrical Synapse",
+      "rdfs:comment": "A synapse formed by gap junctions that allow direct electrical coupling between neurons through the passage of ions and small molecules. Electrical synapses provide fast, bidirectional communication and are important for synchronizing neuronal activity and maintaining rhythmic oscillations.",
+      "rdfs:subClassOf": { "@id": "ns:Synapse" }
+    },
+    {
+      "@id": "ns:ExcitatorySynapse",
+      "@type": "owl:Class",
+      "rdfs:label": "Excitatory Synapse",
+      "rdfs:comment": "A chemical synapse that increases the probability of the postsynaptic neuron firing an action potential by causing depolarization of the membrane potential. Excitatory synapses typically use glutamate as a neurotransmitter and generate excitatory postsynaptic potentials (EPSPs).",
+      "rdfs:subClassOf": { "@id": "ns:ChemicalSynapse" }
+    },
+    {
+      "@id": "ns:InhibitorySynapse",
+      "@type": "owl:Class",
+      "rdfs:label": "Inhibitory Synapse",
+      "rdfs:comment": "A chemical synapse that decreases the probability of the postsynaptic neuron firing by causing hyperpolarization or shunting of the membrane potential. Inhibitory synapses typically use GABA or glycine as neurotransmitters and play critical roles in controlling excitability and shaping selectivity.",
+      "rdfs:subClassOf": { "@id": "ns:ChemicalSynapse" }
+    },
+    {
+      "@id": "ns:Neurotransmitter",
+      "@type": "owl:Class",
+      "rdfs:label": "Neurotransmitter",
+      "rdfs:comment": "A chemical messenger released by neurons to transmit signals across synapses to postsynaptic cells. Neurotransmitters bind to specific receptors and can have excitatory, inhibitory, or modulatory effects depending on the receptor type and cellular context."
+    },
+    {
+      "@id": "ns:Glutamate",
+      "@type": "owl:Class",
+      "rdfs:label": "Glutamate",
+      "rdfs:comment": "The primary excitatory neurotransmitter in the central nervous system, mediating fast synaptic transmission through ionotropic receptors (AMPA, NMDA, kainate) and slower modulation through metabotropic receptors. Glutamate is critical for learning, memory, and neural development but can be excitotoxic at high concentrations.",
+      "rdfs:subClassOf": { "@id": "ns:Neurotransmitter" }
+    },
+    {
+      "@id": "ns:GABA",
+      "@type": "owl:Class",
+      "rdfs:label": "GABA",
+      "rdfs:comment": "Gamma-aminobutyric acid, the main inhibitory neurotransmitter in the adult central nervous system. GABA acts through GABA-A receptors (fast chloride channels) and GABA-B receptors (slow metabotropic receptors) to regulate neuronal excitability, prevent runaway excitation, and shape network oscillations.",
+      "rdfs:subClassOf": { "@id": "ns:Neurotransmitter" }
+    },
+    {
+      "@id": "ns:Acetylcholine",
+      "@type": "owl:Class",
+      "rdfs:label": "Acetylcholine",
+      "rdfs:comment": "A neurotransmitter that mediates fast excitatory transmission at the neuromuscular junction and functions as a neuromodulator in the central nervous system. Acetylcholine acts through nicotinic (ionotropic) and muscarinic (metabotropic) receptors, playing roles in attention, arousal, learning, and motor control.",
+      "rdfs:subClassOf": { "@id": "ns:Neurotransmitter" }
+    },
+    {
+      "@id": "ns:Dopamine",
+      "@type": "owl:Class",
+      "rdfs:label": "Dopamine",
+      "rdfs:comment": "A catecholamine neurotransmitter and neuromodulator involved in reward, motivation, motor control, and cognitive functions. Dopamine acts primarily through metabotropic receptors (D1-D5) and its dysregulation is implicated in disorders including Parkinson's disease, schizophrenia, and addiction.",
+      "rdfs:subClassOf": { "@id": "ns:Neurotransmitter" }
+    },
+    {
+      "@id": "ns:NitricOxide",
+      "@type": "owl:Class",
+      "rdfs:label": "Nitric Oxide",
+      "rdfs:comment": "A gaseous signaling molecule that functions as an unconventional neurotransmitter by diffusing through membranes to affect nearby neurons. Nitric oxide is synthesized by neuronal nitric oxide synthase (nNOS) and acts on soluble guanylyl cyclase to produce cGMP, playing roles in synaptic plasticity, blood flow regulation, and neuromodulation.",
+      "rdfs:subClassOf": { "@id": "ns:Neurotransmitter" }
+    },
+    {
+      "@id": "ns:Ion",
+      "@type": "owl:Class",
+      "rdfs:label": "Ion",
+      "rdfs:comment": "An electrically charged atom or molecule that plays essential roles in electrical signaling, osmotic balance, and biochemical processes in neurons. The distribution and movement of ions across neuronal membranes generate electrical potentials and currents that underlie neural computation."
+    },
+    {
+      "@id": "ns:Sodium",
+      "@type": "owl:Class",
+      "rdfs:label": "Sodium",
+      "rdfs:comment": "A positively charged alkali metal ion (Na+) that is the primary carrier of inward current during action potential upstroke in most neurons. Sodium influx through voltage-gated sodium channels causes rapid depolarization, making sodium essential for spike generation and propagation.",
+      "rdfs:subClassOf": { "@id": "ns:Ion" }
+    },
+    {
+      "@id": "ns:Potassium",
+      "@type": "owl:Class",
+      "rdfs:label": "Potassium",
+      "rdfs:comment": "A positively charged alkali metal ion (K+) that maintains the resting membrane potential and mediates repolarization during action potentials. Potassium efflux through various potassium channels shapes spike waveforms, firing rates, and neuronal excitability.",
+      "rdfs:subClassOf": { "@id": "ns:Ion" }
+    },
+    {
+      "@id": "ns:Calcium",
+      "@type": "owl:Class",
+      "rdfs:label": "Calcium",
+      "rdfs:comment": "A divalent cation (Ca2+) that serves dual roles as a charge carrier and a ubiquitous intracellular signaling molecule. Calcium influx triggers neurotransmitter release, activates various enzymes and channels, regulates gene expression, and mediates synaptic plasticity, making it central to neuronal function.",
+      "rdfs:subClassOf": { "@id": "ns:Ion" }
+    },
+    {
+      "@id": "ns:Chloride",
+      "@type": "owl:Class",
+      "rdfs:label": "Chloride",
+      "rdfs:comment": "A negatively charged halogen ion (Cl-) that typically mediates inhibitory synaptic currents in mature neurons. Chloride influx through GABA-A and glycine receptors hyperpolarizes or shunts the membrane potential, providing the primary mechanism of fast synaptic inhibition in the central nervous system.",
+      "rdfs:subClassOf": { "@id": "ns:Ion" }
+    },
+    {
+      "@id": "ns:ActionPotential",
+      "@type": "owl:Class",
+      "rdfs:label": "Action Potential",
+      "rdfs:comment": "A rapid, transient, all-or-none change in membrane potential that propagates along axons to transmit information over long distances. Action potentials result from the sequential activation of voltage-gated sodium and potassium channels, generating a stereotyped electrical signal that is the fundamental unit of neural communication."
+    },
+    {
+      "@id": "ns:SynapticPotential",
+      "@type": "owl:Class",
+      "rdfs:label": "Synaptic Potential",
+      "rdfs:comment": "A graded change in postsynaptic membrane potential resulting from neurotransmitter binding to receptors and opening of ion channels. Synaptic potentials can be excitatory (EPSPs) or inhibitory (IPSPs), and their temporal and spatial summation determines whether the postsynaptic neuron will fire an action potential."
+    },
+    {
+      "@id": "ns:EPSP",
+      "@type": "owl:Class",
+      "rdfs:label": "Excitatory Postsynaptic Potential",
+      "rdfs:comment": "A depolarizing postsynaptic potential that increases the likelihood of the postsynaptic neuron firing an action potential. EPSPs are typically mediated by glutamate receptors causing sodium and calcium influx, and they integrate spatially and temporally with other synaptic inputs to drive neuronal output.",
+      "rdfs:subClassOf": { "@id": "ns:SynapticPotential" }
+    },
+    {
+      "@id": "ns:IPSP",
+      "@type": "owl:Class",
+      "rdfs:label": "Inhibitory Postsynaptic Potential",
+      "rdfs:comment": "A hyperpolarizing or shunting postsynaptic potential that decreases the likelihood of the postsynaptic neuron firing an action potential. IPSPs are typically mediated by GABA or glycine receptors causing chloride influx or potassium efflux, providing crucial control of neuronal excitability and network dynamics.",
+      "rdfs:subClassOf": { "@id": "ns:SynapticPotential" }
+    },
+    {
+      "@id": "ns:SynapticPlasticity",
+      "@type": "owl:Class",
+      "rdfs:label": "Synaptic Plasticity",
+      "rdfs:comment": "Activity-dependent changes in synaptic strength that occur over timescales from milliseconds to days or longer. Synaptic plasticity is the cellular mechanism underlying learning and memory, with forms including short-term facilitation and depression, long-term potentiation (LTP), and long-term depression (LTD)."
+    },
+    {
+      "@id": "ns:LTP",
+      "@type": "owl:Class",
+      "rdfs:label": "Long-Term Potentiation",
+      "rdfs:comment": "A persistent strengthening of synapses based on recent patterns of activity, typically induced by high-frequency stimulation. LTP is a major cellular mechanism of learning and memory, involving postsynaptic receptor insertion, presynaptic transmitter release changes, and structural modifications of dendritic spines.",
+      "rdfs:subClassOf": { "@id": "ns:SynapticPlasticity" }
+    },
+    {
+      "@id": "ns:LTD",
+      "@type": "owl:Class",
+      "rdfs:label": "Long-Term Depression",
+      "rdfs:comment": "A persistent weakening of synaptic connections following specific patterns of activity, typically low-frequency stimulation. LTD complements LTP in regulating synaptic weights and is important for refinement of neural circuits, homeostatic regulation, and clearing old memories to facilitate new learning.",
+      "rdfs:subClassOf": { "@id": "ns:SynapticPlasticity" }
+    },
+    {
+      "@id": "ns:STDP",
+      "@type": "owl:Class",
+      "rdfs:label": "Spike-Timing-Dependent Plasticity",
+      "rdfs:comment": "A form of synaptic plasticity where the relative timing of presynaptic and postsynaptic spikes determines the sign and magnitude of plasticity. STDP follows a temporally asymmetric learning window: pre-before-post timing causes LTP while post-before-pre causes LTD, implementing a form of Hebbian learning that is sensitive to causal relationships.",
+      "rdfs:subClassOf": { "@id": "ns:SynapticPlasticity" }
+    },
+    {
+      "@id": "ns:HebbianPlasticity",
+      "@type": "owl:Class",
+      "rdfs:label": "Hebbian Plasticity",
+      "rdfs:comment": "A learning rule based on correlated pre- and postsynaptic activity, often summarized as 'cells that fire together wire together'. Hebbian plasticity strengthens synapses between coactive neurons, enabling the formation of cell assemblies and the storage of associative memories through unsupervised learning mechanisms.",
+      "rdfs:subClassOf": { "@id": "ns:SynapticPlasticity" }
+    },
+    {
+      "@id": "ns:NeuralCoding",
+      "@type": "owl:Class",
+      "rdfs:label": "Neural Coding",
+      "rdfs:comment": "The representation of information by patterns of neural activity, encompassing how sensory stimuli, motor commands, and internal states are encoded in spike trains and decoded by downstream neurons. Neural coding strategies include rate codes, temporal codes, and population codes, each with distinct advantages for information transmission."
+    },
+    {
+      "@id": "ns:RateCoding",
+      "@type": "owl:Class",
+      "rdfs:label": "Rate Coding",
+      "rdfs:comment": "An encoding strategy where information is represented by the average firing rate of neurons over a time window. Rate coding is robust to noise and has been the dominant framework in neuroscience, supported by findings that behavioral performance correlates with mean firing rates in many sensory and motor systems.",
+      "rdfs:subClassOf": { "@id": "ns:NeuralCoding" }
+    },
+    {
+      "@id": "ns:TemporalCoding",
+      "@type": "owl:Class",
+      "rdfs:label": "Temporal Coding",
+      "rdfs:comment": "An encoding strategy where information is represented in the precise timing of individual spikes or the temporal patterns of spike trains. Temporal coding can transmit information faster than rate coding and with higher information rates, utilizing mechanisms like phase locking, synchrony, and spike time precision.",
+      "rdfs:subClassOf": { "@id": "ns:NeuralCoding" }
+    },
+    {
+      "@id": "ns:PopulationCoding",
+      "@type": "owl:Class",
+      "rdfs:label": "Population Coding",
+      "rdfs:comment": "An encoding strategy where information is represented by the distributed activity pattern across a population of neurons with different tuning properties. Population coding provides robustness against single-cell variability and enables representation of multiple stimulus dimensions through the combined responses of diverse neurons.",
+      "rdfs:subClassOf": { "@id": "ns:NeuralCoding" }
+    },
+    {
+      "@id": "ns:SimulationMethod",
+      "@type": "owl:Class",
+      "rdfs:label": "Simulation Method",
+      "rdfs:comment": "A computational technique for numerically solving mathematical models of neural systems, spanning from molecular dynamics of ion channels to network-level dynamics. Simulation methods vary in their level of detail, computational cost, and applicability to different timescales and system sizes."
+    },
+    {
+      "@id": "ns:MolecularDynamics",
+      "@type": "owl:Class",
+      "rdfs:label": "Molecular Dynamics",
+      "rdfs:comment": "An atomistic simulation method that computes the trajectories of individual atoms by numerically integrating Newton's equations of motion with empirical force fields. Molecular dynamics simulations provide detailed insights into protein structure, ion channel permeation, and molecular mechanisms at nanosecond timescales.",
+      "rdfs:subClassOf": { "@id": "ns:SimulationMethod" }
+    },
+    {
+      "@id": "ns:BrownianDynamics",
+      "@type": "owl:Class",
+      "rdfs:label": "Brownian Dynamics",
+      "rdfs:comment": "A coarse-grained simulation method that models the motion of particles (ions) in a continuum representation of the solvent, including both deterministic forces and stochastic collisions. Brownian dynamics is particularly useful for studying ion permeation through channels on microsecond timescales, bridging atomistic and continuum approaches.",
+      "rdfs:subClassOf": { "@id": "ns:SimulationMethod" }
+    },
+    {
+      "@id": "ns:MonteCarlo",
+      "@type": "owl:Class",
+      "rdfs:label": "Monte Carlo Method",
+      "rdfs:comment": "A stochastic simulation technique that uses random sampling to explore the configuration space of a system and compute statistical properties. Monte Carlo methods are used for studying channel kinetics, ion distributions, and equilibrium properties without explicitly simulating time evolution.",
+      "rdfs:subClassOf": { "@id": "ns:SimulationMethod" }
+    },
+    {
+      "@id": "ns:ContinuumElectrostatics",
+      "@type": "owl:Class",
+      "rdfs:label": "Continuum Electrostatics",
+      "rdfs:comment": "A modeling approach that treats the solvent as a dielectric continuum rather than explicit molecules, solving the Poisson-Boltzmann equation for the electrostatic potential. Continuum electrostatics is computationally efficient for calculating energies of ion-protein interactions and is used in Brownian dynamics and Poisson-Nernst-Planck theories."
+    },
+    {
+      "@id": "ns:PoissonBoltzmann",
+      "@type": "owl:Class",
+      "rdfs:label": "Poisson-Boltzmann Theory",
+      "rdfs:comment": "A mean-field electrostatic theory that describes the equilibrium distribution of mobile ions around charged macromolecules in solution. The Poisson-Boltzmann equation combines Poisson's equation for electrostatics with the Boltzmann distribution for ionic concentrations, providing a framework for calculating electrostatic energies and forces in ion channels.",
+      "rdfs:subClassOf": { "@id": "ns:ContinuumElectrostatics" }
+    },
+    {
+      "@id": "ns:PoissonNernstPlanck",
+      "@type": "owl:Class",
+      "rdfs:label": "Poisson-Nernst-Planck Theory",
+      "rdfs:comment": "An electrodiffusion theory that extends Poisson-Boltzmann theory to non-equilibrium conditions by coupling Poisson's equation with the Nernst-Planck flux equations. PNP theory can calculate steady-state ionic currents through channels and has been applied to understand selectivity and conductance, though it has limitations in narrow pores.",
+      "rdfs:subClassOf": { "@id": "ns:ContinuumElectrostatics" }
+    },
+    {
+      "@id": "ns:InformationTheory",
+      "@type": "owl:Class",
+      "rdfs:label": "Information Theory",
+      "rdfs:comment": "A mathematical framework for quantifying information content, transmission, and processing in communication systems. In neuroscience, information theory provides rigorous methods for measuring how much information neural responses carry about stimuli, how efficiently information is encoded, and how information flows through neural circuits."
+    },
+    {
+      "@id": "ns:ShannonInformation",
+      "@type": "owl:Class",
+      "rdfs:label": "Shannon Information",
+      "rdfs:comment": "A measure of information content based on entropy and uncertainty reduction. Shannon information quantifies the average amount of information in bits obtained from observing neural responses, with mutual information measuring how much information neural activity carries about stimuli.",
+      "rdfs:subClassOf": { "@id": "ns:InformationTheory" }
+    },
+    {
+      "@id": "ns:FisherInformation",
+      "@type": "owl:Class",
+      "rdfs:label": "Fisher Information",
+      "rdfs:comment": "A measure of how much information a neural response carries about a stimulus parameter, quantifying the precision with which the parameter can be estimated. Fisher information is related to the inverse variance of optimal estimators through the Cramer-Rao bound and provides insight into the sensitivity of neural codes.",
+      "rdfs:subClassOf": { "@id": "ns:InformationTheory" }
+    },
+    {
+      "@id": "ns:MutualInformation",
+      "@type": "owl:Class",
+      "rdfs:label": "Mutual Information",
+      "rdfs:comment": "A measure of the statistical dependence between two random variables, quantifying how much information one variable provides about another. In neural coding, mutual information measures how much the uncertainty about a stimulus is reduced by observing neural responses, providing a model-independent measure of coding efficiency.",
+      "rdfs:subClassOf": { "@id": "ns:InformationTheory" }
+    },
+    {
+      "@id": "ns:DynamicalSystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Dynamical System",
+      "rdfs:comment": "A mathematical framework for describing how systems evolve over time according to deterministic or stochastic rules. Dynamical systems theory provides tools for analyzing neural dynamics including fixed points, limit cycles, bifurcations, and chaos, revealing principles of neural computation and state transitions."
+    },
+    {
+      "@id": "ns:Attractor",
+      "@type": "owl:Class",
+      "rdfs:label": "Attractor",
+      "rdfs:comment": "A set of states toward which a dynamical system evolves and remains over time, representing stable patterns of neural activity. Attractors can be fixed points (persistent activity), limit cycles (oscillations), or strange attractors (chaos), and are thought to underlie working memory, pattern completion, and decision making.",
+      "rdfs:subClassOf": { "@id": "ns:DynamicalSystem" }
+    },
+    {
+      "@id": "ns:Bifurcation",
+      "@type": "owl:Class",
+      "rdfs:label": "Bifurcation",
+      "rdfs:comment": "A qualitative change in the dynamics of a system that occurs when a parameter crosses a critical value. In neurons, bifurcations explain transitions between quiescence and firing, different firing patterns, and the distinction between Type I and Type II excitability, providing a framework for understanding how neurons respond to inputs.",
+      "rdfs:subClassOf": { "@id": "ns:DynamicalSystem" }
+    },
+    {
+      "@id": "ns:LimitCycle",
+      "@type": "owl:Class",
+      "rdfs:label": "Limit Cycle",
+      "rdfs:comment": "A closed trajectory in phase space representing periodic oscillatory behavior that is robust to perturbations. Limit cycles model rhythmic neural activity such as repetitive spiking, network oscillations, and central pattern generators, arising from nonlinear interactions between excitatory and inhibitory processes.",
+      "rdfs:subClassOf": { "@id": "ns:Attractor" }
+    },
+    {
+      "@id": "ns:MemorySystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Memory System",
+      "rdfs:comment": "Neural circuits and mechanisms that encode, store, and retrieve information over time, from milliseconds to a lifetime. Memory systems are organized hierarchically and include working memory, episodic memory, semantic memory, and procedural memory, each supported by distinct brain regions and cellular mechanisms."
+    },
+    {
+      "@id": "ns:WorkingMemory",
+      "@type": "owl:Class",
+      "rdfs:label": "Working Memory",
+      "rdfs:comment": "The temporary maintenance and manipulation of information in the absence of sensory input, lasting seconds to minutes. Working memory is supported by persistent neural activity in prefrontal cortex and other regions, mediated by recurrent excitation and maintained through attractor dynamics in local circuits.",
+      "rdfs:subClassOf": { "@id": "ns:MemorySystem" }
+    },
+    {
+      "@id": "ns:LongTermMemory",
+      "@type": "owl:Class",
+      "rdfs:label": "Long-Term Memory",
+      "rdfs:comment": "The stable storage of information over extended periods from hours to a lifetime, dependent on protein synthesis and structural changes at synapses. Long-term memory formation involves the hippocampus and related structures, with information gradually consolidated into neocortical circuits for permanent storage.",
+      "rdfs:subClassOf": { "@id": "ns:MemorySystem" }
+    },
+    {
+      "@id": "ns:EpisodicMemory",
+      "@type": "owl:Class",
+      "rdfs:label": "Episodic Memory",
+      "rdfs:comment": "Memory for personally experienced events with their spatial and temporal context, allowing mental time travel to re-experience past events. Episodic memory depends critically on the hippocampus and involves the binding of multiple features into coherent representations through pattern completion and separation mechanisms.",
+      "rdfs:subClassOf": { "@id": "ns:LongTermMemory" }
+    },
+    {
+      "@id": "ns:SpatialMemory",
+      "@type": "owl:Class",
+      "rdfs:label": "Spatial Memory",
+      "rdfs:comment": "Memory for locations and spatial relationships in the environment, enabling navigation and spatial reasoning. Spatial memory is supported by the hippocampal formation including place cells, grid cells, and head direction cells that form a cognitive map of space through continuous attractor dynamics.",
+      "rdfs:subClassOf": { "@id": "ns:LongTermMemory" }
+    },
+    {
+      "@id": "ns:MotorControl",
+      "@type": "owl:Class",
+      "rdfs:label": "Motor Control",
+      "rdfs:comment": "The neural processes that plan, initiate, and execute voluntary movements, involving hierarchical processing from motor cortex to spinal cord. Motor control combines feedforward commands based on internal models with feedback corrections based on sensory information, optimized through cerebellar learning mechanisms."
+    },
+    {
+      "@id": "ns:FeedforwardControl",
+      "@type": "owl:Class",
+      "rdfs:label": "Feedforward Control",
+      "rdfs:comment": "A control strategy that generates motor commands based on internal models without relying on sensory feedback. Feedforward control enables fast, accurate movements by anticipating the consequences of motor commands and compensating for predictable disturbances, with the cerebellum playing a key role in learning these internal models.",
+      "rdfs:subClassOf": { "@id": "ns:MotorControl" }
+    },
+    {
+      "@id": "ns:FeedbackControl",
+      "@type": "owl:Class",
+      "rdfs:label": "Feedback Control",
+      "rdfs:comment": "A control strategy that uses sensory information about movement errors to generate corrective motor commands. Feedback control provides robustness to unexpected perturbations but is limited by sensory and neural transmission delays, requiring integration with feedforward control for optimal performance.",
+      "rdfs:subClassOf": { "@id": "ns:MotorControl" }
+    },
+    {
+      "@id": "ns:MotorLearning",
+      "@type": "owl:Class",
+      "rdfs:label": "Motor Learning",
+      "rdfs:comment": "The process of acquiring and refining motor skills through practice, involving multiple brain regions including motor cortex, basal ganglia, and cerebellum. Motor learning includes adaptation to novel dynamics, sequence learning, and skill acquisition, mediated by error-based and reinforcement learning mechanisms.",
+      "rdfs:subClassOf": { "@id": "ns:MotorControl" }
+    },
+    {
+      "@id": "ns:Attention",
+      "@type": "owl:Class",
+      "rdfs:label": "Attention",
+      "rdfs:comment": "The selective enhancement of processing for task-relevant stimuli and suppression of distractors, enabling efficient use of limited neural resources. Attention operates through top-down and bottom-up mechanisms, modulating neural responses in sensory cortex and determining what information reaches awareness and memory."
+    },
+    {
+      "@id": "ns:VisualAttention",
+      "@type": "owl:Class",
+      "rdfs:label": "Visual Attention",
+      "rdfs:comment": "Selective processing of visual information based on spatial location, features, or objects. Visual attention shifts the focus of processing to attended locations or features through gain modulation of visual cortical responses, guided by both stimulus salience (bottom-up) and task goals (top-down).",
+      "rdfs:subClassOf": { "@id": "ns:Attention" }
+    },
+    {
+      "@id": "ns:SaliencyMap",
+      "@type": "owl:Class",
+      "rdfs:label": "Saliency Map",
+      "rdfs:comment": "A topographic representation of stimulus conspicuity that combines information from multiple feature dimensions to guide attention to the most salient locations. Saliency maps are thought to be computed in parietal and frontal cortex and to control the deployment of attention through winner-take-all competition.",
+      "rdfs:subClassOf": { "@id": "ns:VisualAttention" }
+    },
+    {
+      "@id": "ns:SensorySystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Sensory System",
+      "rdfs:comment": "Neural pathways and processing mechanisms that detect, encode, and interpret information from the environment and body. Sensory systems include vision, audition, somatosensation, olfaction, gustation, and specialized systems like electroreception, each with distinct receptor types, neural architectures, and computational principles."
+    },
+    {
+      "@id": "ns:VisualSystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Visual System",
+      "rdfs:comment": "The neural system that processes light information to extract features, objects, and scene structure, enabling vision. The visual system includes the retina, lateral geniculate nucleus, and visual cortical areas organized hierarchically to process increasingly complex visual features from edges to objects and faces.",
+      "rdfs:subClassOf": { "@id": "ns:SensorySystem" }
+    },
+    {
+      "@id": "ns:SomatosensorySystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Somatosensory System",
+      "rdfs:comment": "The neural system that processes touch, pressure, temperature, and pain from receptors distributed across the body surface. The somatosensory system maintains topographic maps of body surface in cortex (homunculus) and processes tactile information through parallel pathways for discrimination and affective touch.",
+      "rdfs:subClassOf": { "@id": "ns:SensorySystem" }
+    },
+    {
+      "@id": "ns:WhiskerSystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Whisker System",
+      "rdfs:comment": "The specialized somatosensory system of rodents used for tactile exploration through active whisking movements. The whisker system provides a powerful model for studying sensory processing due to its discrete anatomy, with individual whiskers mapped to cortical barrels in a one-to-one fashion.",
+      "rdfs:subClassOf": { "@id": "ns:SomatosensorySystem" }
+    },
+    {
+      "@id": "ns:OlfactorySystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Olfactory System",
+      "rdfs:comment": "The neural system that detects and processes chemical signals (odorants) in the environment. The olfactory system includes olfactory receptor neurons projecting to glomeruli in the olfactory bulb, which perform pattern separation and send information to piriform cortex for odor perception and memory.",
+      "rdfs:subClassOf": { "@id": "ns:SensorySystem" }
+    },
+    {
+      "@id": "ns:ElectroreceptiveSystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Electroreceptive System",
+      "rdfs:comment": "A specialized sensory system in weakly electric fish and some aquatic animals that detects electric fields for navigation, prey detection, and communication. Electroreceptive systems encode amplitude and phase modulations of self-generated electric fields through burst coding and temporal pattern detection.",
+      "rdfs:subClassOf": { "@id": "ns:SensorySystem" }
+    },
+    {
+      "@id": "ns:MotionVisionSystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Motion Vision System",
+      "rdfs:comment": "Neural circuits specialized for detecting and processing visual motion information. In flies, the motion vision system includes elementary motion detectors (EMDs) based on correlation-type algorithms and large-field tangential cells that integrate local motion signals for optic flow processing.",
+      "rdfs:subClassOf": { "@id": "ns:VisualSystem" }
+    },
+    {
+      "@id": "ns:ReceptiveField",
+      "@type": "owl:Class",
+      "rdfs:label": "Receptive Field",
+      "rdfs:comment": "The region of sensory space (visual, auditory, tactile, etc.) within which a stimulus can influence the response of a neuron. Receptive fields reveal the selectivity and functional role of neurons, with properties like center-surround organization, orientation tuning, and direction selectivity reflecting specific computations."
+    },
+    {
+      "@id": "ns:PlaceField",
+      "@type": "owl:Class",
+      "rdfs:label": "Place Field",
+      "rdfs:comment": "The spatial region in an environment where a hippocampal place cell fires action potentials at elevated rates. Place fields form a cognitive map of space with different place cells covering different locations, providing the neural substrate for spatial memory and navigation.",
+      "rdfs:subClassOf": { "@id": "ns:ReceptiveField" }
+    },
+    {
+      "@id": "ns:NeuralNetwork",
+      "@type": "owl:Class",
+      "rdfs:label": "Neural Network",
+      "rdfs:comment": "An interconnected population of neurons that collectively perform computations through distributed processing. Neural networks exhibit emergent properties including pattern completion, oscillations, and decision making, arising from the architecture of connections and the dynamics of individual neurons."
+    },
+    {
+      "@id": "ns:RecurrentNetwork",
+      "@type": "owl:Class",
+      "rdfs:label": "Recurrent Network",
+      "rdfs:comment": "A neural network containing feedback connections that allow activity to reverberate and sustain itself. Recurrent networks can implement attractor dynamics, persistent activity, and temporal integration, supporting functions like working memory, decision making, and sequence generation.",
+      "rdfs:subClassOf": { "@id": "ns:NeuralNetwork" }
+    },
+    {
+      "@id": "ns:FeedforwardNetwork",
+      "@type": "owl:Class",
+      "rdfs:label": "Feedforward Network",
+      "rdfs:comment": "A neural network with unidirectional connections from input to output layers without feedback loops. Feedforward networks perform hierarchical feature extraction and transformation, characteristic of sensory processing pathways where information flows from receptors through multiple processing stages to motor output.",
+      "rdfs:subClassOf": { "@id": "ns:NeuralNetwork" }
+    },
+    {
+      "@id": "ns:BalancedNetwork",
+      "@type": "owl:Class",
+      "rdfs:label": "Balanced Network",
+      "rdfs:comment": "A neural network where strong excitatory and inhibitory inputs are dynamically balanced, maintaining neurons in a fluctuation-driven regime. Balanced networks exhibit asynchronous irregular activity, enhanced sensitivity to correlations, and sparse coding, properties characteristic of cortical circuits in vivo.",
+      "rdfs:subClassOf": { "@id": "ns:NeuralNetwork" }
+    },
+    {
+      "@id": "ns:CorticalMicrocircuit",
+      "@type": "owl:Class",
+      "rdfs:label": "Cortical Microcircuit",
+      "rdfs:comment": "A local cortical network spanning approximately 300-500 μm containing diverse neuron types with stereotyped connectivity patterns. Cortical microcircuits are thought to implement canonical computations repeated across cortical areas, including normalization, temporal integration, and dynamic routing.",
+      "rdfs:subClassOf": { "@id": "ns:NeuralNetwork" }
+    },
+    {
+      "@id": "ns:Oscillation",
+      "@type": "owl:Class",
+      "rdfs:label": "Neural Oscillation",
+      "rdfs:comment": "Rhythmic patterns of neural activity at various frequencies that reflect synchronized activity in neural populations. Oscillations facilitate communication between brain regions, segment information processing, and coordinate neural activity for functions including attention, memory, and motor control."
+    },
+    {
+      "@id": "ns:GammaOscillation",
+      "@type": "owl:Class",
+      "rdfs:label": "Gamma Oscillation",
+      "rdfs:comment": "Fast neural oscillations in the 30-100 Hz frequency range generated by the interaction of excitatory pyramidal cells and fast-spiking interneurons. Gamma oscillations are associated with attention, sensory binding, and local cortical processing, providing temporal windows for spike-timing dependent plasticity.",
+      "rdfs:subClassOf": { "@id": "ns:Oscillation" }
+    },
+    {
+      "@id": "ns:ThetaOscillation",
+      "@type": "owl:Class",
+      "rdfs:label": "Theta Oscillation",
+      "rdfs:comment": "Neural oscillations in the 4-12 Hz frequency range prominent in the hippocampus during exploration and REM sleep. Theta oscillations organize neural activity for memory encoding, with phase precession of place cell firing providing a temporal code for sequences of locations.",
+      "rdfs:subClassOf": { "@id": "ns:Oscillation" }
+    },
+    {
+      "@id": "ns:Synchronization",
+      "@type": "owl:Class",
+      "rdfs:label": "Neural Synchronization",
+      "rdfs:comment": "The temporal alignment of activity in different neurons or populations, enabling coordinated processing and communication. Synchronization can occur through common input, synaptic coupling, or gap junctions, and is implicated in feature binding, attention, and neurological disorders when excessive."
+    },
+    {
+      "@id": "ns:BurstFiring",
+      "@type": "owl:Class",
+      "rdfs:label": "Burst Firing",
+      "rdfs:comment": "A pattern of neural activity characterized by clusters of action potentials separated by quiescent periods. Bursts can reliably indicate relevant stimulus features, enhance synaptic transmission through frequency facilitation, and switch neurons between different modes of information processing."
+    },
+    {
+      "@id": "ns:Noise",
+      "@type": "owl:Class",
+      "rdfs:label": "Neural Noise",
+      "rdfs:comment": "Random variability in neural activity arising from multiple sources including channel noise, synaptic transmission failures, and network fluctuations. While noise limits information transmission, it can also enhance detection of weak signals, facilitate transitions between states, and enable stochastic resonance."
+    },
+    {
+      "@id": "ns:ChannelNoise",
+      "@type": "owl:Class",
+      "rdfs:label": "Channel Noise",
+      "rdfs:comment": "Stochastic fluctuations in membrane potential arising from the random opening and closing of ion channels. Channel noise is most significant when channel numbers are small, affecting threshold variability, spike timing precision, and contributing to the irregular firing patterns observed in cortical neurons.",
+      "rdfs:subClassOf": { "@id": "ns:Noise" }
+    },
+    {
+      "@id": "ns:SynapticNoise",
+      "@type": "owl:Class",
+      "rdfs:label": "Synaptic Noise",
+      "rdfs:comment": "Variability in postsynaptic responses arising from probabilistic neurotransmitter release, variable quantal sizes, and spontaneous release events. Synaptic noise contributes to trial-to-trial response variability and can enhance sensitivity to input correlations in balanced network states.",
+      "rdfs:subClassOf": { "@id": "ns:Noise" }
+    },
+    {
+      "@id": "ns:StatisticalMethod",
+      "@type": "owl:Class",
+      "rdfs:label": "Statistical Method",
+      "rdfs:comment": "Mathematical techniques for analyzing neural data, estimating model parameters, and testing hypotheses about neural systems. Statistical methods in neuroscience include point process analysis, dimensionality reduction, decoding algorithms, and information-theoretic measures."
+    },
+    {
+      "@id": "ns:PointProcess",
+      "@type": "owl:Class",
+      "rdfs:label": "Point Process",
+      "rdfs:comment": "A stochastic process representing the occurrence of discrete events in time, such as action potentials in spike trains. Point process models characterize spike trains through conditional intensity functions and enable maximum likelihood estimation of neural encoding properties.",
+      "rdfs:subClassOf": { "@id": "ns:StatisticalMethod" }
+    },
+    {
+      "@id": "ns:MaximumLikelihood",
+      "@type": "owl:Class",
+      "rdfs:label": "Maximum Likelihood Estimation",
+      "rdfs:comment": "A statistical method for estimating model parameters by finding values that maximize the likelihood of observed data. Maximum likelihood provides asymptotically efficient parameter estimates with known statistical properties, making it a principled approach for fitting neural encoding models to spike train data.",
+      "rdfs:subClassOf": { "@id": "ns:StatisticalMethod" }
+    },
+    {
+      "@id": "ns:IntegrateAndFireModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Integrate-and-Fire Model",
+      "rdfs:comment": "The simplest model of a neuron where the membrane potential integrates input currents until reaching a threshold, at which point an action potential is generated and the potential is reset. This model captures essential features of neural integration while remaining mathematically tractable for analysis and large-scale simulations."
+    },
+    {
+      "@id": "ns:HodgkinHuxleyModel",
+      "@type": ["owl:NamedIndividual", "ns:BiophysicalNeuronModel"],
+      "rdfs:label": "Hodgkin-Huxley Model",
+      "rdfs:comment": "A pioneering biophysical model that describes action potential generation through voltage-dependent sodium and potassium conductances. The Hodgkin-Huxley model introduced the concept of ion channel gating variables and remains the foundation for modern detailed neuron models, earning its creators the Nobel Prize."
+    },
+    {
+      "@id": "ns:FitzHughNagumoModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "FitzHugh-Nagumo Model",
+      "rdfs:comment": "A two-variable simplification of the Hodgkin-Huxley model with a fast voltage variable and a slow recovery variable. The FitzHugh-Nagumo model captures essential excitability properties including threshold behavior, refractoriness, and oscillatory dynamics while being amenable to phase-plane analysis."
+    },
+    {
+      "@id": "ns:PinskyRinzelModel",
+      "@type": ["owl:NamedIndividual", "ns:CompartmentalModel"],
+      "rdfs:label": "Pinsky-Rinzel Model",
+      "rdfs:comment": "A two-compartment model representing somatic and dendritic compartments of pyramidal neurons with different channel distributions. This model demonstrates how interactions between soma and dendrites generate bursting behavior and captures essential features of CA3 hippocampal pyramidal cells with reduced computational complexity."
+    },
+    {
+      "@id": "ns:KuramotoModel",
+      "@type": ["owl:NamedIndividual", "ns:NeuronModel"],
+      "rdfs:label": "Kuramoto Model",
+      "rdfs:comment": "A mathematical model of coupled phase oscillators with sinusoidal coupling that exhibits a phase transition to synchrony. The Kuramoto model has been used extensively to study synchronization in neuronal populations, predicting critical coupling strengths for the emergence of collective oscillations."
+    },
+    {
+      "@id": "ns:OrnsteinUhlenbeckProcess",
+      "@type": ["owl:NamedIndividual", "ns:StochasticModel"],
+      "rdfs:label": "Ornstein-Uhlenbeck Process",
+      "rdfs:comment": "A stochastic differential equation model describing neuronal membrane potential as a diffusion process with drift toward a mean value. The Ornstein-Uhlenbeck process captures the effects of balanced excitation and inhibition, predicting firing statistics and response properties of neurons receiving noisy synaptic input."
+    },
+    {
+      "@id": "ns:KcsAChannel",
+      "@type": ["owl:NamedIndividual", "ns:VoltageGatedChannel"],
+      "rdfs:label": "KcsA Potassium Channel",
+      "rdfs:comment": "A bacterial potassium channel whose crystal structure revealed the molecular basis of ion selectivity and provided a template for understanding voltage-gated channels. KcsA contains a selectivity filter with four binding sites that dehydrate potassium ions while excluding sodium through a combination of size and electrostatic interactions."
+    },
+    {
+      "@id": "ns:GramicidinA",
+      "@type": ["owl:NamedIndividual", "ns:IonChannel"],
+      "rdfs:label": "Gramicidin A",
+      "rdfs:comment": "A peptide antibiotic that forms a simple ion channel by dimerization in lipid bilayers. Gramicidin A has served as a crucial model system for understanding ion permeation, channel conductance, and water-ion interactions in narrow pores through extensive experimental and computational studies."
+    },
+    {
+      "@id": "ns:AlamethicinChannel",
+      "@type": ["owl:NamedIndividual", "ns:IonChannel"],
+      "rdfs:label": "Alamethicin Channel",
+      "rdfs:comment": "A voltage-gated channel-forming peptide that aggregates into pores of varying sizes. Alamethicin exhibits multiple conductance levels corresponding to different numbers of helices and has been studied extensively to understand voltage-dependent gating mechanisms and peptide-lipid interactions."
+    },
+    {
+      "@id": "ns:OmpFPorin",
+      "@type": ["owl:NamedIndividual", "ns:IonChannel"],
+      "rdfs:label": "OmpF Porin",
+      "rdfs:comment": "A bacterial outer membrane protein that forms a large β-barrel channel for passive diffusion of small molecules. OmpF has been extensively studied by simulations to understand electrostatic effects on permeation, selectivity mechanisms, and the role of protein dynamics in channel function."
+    },
+    {
+      "@id": "ns:AMPAReceptor",
+      "@type": ["owl:NamedIndividual", "ns:LigandGatedChannel"],
+      "rdfs:label": "AMPA Receptor",
+      "rdfs:comment": "A fast glutamate-gated ion channel mediating the majority of excitatory synaptic transmission in the central nervous system. AMPA receptors have rapid kinetics (~10 ms decay), are permeable to sodium and potassium, and their postsynaptic density determines synaptic strength in long-term plasticity."
+    },
+    {
+      "@id": "ns:NMDAReceptor",
+      "@type": ["owl:NamedIndividual", "ns:LigandGatedChannel"],
+      "rdfs:label": "NMDA Receptor",
+      "rdfs:comment": "A glutamate-gated ion channel with unique properties including voltage-dependent magnesium block and high calcium permeability. NMDA receptors act as coincidence detectors of presynaptic glutamate release and postsynaptic depolarization, making them critical for synaptic plasticity and learning."
+    },
+    {
+      "@id": "ns:GABAaReceptor",
+      "@type": ["owl:NamedIndividual", "ns:LigandGatedChannel"],
+      "rdfs:label": "GABA-A Receptor",
+      "rdfs:comment": "The primary inhibitory neurotransmitter receptor in the brain, mediating fast synaptic inhibition through chloride-selective ion channels. GABA-A receptors are targets for many drugs including benzodiazepines and anesthetics, and their dysfunction contributes to epilepsy and anxiety disorders."
+    },
+    {
+      "@id": "ns:NicotinicReceptor",
+      "@type": ["owl:NamedIndividual", "ns:LigandGatedChannel"],
+      "rdfs:label": "Nicotinic Acetylcholine Receptor",
+      "rdfs:comment": "A pentameric ligand-gated ion channel activated by acetylcholine that mediates fast excitatory transmission at neuromuscular junctions and in autonomic ganglia. The nicotinic receptor has been intensively studied as a model for understanding allosteric transitions between closed, open, and desensitized states."
+    },
+    {
+      "@id": "ns:CA1Region",
+      "@type": ["owl:NamedIndividual", "ns:Hippocampus"],
+      "rdfs:label": "CA1 Region",
+      "rdfs:comment": "A subregion of the hippocampus that receives input from CA3 via Schaffer collaterals and projects to subiculum and entorhinal cortex. CA1 place cells have smaller place fields than CA3, suggesting a role in fine spatial discrimination, and CA1 synapses are the primary model for studying long-term potentiation."
+    },
+    {
+      "@id": "ns:CA3Region",
+      "@type": ["owl:NamedIndividual", "ns:Hippocampus"],
+      "rdfs:label": "CA3 Region",
+      "rdfs:comment": "A hippocampal subregion with extensive recurrent connections that receives input from dentate gyrus and entorhinal cortex. CA3 is thought to function as an autoassociative network supporting pattern completion and rapid encoding of new memories through its recurrent architecture."
+    },
+    {
+      "@id": "ns:DentateGyrus",
+      "@type": ["owl:NamedIndividual", "ns:Hippocampus"],
+      "rdfs:label": "Dentate Gyrus",
+      "rdfs:comment": "The input stage of the hippocampus containing densely packed granule cells that receive input from entorhinal cortex and project to CA3 via mossy fibers. The dentate gyrus performs pattern separation through sparse activity and competitive learning, transforming similar inputs into distinct representations."
+    },
+    {
+      "@id": "ns:PrimarySomatosensoryCortex",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Primary Somatosensory Cortex",
+      "rdfs:comment": "The cortical region that receives and processes tactile information from the thalamus, organized somatotopically to form a sensory homunculus. In rodents, the barrel cortex within this region contains discrete modules corresponding to individual whiskers, providing a model system for studying cortical organization."
+    },
+    {
+      "@id": "ns:PrimaryVisualCortex",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Primary Visual Cortex",
+      "rdfs:comment": "The first cortical area (V1) to receive visual input from the lateral geniculate nucleus, extracting basic features including edges, orientations, and directions. V1 neurons have oriented receptive fields organized in columnar structures and perform computations including contrast normalization and surround suppression."
+    },
+    {
+      "@id": "ns:PrimaryMotorCortex",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Primary Motor Cortex",
+      "rdfs:comment": "The cortical region that directly innervates spinal motor neurons and controls voluntary movements. Motor cortex neurons encode movement parameters including direction, force, and velocity in a distributed fashion, with population activity representing intended movements in a low-dimensional manifold."
+    },
+    {
+      "@id": "ns:LaminaLayer",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Lamina",
+      "rdfs:comment": "The first neuropil of the insect optic lobe where photoreceptor axons synapse onto large monopolar cells. The lamina performs contrast enhancement and adaptive gain control, setting the stage for motion detection in downstream medulla neurons."
+    },
+    {
+      "@id": "ns:MedullaLayer",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Medulla",
+      "rdfs:comment": "The second and largest optic lobe neuropil containing diverse columnar neuron types that process color, motion, and other visual features. The medulla implements elementary motion detection through the interaction of ON and OFF pathways in a retinotopic array."
+    },
+    {
+      "@id": "ns:LobulaPlate",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Lobula Plate",
+      "rdfs:comment": "A specialized visual area in dipteran insects containing large-field tangential cells that integrate local motion signals to compute optic flow. Lobula plate neurons like H1 and VS cells are directionally selective and provide signals for visual flight control through dendritic integration of elementary motion detector inputs."
+    },
+    {
+      "@id": "ns:ElectrosensoryLateralLineLobe",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Electrosensory Lateral Line Lobe",
+      "rdfs:comment": "The hindbrain structure in weakly electric fish that receives input from electroreceptors and processes amplitude modulations of the self-generated electric field. Pyramidal cells in the ELL encode sensory information through burst firing patterns that reliably signal relevant stimulus features."
+    },
+    {
+      "@id": "ns:SupraopticNucleus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Supraoptic Nucleus",
+      "rdfs:comment": "A hypothalamic nucleus containing magnocellular neurosecretory cells that synthesize and release vasopressin and oxytocin from the posterior pituitary. Neurons in this nucleus exhibit distinct firing patterns including phasic bursting in vasopressin cells and continuous firing in oxytocin cells during milk ejection."
+    },
+    {
+      "@id": "ns:VasopressinNeuron",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Vasopressin Neuron",
+      "rdfs:comment": "A neuroendocrine cell in the supraoptic nucleus that exhibits phasic bursting activity, alternating between periods of continuous firing and silence. The bursting pattern optimizes hormone release from the posterior pituitary and is generated by activity-dependent changes in membrane conductances and calcium dynamics."
+    },
+    {
+      "@id": "ns:OxytocinNeuron",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Oxytocin Neuron",
+      "rdfs:comment": "A neuroendocrine cell that releases oxytocin during milk ejection and parturition through synchronized bursting of the entire population. Oxytocin neurons are coupled through activity-dependent facilitation and can rapidly switch from irregular firing to highly synchronized bursts in response to appropriate stimuli."
+    },
+    {
+      "@id": "ns:MitralCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Mitral Cell",
+      "rdfs:comment": "The principal output neuron of the olfactory bulb that relays odor information from glomeruli to olfactory cortex. Mitral cells exhibit complex dynamics including oscillatory activity phase-locked to sniffing, lateral inhibition through granule cell interactions, and temporal coding of odor identity."
+    },
+    {
+      "@id": "ns:PurkinjeNeuron",
+      "@type": ["owl:NamedIndividual", "ns:PurkinjeCell"],
+      "rdfs:label": "Purkinje Neuron",
+      "rdfs:comment": "The output neuron of the cerebellar cortex with the most elaborate dendritic tree in the nervous system, integrating inputs from ~200,000 parallel fibers and 1 climbing fiber. Purkinje cells compute sensorimotor transformations through dendritic calcium spikes and plastic parallel fiber synapses modified by climbing fiber error signals."
+    },
+    {
+      "@id": "ns:PyramidalNeuron",
+      "@type": ["owl:NamedIndividual", "ns:PyramidalCell"],
+      "rdfs:label": "Pyramidal Neuron",
+      "rdfs:comment": "The principal excitatory neuron of the cerebral cortex and hippocampus characterized by a pyramid-shaped soma, apical dendrite extending toward the pia, and basal dendrites. Pyramidal neurons exhibit diverse firing patterns including regular spiking, bursting, and intrinsic oscillations depending on their channel complement and location."
+    },
+    {
+      "@id": "ns:FastSpikingInterneuron",
+      "@type": ["owl:NamedIndividual", "ns:Interneuron"],
+      "rdfs:label": "Fast-Spiking Interneuron",
+      "rdfs:comment": "A parvalbumin-positive GABAergic interneuron characterized by high-frequency non-adapting firing and fast-decaying action potentials. Fast-spiking cells provide powerful perisomatic inhibition to pyramidal cells, generate gamma oscillations, and implement gain control and temporal precision in cortical circuits."
+    },
+    {
+      "@id": "ns:RetinalGanglionCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Retinal Ganglion Cell",
+      "rdfs:comment": "The output neuron of the retina whose axons form the optic nerve and transmit visual information to the brain. Ganglion cells encode visual features through diverse receptive field organizations including ON/OFF responses, direction selectivity, and local edge detection."
+    },
+    {
+      "@id": "ns:PlaceCell",
+      "@type": ["owl:NamedIndividual", "ns:PyramidalCell"],
+      "rdfs:label": "Place Cell",
+      "rdfs:comment": "A hippocampal neuron that fires selectively when an animal occupies a specific location in an environment. Place cells form a cognitive map of space with different cells representing different locations, supporting spatial memory and navigation through population vector coding."
+    },
+    {
+      "@id": "ns:GridCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Grid Cell",
+      "rdfs:comment": "A neuron in medial entorhinal cortex that fires at multiple locations forming a hexagonal grid pattern across an environment. Grid cells implement path integration through continuous attractor dynamics, providing a metric coordinate system for spatial navigation."
+    },
+    {
+      "@id": "ns:HeadDirectionCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Head Direction Cell",
+      "rdfs:comment": "A neuron that fires selectively when an animal's head points in a specific direction, independent of location. Head direction cells form a ring attractor network that tracks heading through integration of angular velocity signals, providing an internal compass for navigation."
+    },
+    {
+      "@id": "ns:H1Neuron",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "H1 Neuron",
+      "rdfs:comment": "A large tangential cell in the fly lobula plate that responds selectively to horizontal motion from back to front. H1 integrates inputs from hundreds of elementary motion detectors across its dendritic tree, extracting optic flow information for course control during flight."
+    },
+    {
+      "@id": "ns:ElementaryMotionDetector",
+      "@type": ["owl:NamedIndividual", "ns:NeuronModel"],
+      "rdfs:label": "Elementary Motion Detector",
+      "rdfs:comment": "A computational unit in the fly visual system that detects local motion through correlation of temporally filtered signals from neighboring locations. EMDs implement a Reichardt correlator mechanism with nonlinear multiplication and have been extensively studied as a model for understanding biological motion detection."
+    },
+    {
+      "@id": "ns:VoltageClamp",
+      "@type": "owl:Class",
+      "rdfs:label": "Voltage Clamp",
+      "rdfs:comment": "An experimental technique that holds the membrane potential at a controlled value while measuring the current required to maintain that voltage. Voltage clamp is essential for studying ion channel properties, separating different current components, and measuring channel kinetics in isolation from other conductances."
+    },
+    {
+      "@id": "ns:PatchClamp",
+      "@type": "owl:Class",
+      "rdfs:label": "Patch Clamp",
+      "rdfs:comment": "A refined voltage clamp technique using glass micropipettes to record from small membrane patches or whole cells with low noise. Patch clamp enables recording of single ion channels, precise control of intracellular and extracellular solutions, and measurement of synaptic currents with high temporal resolution.",
+      "rdfs:subClassOf": { "@id": "ns:VoltageClamp" }
+    },
+    {
+      "@id": "ns:WeaklyElectricFish",
+      "@type": ["owl:NamedIndividual", "ns:Organism"],
+      "rdfs:label": "Weakly Electric Fish",
+      "rdfs:comment": "South American fish species including Eigenmannia that generate weak electric fields for navigation and communication. These fish have evolved specialized electroreceptors and electrosensory processing circuits that encode amplitude and phase modulations through burst firing patterns, making them ideal model systems for studying temporal coding."
+    },
+    {
+      "@id": "ns:Drosophila",
+      "@type": ["owl:NamedIndividual", "ns:Organism"],
+      "rdfs:label": "Drosophila",
+      "rdfs:comment": "The fruit fly, a powerful genetic model organism used extensively in neuroscience to study sensory processing, learning and memory, circadian rhythms, and neural development. Drosophila's compact nervous system, genetic tools, and quantifiable behaviors have enabled mapping of complete neural circuits."
+    },
+    {
+      "@id": "ns:Rat",
+      "@type": ["owl:NamedIndividual", "ns:Organism"],
+      "rdfs:label": "Rat",
+      "rdfs:comment": "A rodent species widely used as a model organism for studying mammalian neuroscience, particularly spatial navigation, decision making, and sensory processing. Rats have well-developed cognitive abilities, enable chronic recordings during complex behaviors, and have been central to discoveries including place cells."
+    },
+    {
+      "@id": "ns:Mouse",
+      "@type": ["owl:NamedIndividual", "ns:Organism"],
+      "rdfs:label": "Mouse",
+      "rdfs:comment": "A rodent species that has become the dominant mammalian model organism for neuroscience due to powerful genetic tools including optogenetics, transgenic lines, and viral approaches. Mice enable precise manipulation of specific cell types and circuits for causal investigation of neural mechanisms underlying behavior."
+    },
+    {
+      "@id": "ns:Organism",
+      "@type": "owl:Class",
+      "rdfs:label": "Organism",
+      "rdfs:comment": "A living biological system used as a model for studying neural mechanisms, from simple invertebrates to mammals. Model organisms are selected based on their tractability for specific experimental approaches and the relevance of their neural systems to understanding fundamental principles or human brain function."
+    },
+    {
+      "@id": "ns:Channelopathy",
+      "@type": "owl:Class",
+      "rdfs:label": "Channelopathy",
+      "rdfs:comment": "A disease caused by dysfunction of ion channels due to genetic mutations or acquired modifications. Channelopathies include episodic ataxias, familial hemiplegic migraine, some forms of epilepsy, and cardiac arrhythmias, highlighting the critical role of ion channels in excitable cell function."
+    },
+    {
+      "@id": "ns:Epilepsy",
+      "@type": ["owl:NamedIndividual", "ns:Channelopathy"],
+      "rdfs:label": "Epilepsy",
+      "rdfs:comment": "A neurological disorder characterized by recurrent seizures resulting from excessive synchronized neuronal activity. Epilepsy can result from imbalances in excitation and inhibition, mutations in ion channels or receptors, or acquired circuit reorganization following brain injury."
+    },
+    {
+      "@id": "ns:ParkinsonsDisease",
+      "@type": "owl:Class",
+      "rdfs:label": "Parkinson's Disease",
+      "rdfs:comment": "A neurodegenerative disorder characterized by the progressive loss of dopaminergic neurons in the substantia nigra, leading to motor symptoms including tremor, rigidity, and bradykinesia. Parkinson's disease has been treated with deep brain stimulation, illustrating the potential for neural control approaches."
+    },
+    {
+      "@id": "ns:innervates",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "innervates",
+      "rdfs:comment": "Relates a neuron or neural structure to the target it forms synaptic connections with. Innervation patterns define the architecture of neural circuits and determine the flow of information through the nervous system.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:projectsTo",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "projects to",
+      "rdfs:comment": "Relates a brain region or neuron type to a downstream target region or cell type via axonal projections. Projection patterns reveal the organization of information flow between different brain areas.",
+      "rdfs:domain": { "@id": "ns:BrainRegion" },
+      "rdfs:range": { "@id": "ns:BrainRegion" }
+    },
+    {
+      "@id": "ns:receivesInputFrom",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "receives input from",
+      "rdfs:comment": "Relates a neuron or brain region to the source of its synaptic input. This property describes the postsynaptic side of neural connections and determines what information a neuron has access to.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:modulates",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "modulates",
+      "rdfs:comment": "Relates a neurotransmitter, neuron, or neuromodulator to the neural process or circuit it influences without directly driving spiking. Modulatory effects alter gain, excitability, or plasticity over longer timescales than fast synaptic transmission.",
+      "rdfs:domain": { "@id": "ns:Neurotransmitter" },
+      "rdfs:range": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:inhibits",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "inhibits",
+      "rdfs:comment": "Relates a neuron or synapse that decreases the activity of its postsynaptic target through hyperpolarization or shunting. Inhibition is crucial for controlling excitability, shaping receptive fields, and generating oscillations.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:excites",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "excites",
+      "rdfs:comment": "Relates a neuron or synapse that increases the activity of its postsynaptic target through depolarization. Excitatory connections enable signal propagation through neural networks and drive action potential generation.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:bindsTo",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "binds to",
+      "rdfs:comment": "Relates a neurotransmitter or ligand molecule to the receptor it specifically interacts with. Binding determines the selectivity of synaptic transmission and triggers conformational changes that open ion channels or activate second messenger cascades.",
+      "rdfs:domain": { "@id": "ns:Neurotransmitter" },
+      "rdfs:range": { "@id": "ns:IonChannel" }
+    },
+    {
+      "@id": "ns:conducts",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "conducts",
+      "rdfs:comment": "Relates an ion channel to the specific ion species it allows to pass through its pore. Ion selectivity is a fundamental property determining the electrical and biochemical effects of channel opening.",
+      "rdfs:domain": { "@id": "ns:IonChannel" },
+      "rdfs:range": { "@id": "ns:Ion" }
+    },
+    {
+      "@id": "ns:implements",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "implements",
+      "rdfs:comment": "Relates a neural circuit or brain region to the computational function or algorithm it performs. This property links structure to function in understanding how neural architectures support specific information processing capabilities.",
+      "rdfs:domain": { "@id": "ns:BrainRegion" },
+      "rdfs:range": { "@id": "ns:NeuralCoding" }
+    },
+    {
+      "@id": "ns:encodes",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "encodes",
+      "rdfs:comment": "Relates a neuron or population to the stimulus feature or behavioral variable represented in its activity pattern. Encoding reveals what information is carried by neural responses and how it is formatted.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:NeuralCoding" }
+    },
+    {
+      "@id": "ns:uses",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "uses",
+      "rdfs:comment": "Relates a model or method to the theoretical framework, algorithm, or mathematical technique it employs. This property describes the methodological tools used in computational neuroscience.",
+      "rdfs:domain": { "@id": "ns:NeuronModel" },
+      "rdfs:range": { "@id": "ns:SimulationMethod" }
+    },
+    {
+      "@id": "ns:locatedIn",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "located in",
+      "rdfs:comment": "Relates a neuron, synapse, or cellular structure to the brain region or anatomical location where it is found. Spatial location is important for understanding connectivity and functional organization.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:BrainRegion" }
+    },
+    {
+      "@id": "ns:exhibits",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "exhibits",
+      "rdfs:comment": "Relates a neuron or system to a physiological phenomenon or activity pattern it displays. This property describes characteristic behaviors and emergent properties of neural systems.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:ActionPotential" }
+    },
+    {
+      "@id": "ns:synthesizes",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "synthesizes",
+      "rdfs:comment": "Relates a neuron to the neurotransmitter or neuromodulator it produces and releases. Neurotransmitter synthesis determines the chemical identity of synaptic transmission from that neuron.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neurotransmitter" }
+    },
+    {
+      "@id": "ns:underlies",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "underlies",
+      "rdfs:comment": "Relates a cellular or synaptic mechanism to the higher-level function or behavior it supports. This property links molecular and cellular processes to systems-level phenomena.",
+      "rdfs:domain": { "@id": "ns:SynapticPlasticity" },
+      "rdfs:range": { "@id": "ns:MemorySystem" }
+    },
+    {
+      "@id": "ns:mediates",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "mediates",
+      "rdfs:comment": "Relates a neurotransmitter, receptor, or signaling molecule to the physiological response or process it enables. Mediation describes causal relationships in signaling cascades.",
+      "rdfs:domain": { "@id": "ns:Calcium" },
+      "rdfs:range": { "@id": "ns:SynapticPlasticity" }
+    },
+    {
+      "@id": "ns:synchronizesWith",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "synchronizes with",
+      "rdfs:comment": "Relates neurons or populations that exhibit temporally coordinated activity. Synchronization enables communication between brain regions and coordinates neural processing.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:controls",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "controls",
+      "rdfs:comment": "Relates a brain region or neural system to the behavior, movement, or cognitive function it regulates. Control relationships reveal the functional role of neural circuits.",
+      "rdfs:domain": { "@id": "ns:BrainRegion" },
+      "rdfs:range": { "@id": "ns:MotorControl" }
+    },
+    {
+      "@id": "ns:activates",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "activates",
+      "rdfs:comment": "Relates a ligand or signal to the channel, receptor, or enzyme it causes to open or become functional. Activation is a key step in signal transduction cascades.",
+      "rdfs:domain": { "@id": "ns:Neurotransmitter" },
+      "rdfs:range": { "@id": "ns:IonChannel" }
+    },
+    {
+      "@id": "ns:blocks",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "blocks",
+      "rdfs:comment": "Relates a molecule or ion to the channel or receptor whose function it prevents through physical occlusion or allosteric effects. Blockers are important pharmacological tools and therapeutic agents.",
+      "rdfs:domain": { "@id": "ns:Ion" },
+      "rdfs:range": { "@id": "ns:IonChannel" }
+    },
+    {
+      "@id": "ns:formsGapJunctionWith",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "forms gap junction with",
+      "rdfs:comment": "Relates neurons that are electrically coupled through connexin channels allowing direct passage of ions and small molecules. Gap junctions enable fast synchronization and metabolic coupling.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:hasMembraneTimeConstant",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has membrane time constant",
+      "rdfs:comment": "The time constant determining how quickly the membrane potential responds to current inputs, equal to the product of membrane resistance and capacitance. The membrane time constant sets the temporal integration window for synaptic inputs, typically ranging from 5-50 milliseconds in neurons.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasRestingPotential",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has resting potential",
+      "rdfs:comment": "The membrane voltage of a neuron in the absence of synaptic input or intrinsic activity, measured in millivolts. The resting potential is maintained by ion pumps and leak channels and is typically around -60 to -70 mV, providing the baseline from which electrical signals deviate.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasThreshold",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has threshold",
+      "rdfs:comment": "The membrane potential value in millivolts at which the neuron will fire an action potential. The threshold is typically around -50 to -55 mV and represents the voltage at which voltage-gated sodium channel activation becomes regenerative.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasSingleChannelConductance",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has single channel conductance",
+      "rdfs:comment": "The conductance of an individual ion channel in the open state, measured in picosiemens (pS). Single channel conductance is an intrinsic property of each channel type that determines the current amplitude when the channel opens, ranging from <1 pS to >100 pS.",
+      "rdfs:domain": { "@id": "ns:IonChannel" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasOpenProbability",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has open probability",
+      "rdfs:comment": "The fraction of time an ion channel spends in the open state, ranging from 0 to 1. Open probability depends on voltage, ligand concentration, and other factors, and determines the macroscopic conductance from a population of channels.",
+      "rdfs:domain": { "@id": "ns:IonChannel" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasConductance",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has conductance",
+      "rdfs:comment": "The ease with which ions can flow through a channel or across a membrane, measured in siemens. Conductance is the reciprocal of resistance and determines the current amplitude for a given voltage, being fundamental to electrical signaling.",
+      "rdfs:domain": { "@id": "ns:IonChannel" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasCapacitance",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has capacitance",
+      "rdfs:comment": "The ability of the cell membrane to store electrical charge, measured in picofarads (pF). Membrane capacitance is proportional to surface area and affects how quickly voltage changes in response to current, with typical values around 1 μF/cm² or 10-100 pF for whole cells.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasInputResistance",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has input resistance",
+      "rdfs:comment": "The resistance seen by current injected at the soma, measured in megaohms (MΩ). Input resistance determines how much the membrane potential changes for a given input current and is inversely related to leak conductance, typically ranging from 10-1000 MΩ.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasRefractoryPeriod",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has refractory period",
+      "rdfs:comment": "The time interval in milliseconds following an action potential during which the neuron cannot fire again (absolute) or requires stronger input to fire (relative). The refractory period limits maximum firing rates and prevents backward propagation of action potentials.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasFiringRate",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has firing rate",
+      "rdfs:comment": "The average number of action potentials per second produced by a neuron, measured in Hz. Firing rate is a key encoding variable in rate coding models, typically ranging from 0.1 to 100 Hz in cortical neurons but can exceed 500 Hz in some systems.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasInterSpikeInterval",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has interspike interval",
+      "rdfs:comment": "The time interval in milliseconds between consecutive action potentials. Interspike interval distributions reveal firing patterns and variability, with irregular firing showing high variability (high CV) and regular firing showing low variability (low CV).",
+      "rdfs:domain": { "@id": "ns:ActionPotential" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasSynapticDelay",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has synaptic delay",
+      "rdfs:comment": "The time interval between presynaptic action potential and the onset of postsynaptic response, typically 0.5-2 milliseconds at chemical synapses. Synaptic delay reflects the time required for neurotransmitter release, diffusion, and receptor activation.",
+      "rdfs:domain": { "@id": "ns:Synapse" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasSynapticStrength",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has synaptic strength",
+      "rdfs:comment": "The efficacy of synaptic transmission measured as the amplitude of postsynaptic response to a presynaptic action potential. Synaptic strength is plastic and subject to short-term and long-term modifications, determining the influence of one neuron on another.",
+      "rdfs:domain": { "@id": "ns:Synapse" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasDiffusionCoefficient",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has diffusion coefficient",
+      "rdfs:comment": "The rate at which molecules or ions spread by random thermal motion, measured in μm²/s. Diffusion coefficients are reduced in confined spaces like ion channels and are important parameters for Brownian dynamics and molecular dynamics simulations.",
+      "rdfs:domain": { "@id": "ns:Ion" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasSelectivity",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has selectivity",
+      "rdfs:comment": "The ratio of permeability or conductance for one ion species over another. High selectivity (>1000:1) is a remarkable property of some channels like the potassium channel KcsA, achieved through precise molecular interactions in the selectivity filter.",
+      "rdfs:domain": { "@id": "ns:IonChannel" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasActivationTime",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has activation time constant",
+      "rdfs:comment": "The time constant describing how quickly a voltage-gated channel transitions from closed to open state upon depolarization, measured in milliseconds. Activation kinetics vary widely across channel types and determine the speed and shape of electrical responses.",
+      "rdfs:domain": { "@id": "ns:VoltageGatedChannel" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasInactivationTime",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has inactivation time constant",
+      "rdfs:comment": "The time constant describing how quickly a channel transitions from open to inactivated state during sustained depolarization. Inactivation terminates current flow and determines adaptation properties of voltage-gated currents.",
+      "rdfs:domain": { "@id": "ns:VoltageGatedChannel" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasReversalPotential",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has reversal potential",
+      "rdfs:comment": "The membrane potential at which there is no net current flow through a channel, determined by the equilibrium potentials of permeant ions. The reversal potential determines whether a synapse is excitatory (positive to rest) or inhibitory (negative to rest).",
+      "rdfs:domain": { "@id": "ns:IonChannel" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasCalciumConcentration",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has calcium concentration",
+      "rdfs:comment": "The concentration of free calcium ions in a cellular compartment, measured in micromolar (μM). Intracellular calcium concentration is tightly regulated and serves as a key signaling molecule, with resting levels around 0.1 μM rising to 1-10 μM during activity.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasDecayTime",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has decay time constant",
+      "rdfs:comment": "The time constant describing exponential decay of a signal or concentration, measured in milliseconds. Decay time constants determine the temporal integration window for processes like synaptic currents, calcium transients, and membrane potential responses.",
+      "rdfs:domain": { "@id": "ns:SynapticPotential" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasMutualInformation",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has mutual information",
+      "rdfs:comment": "The amount of information in bits that neural responses carry about stimuli, quantifying how much uncertainty about the stimulus is reduced by observing the response. Mutual information provides a model-independent measure of coding efficiency.",
+      "rdfs:domain": { "@id": "ns:NeuralCoding" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasChannelDensity",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has channel density",
+      "rdfs:comment": "The number of ion channels per unit membrane area, measured in channels/μm². Channel density varies across neuronal compartments and determines the maximal conductance and excitability of different membrane regions.",
+      "rdfs:domain": { "@id": "ns:IonChannel" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+    {
+      "@id": "ns:PointProcess",
+      "@type": "owl:Class",
+      "rdfs:label": "Point Process",
+      "rdfs:comment": "A mathematical framework for modeling discrete events in time, such as neural spike trains. Point processes are characterized by their conditional intensity function and are fundamental to statistical analysis of neural data, providing rigorous methods for quantifying spike train statistics."
+    },
+    {
+      "@id": "ns:BurstFiring",
+      "@type": "owl:Class",
+      "rdfs:label": "Burst Firing",
+      "rdfs:comment": "A pattern of neural activity where neurons generate clusters of action potentials in rapid succession, separated by periods of relative quiescence. Burst firing plays important roles in feature extraction, reliable synaptic transmission, and neural information coding through mechanisms involving soma-dendrite interactions."
+    },
+    {
+      "@id": "ns:ReceptiveField",
+      "@type": "owl:Class",
+      "rdfs:label": "Receptive Field",
+      "rdfs:comment": "The specific region of sensory space in which an appropriate stimulus can drive an electrical response in a sensory neuron. Receptive fields are fundamental to understanding sensory processing and can be spatial, temporal, or feature-specific, shaped by feedforward and feedback connections."
+    },
+    {
+      "@id": "ns:NetworkModel",
+      "@type": "owl:Class",
+      "rdfs:label": "Network Model",
+      "rdfs:comment": "Computational models that simulate the collective behavior of interconnected populations of neurons. Network models range from abstract neural networks to biologically-detailed recurrent cortical networks and are essential for understanding emergent properties like oscillations, synchrony, and population coding."
+    },
+    {
+      "@id": "ns:CalciumDynamics",
+      "@type": "owl:Class",
+      "rdfs:label": "Calcium Dynamics",
+      "rdfs:comment": "The spatiotemporal changes in intracellular calcium concentration that regulate numerous neuronal processes. Calcium dynamics are critical for synaptic transmission, plasticity, gene expression, and neuronal excitability, involving influx through voltage-gated channels and release from internal stores."
+    },
+    {
+      "@id": "ns:Electrosensation",
+      "@type": "owl:Class",
+      "rdfs:label": "Electrosensation",
+      "rdfs:comment": "The ability of certain organisms to detect electric fields in their environment through specialized electroreceptors. This sensory modality is well-studied in weakly electric fish and provides insights into neural coding, burst firing mechanisms, and adaptive filtering."
+    },
+    {
+      "@id": "ns:FeatureExtraction",
+      "@type": "owl:Class",
+      "rdfs:label": "Feature Extraction",
+      "rdfs:comment": "The process by which neural systems identify and encode specific attributes or patterns from sensory stimuli. Feature extraction is fundamental to sensory processing and can be implemented through various neural mechanisms including burst firing, temporal coding, and population coding."
+    },
+    {
+      "@id": "ns:DendriticComputation",
+      "@type": "owl:Class",
+      "rdfs:label": "Dendritic Computation",
+      "rdfs:comment": "Information processing that occurs in neuronal dendrites through active and passive integration of synaptic inputs. Dendritic computation includes backpropagation of action potentials, local spike generation, nonlinear summation of inputs, and active conductances that shape integration."
+    },
+    {
+      "@id": "ns:StochasticResonance",
+      "@type": "owl:Class",
+      "rdfs:label": "Stochastic Resonance",
+      "rdfs:comment": "A phenomenon where the presence of noise enhances the detection and transmission of weak signals in nonlinear systems. In neuroscience, stochastic resonance occurs in sensory neurons and contributes to enhanced sensitivity, demonstrating that noise can be beneficial for neural computation."
+    },
+    {
+      "@id": "ns:BifurcationAnalysis",
+      "@type": "owl:Class",
+      "rdfs:label": "Bifurcation Analysis",
+      "rdfs:comment": "A mathematical technique for studying how the qualitative behavior of a dynamical system changes as parameters vary. In neuroscience, bifurcation analysis is used to understand transitions between different neural firing modes, network states, and the emergence of oscillations and bursting."
+    },
+    {
+      "@id": "ns:VisualAttention",
+      "@type": "owl:Class",
+      "rdfs:label": "Visual Attention",
+      "rdfs:comment": "The cognitive process of selectively concentrating on specific aspects of visual information while ignoring others. Visual attention is guided by both bottom-up (stimulus-driven) and top-down (goal-directed) mechanisms, implemented through gain modulation and competitive interactions in visual cortex."
+    },
+    {
+      "@id": "ns:NeurotransmitterSystem",
+      "@type": "owl:Class",
+      "rdfs:label": "Neurotransmitter System",
+      "rdfs:comment": "A chemical signaling system in the nervous system involving the synthesis, release, and reception of neurotransmitter molecules. These systems modulate neural communication and include glutamatergic, GABAergic, dopaminergic, cholinergic, and other pathways with distinct functional roles."
+    },
+    {
+      "@id": "ns:ExcitabilityType",
+      "@type": "owl:Class",
+      "rdfs:label": "Excitability Type",
+      "rdfs:comment": "Classification of neurons based on their F-I curve properties and bifurcation structure. Type I neurons exhibit continuous F-I curves via saddle-node bifurcations, while Type II neurons show discontinuous F-I curves via Hopf bifurcations, with implications for neural coding and synchronization."
+    },
+    {
+      "@id": "ns:BifurcationType",
+      "@type": "owl:Class",
+      "rdfs:label": "Bifurcation Type",
+      "rdfs:comment": "Categories of qualitative changes in dynamical system behavior as parameters vary. Major bifurcation types include saddle-node, Hopf, saddle-node on invariant circle, and homoclinic bifurcations, each associated with distinct transitions in neural dynamics."
+    },
+    {
+      "@id": "ns:MathematicalModel",
+      "@type": "owl:Class",
+      "rdfs:label": "Mathematical Model",
+      "rdfs:comment": "A formal mathematical description of a system using equations and mathematical structures. In neuroscience, mathematical models range from single-neuron models to circuit and systems-level models, providing frameworks for understanding mechanisms and making quantitative predictions."
+    },
+    {
+      "@id": "ns:InformationMeasure",
+      "@type": "owl:Class",
+      "rdfs:label": "Information Measure",
+      "rdfs:comment": "Quantitative metrics for assessing information content, transmission, and processing in neural systems. Key information measures include Shannon entropy, mutual information, Fisher information, and channel capacity, each providing different insights into neural coding efficiency."
+    },
+    {
+      "@id": "ns:StochasticProcess",
+      "@type": "owl:Class",
+      "rdfs:label": "Stochastic Process",
+      "rdfs:comment": "A collection of random variables indexed by time, used to model systems with inherent randomness or noise. Stochastic processes in neuroscience include Poisson processes for spike trains, diffusion processes for membrane potentials, and Markov processes for channel kinetics."
+    },
+    {
+      "@id": "ns:NumericalMethod",
+      "@type": "owl:Class",
+      "rdfs:label": "Numerical Method",
+      "rdfs:comment": "Computational algorithms for solving mathematical problems that cannot be solved analytically. In computational neuroscience, numerical methods include integration schemes like Euler and Runge-Kutta for differential equations, and Monte Carlo methods for stochastic systems."
+    },
+    {
+      "@id": "ns:StatisticalMethod",
+      "@type": "owl:Class",
+      "rdfs:label": "Statistical Method",
+      "rdfs:comment": "Techniques for analyzing data, estimating parameters, and testing hypotheses. Statistical methods in neuroscience include maximum likelihood estimation, Bayesian inference, point process analysis, and dimensionality reduction for understanding neural data."
+    },
+    {
+      "@id": "ns:DecodingMethod",
+      "@type": "owl:Class",
+      "rdfs:label": "Decoding Method",
+      "rdfs:comment": "Algorithms for extracting information about stimuli or behavior from neural activity patterns. Decoding methods include maximum likelihood, Bayesian, and population vector approaches, each with different assumptions about neural codes and optimality criteria."
+    },
+    {
+      "@id": "ns:NeuralCode",
+      "@type": "owl:Class",
+      "rdfs:label": "Neural Code",
+      "rdfs:comment": "The scheme by which information is represented in patterns of neural activity. Neural codes include rate codes (firing rate represents information), temporal codes (spike timing carries information), and population codes (distributed representations across neurons)."
+    },
+    {
+      "@id": "ns:NeuronType",
+      "@type": "owl:Class",
+      "rdfs:label": "Neuron Type",
+      "rdfs:comment": "Classification of neurons based on morphology, physiology, neurochemistry, and connectivity. Neuron types include pyramidal cells, granule cells, Purkinje cells, interneurons, and various specialized sensory and motor neurons with distinct computational properties."
+    },
+    {
+      "@id": "ns:Neuropeptide",
+      "@type": "owl:Class",
+      "rdfs:label": "Neuropeptide",
+      "rdfs:comment": "Signaling peptides released by neurons that act as hormones or neuromodulators. Neuropeptides include vasopressin, oxytocin, substance P, and others that regulate diverse functions from homeostasis to social behavior through volume transmission."
+    },
+    {
+      "@id": "ns:MembraneCurrent",
+      "@type": "owl:Class",
+      "rdfs:label": "Membrane Current",
+      "rdfs:comment": "Flow of ions across neuronal membranes through channels and transporters. Membrane currents include fast sodium and potassium currents for action potentials, calcium currents for signaling, and persistent and afterhyperpolarization currents for shaping excitability."
+    },
+    {
+      "@id": "ns:BurstMechanism",
+      "@type": "owl:Class",
+      "rdfs:label": "Burst Mechanism",
+      "rdfs:comment": "Cellular and circuit mechanisms that generate burst firing patterns in neurons. Burst mechanisms include conditional backpropagation, ping-pong interactions between soma and dendrite, low-threshold calcium currents, and persistent sodium currents."
+    },
+    {
+      "@id": "ns:IntegrationMode",
+      "@type": "owl:Class",
+      "rdfs:label": "Integration Mode",
+      "rdfs:comment": "The manner in which neurons combine multiple synaptic inputs to produce output. Integration modes include spatial summation across dendritic locations and temporal summation of inputs arriving at different times, with linear or nonlinear combination rules."
+    },
+    {
+      "@id": "ns:ComputationalMechanism",
+      "@type": "owl:Class",
+      "rdfs:label": "Computational Mechanism",
+      "rdfs:comment": "Neural circuit operations that implement specific computations. Computational mechanisms include correlation detection for motion vision, coincidence detection for sound localization, gain control for normalization, and predictive coding for sensory processing."
+    },
+    {
+      "@id": "ns:hasIonChannel",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "has ion channel",
+      "rdfs:comment": "Relates a neuron or membrane to the specific ion channel types it expresses. This property is crucial for determining neuronal excitability, firing properties, and computational capabilities through the combination of different channel types and densities.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:IonChannel" }
+    },
+    {
+      "@id": "ns:exhibitsFiringPattern",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "exhibits firing pattern",
+      "rdfs:comment": "Relates a neuron to the characteristic temporal pattern of action potentials it generates. Firing patterns include tonic, burst, irregular, and rhythmic modes, determined by intrinsic conductances and synaptic inputs.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:BurstFiring" }
+    },
+    {
+      "@id": "ns:projectsTo",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "projects to",
+      "rdfs:comment": "Indicates anatomical connectivity where one brain region or neuron sends axonal projections to another region. This property defines neural circuits and information flow pathways, determining the functional architecture of the nervous system.",
+      "rdfs:domain": { "@id": "ns:BrainRegion" },
+      "rdfs:range": { "@id": "ns:BrainRegion" }
+    },
+    {
+      "@id": "ns:implementsPlasticity",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "implements plasticity",
+      "rdfs:comment": "Relates a synapse or neural circuit to the specific plasticity mechanism it uses for adaptation and learning. This includes Hebbian, spike-timing-dependent, and homeostatic plasticity rules that modify synaptic strengths based on activity patterns.",
+      "rdfs:domain": { "@id": "ns:Synapse" },
+      "rdfs:range": { "@id": "ns:SynapticPlasticity" }
+    },
+    {
+      "@id": "ns:hasReceptiveField",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "has receptive field",
+      "rdfs:comment": "Associates a sensory neuron with the region of sensory space to which it responds. Receptive fields can be defined in spatial, temporal, or feature dimensions and are shaped by both feedforward connections and lateral interactions.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:ReceptiveField" }
+    },
+    {
+      "@id": "ns:undergoesBifurcation",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "undergoes bifurcation",
+      "rdfs:comment": "Indicates that a dynamical system transitions between different qualitative behaviors at a critical parameter value. Bifurcations are fundamental to understanding transitions in neural firing modes, onset of oscillations, and changes in network states.",
+      "rdfs:domain": { "@id": "ns:DynamicalSystem" },
+      "rdfs:range": { "@id": "ns:BifurcationType" }
+    },
+    {
+      "@id": "ns:modulatesActivity",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "modulates activity",
+      "rdfs:comment": "Describes how one neural component influences the activity level of another without directly driving action potentials. Modulation includes gain control, threshold adjustment, and state-dependent effects through neuromodulators and local circuits.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neuron" }
+    },
+    {
+      "@id": "ns:releasesNeurotransmitter",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "releases neurotransmitter",
+      "rdfs:comment": "Associates a neuron or synapse with the specific neurotransmitter molecules it releases during synaptic transmission. This defines the chemical nature of neural communication and determines whether synaptic effects are excitatory, inhibitory, or modulatory.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:Neurotransmitter" }
+    },
+    {
+      "@id": "ns:encodesStimulus",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "encodes stimulus",
+      "rdfs:comment": "Relates a neuron or neural population to the specific stimulus features it represents through its activity. Encoding can be through rate, timing, or population codes, each capturing different aspects of stimuli.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:NeuralCoding" }
+    },
+    {
+      "@id": "ns:hasAttractor",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "has attractor",
+      "rdfs:comment": "Associates a dynamical system with stable states toward which the system evolves. Attractors in neural systems correspond to stable activity patterns and can be fixed points, limit cycles, or strange attractors representing memory states or rhythmic activity.",
+      "rdfs:domain": { "@id": "ns:DynamicalSystem" },
+      "rdfs:range": { "@id": "ns:Attractor" }
+    },
+    {
+      "@id": "ns:implementsMechanism",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "implements mechanism",
+      "rdfs:comment": "Relates a neural circuit or region to the computational mechanism it implements. This includes operations like correlation detection, coincidence detection, gain normalization, and predictive coding.",
+      "rdfs:domain": { "@id": "ns:BrainRegion" },
+      "rdfs:range": { "@id": "ns:ComputationalMechanism" }
+    },
+    {
+      "@id": "ns:exhibitsExcitability",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "exhibits excitability type",
+      "rdfs:comment": "Associates a neuron with its excitability classification based on F-I curve properties. Type I neurons can fire at arbitrarily low frequencies, while Type II neurons have a minimum firing frequency, with implications for synchronization and coding.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:ExcitabilityType" }
+    },
+    {
+      "@id": "ns:usesCode",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "uses neural code",
+      "rdfs:comment": "Relates a neuron or population to the coding scheme it employs for representing information. This includes rate coding, temporal coding, and population coding strategies, each with distinct advantages for information transmission.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:NeuralCode" }
+    },
+    {
+      "@id": "ns:belongsToSystem",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "belongs to neurotransmitter system",
+      "rdfs:comment": "Associates a neuron with the neurotransmitter system it participates in. This defines functional modulatory pathways including dopaminergic, serotonergic, cholinergic, and other neuromodulatory systems.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:NeurotransmitterSystem" }
+    },
+    {
+      "@id": "ns:exhibitsDynamics",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": "exhibits calcium dynamics",
+      "rdfs:comment": "Relates a neuron or synapse to its characteristic calcium dynamics patterns. Calcium dynamics regulate synaptic plasticity, gene expression, and numerous signaling pathways through spatiotemporal concentration changes.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "ns:CalciumDynamics" }
+    },
+    {
+      "@id": "ns:hasRefractoryPeriod",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has refractory period",
+      "rdfs:comment": "The minimum time interval between successive action potentials in a neuron, measured in milliseconds. Refractory periods are typically 1-5 milliseconds and determine maximum firing rates, with absolute refractory period due to sodium channel inactivation.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasMembraneTimeConstant",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has membrane time constant",
+      "rdfs:comment": "The characteristic time scale for changes in membrane potential in response to input current, measured in milliseconds. Membrane time constants typically range from 5-50 milliseconds in neurons and determine temporal integration properties.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasThresholdVoltage",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has threshold voltage",
+      "rdfs:comment": "The membrane potential value at which an action potential is triggered, measured in millivolts. Typical threshold values are -55 to -40 mV, determined by voltage-gated sodium channel activation kinetics.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasFiringRate",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has firing rate",
+      "rdfs:comment": "The average number of action potentials generated per unit time, typically measured in Hz (spikes per second). Firing rates encode stimulus intensity and other information, ranging from spontaneous rates of 1-5 Hz to maximal rates over 100 Hz.",
+      "rdfs:domain": { "@id": "ns:Neuron" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasSynapticWeight",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has synaptic weight",
+      "rdfs:comment": "The strength or efficacy of a synaptic connection, determining how much influence presynaptic activity has on postsynaptic potential. Synaptic weights are modified during learning through plasticity mechanisms and can range from weak to strong connections.",
+      "rdfs:domain": { "@id": "ns:Synapse" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasLyapunovExponent",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has Lyapunov exponent",
+      "rdfs:comment": "A quantitative measure of the stability or chaos in a dynamical system. Positive Lyapunov exponents indicate chaotic dynamics with sensitive dependence on initial conditions, while negative values indicate stability and convergence to attractors.",
+      "rdfs:domain": { "@id": "ns:DynamicalSystem" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasConductanceDensity",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has conductance density",
+      "rdfs:comment": "The number of ion channels per unit membrane area, measured in units like mS/cm². Conductance density determines the strength of ionic currents in neurons and varies across different compartments and neuron types.",
+      "rdfs:domain": { "@id": "ns:IonChannel" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasBurstFrequency",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has burst frequency",
+      "rdfs:comment": "The rate at which burst events occur, measured in Hz. Burst frequency is distinct from intraburst spike frequency and encodes different stimulus features, typically ranging from 0.1 to 10 Hz depending on neuron type.",
+      "rdfs:domain": { "@id": "ns:BurstFiring" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasIntraBurstISI",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has intraburst ISI",
+      "rdfs:comment": "The interspike interval between action potentials within a burst, typically shorter than interburst intervals. Intraburst ISIs are often in the range of 2-10 milliseconds and determine burst density and information transmission reliability.",
+      "rdfs:domain": { "@id": "ns:BurstFiring" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:hasMutualInformationValue",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": "has mutual information value",
+      "rdfs:comment": "A measure of the statistical dependence between neural responses and stimuli, quantifying how much information neural activity provides about the stimulus in bits. Mutual information provides a model-independent measure of coding efficiency.",
+      "rdfs:domain": { "@id": "ns:NeuralCoding" },
+      "rdfs:range": { "@id": "xsd:float" }
+    },
+    {
+      "@id": "ns:LeakyIntegrateAndFireModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Leaky Integrate-and-Fire Model",
+      "rdfs:comment": "An extension of the integrate-and-fire model that includes passive membrane leak current, making it more biologically realistic. The leak allows the membrane potential to decay to resting potential in the absence of input, providing a more accurate description of subthreshold integration."
+    },
+    {
+      "@id": "ns:IFFHNModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "IF-FHN Model",
+      "rdfs:comment": "A hybrid model combining integrate-and-fire dynamics with FitzHugh-Nagumo nonlinear leak. This model shows increased sensitivity to correlated inputs compared to standard integrate-and-fire models due to nonlinear leakage term, bridging simplified and realistic neuron models."
+    },
+    {
+      "@id": "ns:TwoCompartmentModel",
+      "@type": ["owl:NamedIndividual", "ns:CompartmentalModel"],
+      "rdfs:label": "Two-Compartment Model",
+      "rdfs:comment": "A neuronal model consisting of somatic and dendritic compartments connected by coupling conductance. This minimal compartmental model captures soma-dendritic interactions important for burst generation, conditional backpropagation, and dendritic computation."
+    },
+    {
+      "@id": "ns:GhostbursterModel",
+      "@type": ["owl:NamedIndividual", "ns:CompartmentalModel"],
+      "rdfs:label": "Ghostburster Model",
+      "rdfs:comment": "A two-compartment reduced model of burst firing where the system passes near an infinite-period bifurcation. This model successfully reproduces burst firing observed in electrosensory pyramidal cells with minimal complexity, capturing essential burst dynamics through delay mechanisms."
+    },
+    {
+      "@id": "ns:CableModel",
+      "@type": ["owl:NamedIndividual", "ns:CompartmentalModel"],
+      "rdfs:label": "Cable Model",
+      "rdfs:comment": "A model that treats neuronal processes as cylinders and uses cable equation to describe voltage propagation. Cable models capture the effects of cell geometry on electrical signal propagation in dendrites and axons, accounting for spatial attenuation and filtering."
+    },
+    {
+      "@id": "ns:MultiCompartmentalModel",
+      "@type": ["owl:NamedIndividual", "ns:CompartmentalModel"],
+      "rdfs:label": "Multi-Compartmental Model",
+      "rdfs:comment": "Detailed neuronal models that divide the cell into hundreds of compartments based on actual anatomy. These models can accurately simulate spatial distributions of ionic channels and complex dendritic integration, providing high-fidelity representations of real neurons."
+    },
+    {
+      "@id": "ns:DelayDifferentialEquationModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Delay Differential Equation Model",
+      "rdfs:comment": "A simplified burst model using discrete delays to mimic ping-pong effects between soma and dendrite. This computationally efficient model captures essential burst dynamics while remaining tractable for network simulations and analytical investigation."
+    },
+    {
+      "@id": "ns:CovarianceRule",
+      "@type": ["owl:NamedIndividual", "ns:HebbianPlasticity"],
+      "rdfs:label": "Covariance Rule",
+      "rdfs:comment": "A Hebbian learning rule where synaptic changes depend on deviations of pre- and postsynaptic activities from their means. This rule prevents runaway potentiation while maintaining correlation-based learning, providing a more stable form of Hebbian plasticity."
+    },
+    {
+      "@id": "ns:SodiumChannel",
+      "@type": ["owl:NamedIndividual", "ns:VoltageGatedChannel"],
+      "rdfs:label": "Sodium Channel",
+      "rdfs:comment": "Voltage-gated channels that mediate the rapid depolarizing phase of action potentials through Na+ influx. Sodium channels have fast activation and inactivation kinetics, are blocked by tetrodotoxin (TTX), and are essential for spike generation and propagation."
+    },
+    {
+      "@id": "ns:PotassiumChannel",
+      "@type": ["owl:NamedIndividual", "ns:VoltageGatedChannel"],
+      "rdfs:label": "Potassium Channel",
+      "rdfs:comment": "Voltage-gated channels responsible for repolarization and hyperpolarization during action potentials through K+ efflux. Multiple potassium channel subtypes (delayed rectifier, A-type, M-type, etc.) contribute to diverse neuronal properties and firing patterns."
+    },
+    {
+      "@id": "ns:CalciumChannel",
+      "@type": ["owl:NamedIndividual", "ns:VoltageGatedChannel"],
+      "rdfs:label": "Calcium Channel",
+      "rdfs:comment": "Voltage-gated channels that allow Ca2+ influx, triggering neurotransmitter release, gene expression, and various signaling cascades. Calcium channels include L-type, N-type, P/Q-type, and T-type subtypes with different voltage dependencies and kinetics."
+    },
+    {
+      "@id": "ns:AptKv33Channel",
+      "@type": ["owl:NamedIndividual", "ns:VoltageGatedChannel"],
+      "rdfs:label": "AptKv3.3 Channel",
+      "rdfs:comment": "A high-voltage-activated potassium channel found in electrosensory pyramidal cells of weakly electric fish. This channel is distributed along the dendritic axis and modulates burst generation through cumulative inactivation, contributing to conditional backpropagation."
+    },
+    {
+      "@id": "ns:CableEquation",
+      "@type": ["owl:NamedIndividual", "ns:MathematicalModel"],
+      "rdfs:label": "Cable Equation",
+      "rdfs:comment": "A partial differential equation describing voltage propagation along neuronal processes, taking into account passive membrane properties and axial resistance. The cable equation is fundamental for understanding dendritic integration and spatial filtering of synaptic inputs."
+    },
+    {
+      "@id": "ns:NernstEquation",
+      "@type": ["owl:NamedIndividual", "ns:MathematicalModel"],
+      "rdfs:label": "Nernst Equation",
+      "rdfs:comment": "An equation that calculates the equilibrium potential for a specific ion across a membrane based on concentration gradients. The Nernst equation is fundamental for understanding resting potentials, reversal potentials, and the driving force for ion flow."
+    },
+    {
+      "@id": "ns:GoldmanEquation",
+      "@type": ["owl:NamedIndividual", "ns:MathematicalModel"],
+      "rdfs:label": "Goldman Equation",
+      "rdfs:comment": "An extension of the Nernst equation that accounts for multiple ion species and their relative permeabilities. The Goldman equation accurately predicts membrane potential when multiple ions contribute, providing a more realistic description than single-ion equations."
+    },
+    {
+      "@id": "ns:DiffusionEquation",
+      "@type": ["owl:NamedIndividual", "ns:MathematicalModel"],
+      "rdfs:label": "Diffusion Equation",
+      "rdfs:comment": "A partial differential equation describing how nitric oxide and other diffusible messengers spread through neural tissue. Analytical and numerical solutions to the diffusion equation are used to model volume transmission and gaseous signaling."
+    },
+    {
+      "@id": "ns:ShannonInformationMeasure",
+      "@type": ["owl:NamedIndividual", "ns:InformationMeasure"],
+      "rdfs:label": "Shannon Information",
+      "rdfs:comment": "A measure of the average uncertainty or entropy in a probability distribution, measured in bits. Shannon information quantifies the information content of neural spike trains and stimulus representations through entropy calculations."
+    },
+    {
+      "@id": "ns:MutualInformationMeasure",
+      "@type": ["owl:NamedIndividual", "ns:InformationMeasure"],
+      "rdfs:label": "Mutual Information",
+      "rdfs:comment": "A measure of the statistical dependence between two variables, quantifying how much information one variable provides about another. In neuroscience, mutual information quantifies stimulus-response relationships and provides model-independent coding efficiency metrics."
+    },
+    {
+      "@id": "ns:FisherInformationMeasure",
+      "@type": ["owl:NamedIndividual", "ns:InformationMeasure"],
+      "rdfs:label": "Fisher Information",
+      "rdfs:comment": "A measure of the amount of information a random variable carries about unknown parameters. In neural coding, Fisher information bounds the accuracy of stimulus estimation from neural responses through the Cramer-Rao inequality."
+    },
+    {
+      "@id": "ns:PoissonProcess",
+      "@type": ["owl:NamedIndividual", "ns:PointProcess"],
+      "rdfs:label": "Poisson Process",
+      "rdfs:comment": "A point process where events occur independently at a constant average rate. Poisson processes serve as baseline models for neural spike trains and are characterized by exponentially distributed interspike intervals and variance equal to mean count."
+    },
+    {
+      "@id": "ns:MarkovProcess",
+      "@type": ["owl:NamedIndividual", "ns:StochasticProcess"],
+      "rdfs:label": "Markov Process",
+      "rdfs:comment": "A stochastic process where future states depend only on the present state, not on past history. Markov processes are used to model ion channel gating, neural state transitions, and hidden state dynamics in neural systems."
+    },
+    {
+      "@id": "ns:GaussianProcess",
+      "@type": ["owl:NamedIndividual", "ns:StochasticProcess"],
+      "rdfs:label": "Gaussian Process",
+      "rdfs:comment": "A collection of random variables where any finite subset has a multivariate Gaussian distribution. Gaussian processes are used for receptive field estimation, adaptive filtering of neural data, and Bayesian nonparametric modeling."
+    },
+    {
+      "@id": "ns:HiddenMarkovModel",
+      "@type": ["owl:NamedIndividual", "ns:StochasticProcess"],
+      "rdfs:label": "Hidden Markov Model",
+      "rdfs:comment": "A statistical model where the system being modeled is assumed to be a Markov process with unobserved states. HMMs are used to analyze single ion channel recordings, decode neural states, and model sequence learning."
+    },
+    {
+      "@id": "ns:DiffusionProcess",
+      "@type": ["owl:NamedIndividual", "ns:StochasticProcess"],
+      "rdfs:label": "Diffusion Process",
+      "rdfs:comment": "A continuous-time stochastic process satisfying stochastic differential equations. Diffusion approximations are used to model noisy neuronal dynamics when synaptic input is highly irregular, as in balanced cortical networks."
+    },
+    {
+      "@id": "ns:RungeKuttaMethod",
+      "@type": ["owl:NamedIndividual", "ns:NumericalMethod"],
+      "rdfs:label": "Runge-Kutta Method",
+      "rdfs:comment": "A family of iterative methods for numerically solving ordinary differential equations with higher accuracy than Euler method. Runge-Kutta methods (especially fourth-order RK4) are widely used in computational neuroscience for simulating neuronal dynamics."
+    },
+    {
+      "@id": "ns:EulerMethod",
+      "@type": ["owl:NamedIndividual", "ns:NumericalMethod"],
+      "rdfs:label": "Euler Method",
+      "rdfs:comment": "A first-order numerical method for solving differential equations by linear approximation. While simple and fast, the Euler method has limited accuracy compared to higher-order methods and requires smaller time steps for stability."
+    },
+    {
+      "@id": "ns:MaximumLikelihoodEstimation",
+      "@type": ["owl:NamedIndividual", "ns:StatisticalMethod"],
+      "rdfs:label": "Maximum Likelihood Estimation",
+      "rdfs:comment": "A statistical method for estimating parameters by finding values that maximize the likelihood function. MLE has optimal asymptotic properties and is widely used for analyzing neural spike train data and fitting receptive field models."
+    },
+    {
+      "@id": "ns:BayesianInference",
+      "@type": ["owl:NamedIndividual", "ns:StatisticalMethod"],
+      "rdfs:label": "Bayesian Inference",
+      "rdfs:comment": "A statistical method that combines prior knowledge with observed data to make inferences about parameters. Bayesian methods are used for decoding neural activity, estimating receptive fields, and modeling perceptual decision-making."
+    },
+    {
+      "@id": "ns:SeriesExpansionMethod",
+      "@type": ["owl:NamedIndividual", "ns:StatisticalMethod"],
+      "rdfs:label": "Series Expansion Method",
+      "rdfs:comment": "A technique for estimating mutual information that corrects for sampling bias, particularly useful for sparsely responding neurons. This method allows rigorous analysis of spike timing information and population coding using series expansions."
+    },
+    {
+      "@id": "ns:MaximumLikelihoodDecoding",
+      "@type": ["owl:NamedIndividual", "ns:DecodingMethod"],
+      "rdfs:label": "Maximum Likelihood Decoding",
+      "rdfs:comment": "A method for estimating stimuli from neural responses by finding the stimulus that maximizes the likelihood of observed spikes. ML decoding provides optimal estimates under certain conditions and is used to assess neural code quality."
+    },
+    {
+      "@id": "ns:PopulationVectorDecoding",
+      "@type": ["owl:NamedIndividual", "ns:DecodingMethod"],
+      "rdfs:label": "Population Vector Decoding",
+      "rdfs:comment": "A method for estimating continuous variables from population activity by computing a weighted vector sum of preferred directions. Population vectors are used to decode movement direction from motor cortex and have been influential in motor prosthetics."
+    },
+    {
+      "@id": "ns:BayesianDecoding",
+      "@type": ["owl:NamedIndividual", "ns:DecodingMethod"],
+      "rdfs:label": "Bayesian Decoding",
+      "rdfs:comment": "A method combining prior knowledge with neural responses to estimate stimuli according to Bayes' rule. Bayesian decoding accounts for uncertainty and prior expectations, providing optimal estimates under probabilistic assumptions about neural codes."
+    },
+    {
+      "@id": "ns:AttractorNetwork",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Attractor Network",
+      "rdfs:comment": "A recurrent neural network with multiple stable states corresponding to attractors in state space. Attractor networks implement associative memory, working memory, and decision-making through stable activity patterns sustained by recurrent connections."
+    },
+    {
+      "@id": "ns:RecurrentCorticalNetwork",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Recurrent Cortical Network",
+      "rdfs:comment": "A network model with extensive feedback connections characteristic of cortical circuits. Recurrent networks exhibit complex dynamics including persistent activity, oscillations, and multistability, implementing various computational functions."
+    },
+    {
+      "@id": "ns:GasNetModel",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "GasNet Model",
+      "rdfs:comment": "An abstract model incorporating gaseous neurotransmitter diffusion (like nitric oxide) into neural networks. GasNets explore functional roles of volume transmission and non-synaptic signaling in computation, providing alternatives to purely synaptic communication."
+    },
+    {
+      "@id": "ns:PrimaryVisualCortex",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Primary Visual Cortex (V1)",
+      "rdfs:comment": "The first cortical area dedicated to processing visual information, containing neurons selective for oriented edges, motion direction, and spatial frequency. V1 is also called striate cortex due to its distinctive layered appearance and implements edge detection."
+    },
+    {
+      "@id": "ns:SecondaryVisualCortex",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Secondary Visual Cortex (V2)",
+      "rdfs:comment": "A visual cortical area that processes more complex features than V1, including illusory contours, texture, and object boundaries. V2 receives strong input from V1 and projects to higher visual areas for object recognition."
+    },
+    {
+      "@id": "ns:VisualAreaV4",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Visual Area V4",
+      "rdfs:comment": "An intermediate visual area involved in color processing, shape representation, and visual attention. V4 neurons show attention-dependent modulation of responses and contribute to figure-ground segregation and object recognition."
+    },
+    {
+      "@id": "ns:MiddleTemporalArea",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Middle Temporal Area (MT)",
+      "rdfs:comment": "A visual area specialized for motion processing, containing neurons selective for direction and speed of motion. MT is crucial for motion perception and visuomotor control, with microstimulation experiments demonstrating causal roles in perception."
+    },
+    {
+      "@id": "ns:SomatosensoryCortex",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Somatosensory Cortex",
+      "rdfs:comment": "Cortical regions processing touch, proprioception, and pain information. Somatosensory cortex contains topographic maps of the body surface (homunculus) and implements hierarchical processing of tactile features."
+    },
+    {
+      "@id": "ns:MotorCortex",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Motor Cortex",
+      "rdfs:comment": "Cortical regions involved in planning, control, and execution of voluntary movements. Motor cortex includes primary motor cortex, premotor cortex, and supplementary motor area, each with distinct roles in motor control."
+    },
+    {
+      "@id": "ns:EntorhinalCortex",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Entorhinal Cortex",
+      "rdfs:comment": "A brain region serving as the main interface between hippocampus and neocortex, containing grid cells that encode spatial location. Entorhinal cortex is crucial for spatial navigation, memory, and temporal coding."
+    },
+    {
+      "@id": "ns:Subiculum",
+      "@type": ["owl:NamedIndividual", "ns:Hippocampus"],
+      "rdfs:label": "Subiculum",
+      "rdfs:comment": "The major output structure of hippocampus, receiving input from CA1 and projecting to entorhinal cortex and subcortical structures. Subiculum neurons can exhibit burst firing driven by dendritic calcium spikes and implement spatiotemporal transformations."
+    },
+    {
+      "@id": "ns:Amygdala",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Amygdala",
+      "rdfs:comment": "A medial temporal lobe structure involved in emotional processing, particularly fear and reward learning. Amygdala has extensive connections with cortex, hippocampus, and hypothalamus, implementing emotional valence assignments."
+    },
+    {
+      "@id": "ns:Thalamus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Thalamus",
+      "rdfs:comment": "A central diencephalic structure serving as a relay and modulator of information between sensory systems and cortex. Thalamic neurons exhibit distinct burst and tonic firing modes controlled by T-type calcium channels."
+    },
+    {
+      "@id": "ns:Hypothalamus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Hypothalamus",
+      "rdfs:comment": "A diencephalic structure controlling homeostatic functions including hormone release, autonomic control, and motivated behaviors. Hypothalamus contains distinct nuclei with specialized functions and regulates pituitary hormone secretion."
+    },
+    {
+      "@id": "ns:Brainstem",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Brainstem",
+      "rdfs:comment": "The posterior part of the brain connecting to spinal cord, controlling vital autonomic functions and containing numerous cranial nerve nuclei. Brainstem includes medulla, pons, and midbrain, implementing basic sensorimotor reflexes."
+    },
+    {
+      "@id": "ns:SpinalCord",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Spinal Cord",
+      "rdfs:comment": "The caudal part of the central nervous system mediating sensory-motor reflexes and transmitting signals between brain and periphery. Spinal cord contains central pattern generators for locomotion and reflexive motor control circuits."
+    },
+    {
+      "@id": "ns:LobulaPlate",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Lobula Plate",
+      "rdfs:comment": "A region in the fly visual system containing large tangential cells that integrate local motion signals for optomotor control. Lobula plate neurons are selective for specific patterns of optic flow and implement correlation-based motion detection."
+    },
+    {
+      "@id": "ns:OpticLobe",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Optic Lobe",
+      "rdfs:comment": "The visual processing center in insects, containing multiple retinotopic maps and motion detection circuitry. Optic lobe includes lamina, medulla, lobula, and lobula plate implementing hierarchical visual processing."
+    },
+    {
+      "@id": "ns:ElectrosensoryLateralLineLobe",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Electrosensory Lateral Line Lobe (ELL)",
+      "rdfs:comment": "The first central processing stage for electrosensory information in weakly electric fish, containing pyramidal cells that exhibit burst firing. ELL implements feature extraction, adaptive filtering, and predictive coding of electrosensory inputs."
+    },
+    {
+      "@id": "ns:PyramidalNeuron",
+      "@type": ["owl:NamedIndividual", "ns:PyramidalCell"],
+      "rdfs:label": "Pyramidal Neuron",
+      "rdfs:comment": "The most common excitatory neuron type in cortex and hippocampus, characterized by pyramid-shaped soma and extensive apical dendrite. Pyramidal neurons use glutamate as neurotransmitter and can exhibit various firing patterns including bursting."
+    },
+    {
+      "@id": "ns:BasketCell",
+      "@type": ["owl:NamedIndividual", "ns:Interneuron"],
+      "rdfs:label": "Basket Cell",
+      "rdfs:comment": "A type of GABAergic interneuron that forms basket-like synaptic contacts around soma of target neurons. Basket cells are fast-spiking and important for gamma oscillations, providing powerful perisomatic inhibition."
+    },
+    {
+      "@id": "ns:StellateCell",
+      "@type": ["owl:NamedIndividual", "ns:Interneuron"],
+      "rdfs:label": "Stellate Cell",
+      "rdfs:comment": "Neurons with star-shaped dendritic arbors found in cortex, cerebellum, and other regions. Stellate cells can be excitatory (spiny stellate) or inhibitory depending on location and provide local circuit processing."
+    },
+    {
+      "@id": "ns:RetinalGanglionCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Retinal Ganglion Cell",
+      "rdfs:comment": "Output neurons of the retina whose axons form the optic nerve and transmit visual information to brain. Retinal ganglion cells are selective for features like edges, motion, and color contrast through center-surround receptive fields."
+    },
+    {
+      "@id": "ns:MotorNeuron",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Motor Neuron",
+      "rdfs:comment": "Neurons that directly innervate muscles and control movement. Motor neurons integrate synaptic input from premotor circuits and exhibit rate-coding properties correlating with muscle force, implementing the final common pathway."
+    },
+    {
+      "@id": "ns:PlaceCell",
+      "@type": ["owl:NamedIndividual", "ns:PyramidalCell"],
+      "rdfs:label": "Place Cell",
+      "rdfs:comment": "Hippocampal pyramidal neurons that fire selectively when an animal occupies specific locations in an environment. Place cells form a cognitive map of space and are fundamental to spatial navigation and episodic memory."
+    },
+    {
+      "@id": "ns:GridCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Grid Cell",
+      "rdfs:comment": "Entorhinal neurons that fire when an animal occupies vertices of a repeating hexagonal grid covering the environment. Grid cells provide a metric for spatial coding and contribute to path integration through continuous attractor dynamics."
+    },
+    {
+      "@id": "ns:BipolarCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Bipolar Cell",
+      "rdfs:comment": "Retinal neurons that connect photoreceptors to ganglion cells, implementing center-surround receptive fields. Bipolar cells can be ON-type (depolarizing to light) or OFF-type (hyperpolarizing to light)."
+    },
+    {
+      "@id": "ns:ChatteringNeuron",
+      "@type": ["owl:NamedIndividual", "ns:PyramidalCell"],
+      "rdfs:label": "Chattering Neuron",
+      "rdfs:comment": "Cortical pyramidal neurons in superficial layers that fire high-frequency bursts (30-70 Hz) in response to depolarization. Chattering neurons may contribute to gamma oscillations in cortex through resonant burst firing."
+    },
+    {
+      "@id": "ns:RegularSpikingNeuron",
+      "@type": ["owl:NamedIndividual", "ns:PyramidalCell"],
+      "rdfs:label": "Regular-Spiking Neuron",
+      "rdfs:comment": "Cortical pyramidal neurons that fire trains of action potentials with frequency adaptation in response to sustained input. Regular-spiking neurons are the most common excitatory cell type in cortex, implementing spike-frequency adaptation."
+    },
+    {
+      "@id": "ns:FastSpikingNeuron",
+      "@type": ["owl:NamedIndividual", "ns:Interneuron"],
+      "rdfs:label": "Fast-Spiking Neuron",
+      "rdfs:comment": "Cortical GABAergic interneurons (typically basket cells) that can sustain high firing rates without adaptation. Fast-spiking neurons provide powerful inhibition and contribute to network oscillations through rapid spiking."
+    },
+    {
+      "@id": "ns:TangentialCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Tangential Cell",
+      "rdfs:comment": "Large neurons in the fly lobula plate with extensive dendritic fields that integrate local motion signals. Different tangential cells are selective for different patterns of optic flow, implementing wide-field motion detection."
+    },
+    {
+      "@id": "ns:MitralCell",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Mitral Cell",
+      "rdfs:comment": "Principal output neurons of olfactory bulb that receive input from olfactory receptor neurons in glomeruli. Mitral cells exhibit synchronized oscillatory activity and lateral inhibition through granule cells."
+    },
+    {
+      "@id": "ns:VasopressinNeuron",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Vasopressin Neuron",
+      "rdfs:comment": "Hypothalamic magnocellular neurons that synthesize and release vasopressin hormone. These neurons exhibit phasic burst firing patterns that optimize hormone release from the posterior pituitary for water balance regulation."
+    },
+    {
+      "@id": "ns:OxytocinNeuron",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Oxytocin Neuron",
+      "rdfs:comment": "Hypothalamic magnocellular neurons that release oxytocin hormone involved in social bonding, lactation, and parturition. Oxytocin neurons can exhibit synchronized burst firing during milk ejection reflex."
+    },
+    {
+      "@id": "ns:DopamineNT",
+      "@type": ["owl:NamedIndividual", "ns:Dopamine"],
+      "rdfs:label": "Dopamine Neurotransmitter",
+      "rdfs:comment": "A catecholamine neurotransmitter involved in reward, motivation, motor control, and cognition. Dopamine dysfunction is implicated in Parkinson's disease, schizophrenia, and addiction, with distinct roles in different projection systems."
+    },
+    {
+      "@id": "ns:GlutamateNT",
+      "@type": ["owl:NamedIndividual", "ns:Glutamate"],
+      "rdfs:label": "Glutamate Neurotransmitter",
+      "rdfs:comment": "The primary excitatory neurotransmitter in the brain, acting on AMPA, NMDA, and metabotropic receptors. Glutamate mediates fast synaptic transmission and is crucial for learning and memory, though excitotoxic at high levels."
+    },
+    {
+      "@id": "ns:AcetylcholineNT",
+      "@type": ["owl:NamedIndividual", "ns:Acetylcholine"],
+      "rdfs:label": "Acetylcholine Neurotransmitter",
+      "rdfs:comment": "A neurotransmitter at neuromuscular junctions and throughout the brain, involved in attention, arousal, and memory. Cholinergic dysfunction contributes to Alzheimer's disease and age-related cognitive decline."
+    },
+    {
+      "@id": "ns:SerotoninNT",
+      "@type": ["owl:NamedIndividual", "ns:Neurotransmitter"],
+      "rdfs:label": "Serotonin (5-HT)",
+      "rdfs:comment": "A monoamine neurotransmitter involved in mood regulation, sleep, appetite, and cognition. Serotonergic drugs including SSRIs are widely used as antidepressants, modulating mood and emotional processing."
+    },
+    {
+      "@id": "ns:Vasopressin",
+      "@type": ["owl:NamedIndividual", "ns:Neuropeptide"],
+      "rdfs:label": "Vasopressin Peptide",
+      "rdfs:comment": "A peptide hormone released from hypothalamus that regulates water balance and social behavior. Vasopressin is synthesized in magnocellular neurons and released from posterior pituitary in response to osmotic and cardiovascular signals."
+    },
+    {
+      "@id": "ns:Oxytocin",
+      "@type": ["owl:NamedIndividual", "ns:Neuropeptide"],
+      "rdfs:label": "Oxytocin Peptide",
+      "rdfs:comment": "A peptide hormone involved in social bonding, trust, lactation, and parturition. Oxytocin is synthesized in hypothalamic neurons and acts both as hormone and neuromodulator in social behavior circuits."
+    },
+    {
+      "@id": "ns:SaddleNodeBifurcation",
+      "@type": ["owl:NamedIndividual", "ns:BifurcationType"],
+      "rdfs:label": "Saddle-Node Bifurcation",
+      "rdfs:comment": "A bifurcation where a stable and unstable fixed point collide and annihilate. Saddle-node bifurcations characterize Type I neural excitability, continuous F-I curves, and transitions from quiescence to tonic firing at arbitrary low frequencies."
+    },
+    {
+      "@id": "ns:HopfBifurcation",
+      "@type": ["owl:NamedIndividual", "ns:BifurcationType"],
+      "rdfs:label": "Hopf Bifurcation",
+      "rdfs:comment": "A bifurcation where a fixed point loses stability and a limit cycle is born. Hopf bifurcations characterize Type II neural excitability, discontinuous F-I curves, and the onset of oscillations with finite frequency."
+    },
+    {
+      "@id": "ns:FixedPointAttractor",
+      "@type": ["owl:NamedIndividual", "ns:Attractor"],
+      "rdfs:label": "Fixed-Point Attractor",
+      "rdfs:comment": "A stable equilibrium state toward which a dynamical system evolves from nearby initial conditions. In neurons, fixed-point attractors correspond to resting potential or stable depolarized states in working memory networks."
+    },
+    {
+      "@id": "ns:LimitCycleAttractor",
+      "@type": ["owl:NamedIndividual", "ns:LimitCycle"],
+      "rdfs:label": "Limit-Cycle Attractor",
+      "rdfs:comment": "A closed trajectory in phase space corresponding to periodic oscillations that are robust to perturbations. In neurons, limit cycles represent repetitive spiking or burst oscillations generated by nonlinear feedback."
+    },
+    {
+      "@id": "ns:StrangeAttractor",
+      "@type": ["owl:NamedIndividual", "ns:Attractor"],
+      "rdfs:label": "Strange Attractor",
+      "rdfs:comment": "A fractal attractor associated with chaotic dynamics and sensitive dependence on initial conditions. Strange attractors have positive Lyapunov exponents and exhibit complex temporal patterns in neural systems."
+    },
+    {
+      "@id": "ns:TypeINeuronExcitability",
+      "@type": ["owl:NamedIndividual", "ns:ExcitabilityType"],
+      "rdfs:label": "Type I Neuron Excitability",
+      "rdfs:comment": "Neural excitability characterized by continuous F-I curves where neurons can fire at arbitrarily low frequencies near threshold. Type I excitability arises from saddle-node bifurcations, as in integrate-and-fire models."
+    },
+    {
+      "@id": "ns:TypeIINeuronExcitability",
+      "@type": ["owl:NamedIndividual", "ns:ExcitabilityType"],
+      "rdfs:label": "Type II Neuron Excitability",
+      "rdfs:comment": "Neural excitability characterized by discontinuous F-I curves with a minimum firing frequency. Type II excitability arises from Hopf bifurcations, as in the Hodgkin-Huxley model, and favors synchronization."
+    },
+    {
+      "@id": "ns:ConditionalBackpropagation",
+      "@type": ["owl:NamedIndividual", "ns:BurstMechanism"],
+      "rdfs:label": "Conditional Backpropagation",
+      "rdfs:comment": "A mechanism where action potential backpropagation into dendrites depends on spike frequency and dendritic refractory period. Conditional backpropagation underlies burst generation in electrosensory pyramidal cells through frequency-dependent dendritic spike initiation."
+    },
+    {
+      "@id": "ns:PingPongMechanism",
+      "@type": ["owl:NamedIndividual", "ns:BurstMechanism"],
+      "rdfs:label": "Ping-Pong Mechanism",
+      "rdfs:comment": "A burst generation mechanism involving reciprocal interactions between soma and dendrite, where current sources back into soma after dendritic spikes. This mechanism is found in various burst-firing neurons including pyramidal cells."
+    },
+    {
+      "@id": "ns:PersistentSodiumCurrent",
+      "@type": ["owl:NamedIndividual", "ns:MembraneCurrent"],
+      "rdfs:label": "Persistent Sodium Current",
+      "rdfs:comment": "A slowly inactivating or non-inactivating sodium current active at subthreshold potentials. Persistent sodium current contributes to burst generation, membrane bistability, and sustained depolarization in various neuron types."
+    },
+    {
+      "@id": "ns:LowThresholdCalciumCurrent",
+      "@type": ["owl:NamedIndividual", "ns:MembraneCurrent"],
+      "rdfs:label": "Low-Threshold Calcium Current (T-type)",
+      "rdfs:comment": "A calcium current activated at relatively hyperpolarized potentials and important for burst firing in thalamic neurons. T-type calcium channels require hyperpolarization for de-inactivation and mediate rebound bursts."
+    },
+    {
+      "@id": "ns:AfterhyperpolarizationCurrent",
+      "@type": ["owl:NamedIndividual", "ns:MembraneCurrent"],
+      "rdfs:label": "Afterhyperpolarization (AHP) Current",
+      "rdfs:comment": "Hyperpolarizing currents following action potentials or spike trains, typically mediated by calcium-activated potassium channels. AHP regulates firing rate, produces spike-frequency adaptation, and terminates bursts."
+    },
+    {
+      "@id": "ns:TemporalCodingScheme",
+      "@type": ["owl:NamedIndividual", "ns:TemporalCoding"],
+      "rdfs:label": "Temporal Coding Scheme",
+      "rdfs:comment": "A coding scheme where information is carried by precise spike timing rather than just firing rate. Temporal codes can convey more information than rate codes in the same time window through mechanisms like phase locking and synchrony."
+    },
+    {
+      "@id": "ns:RateCodingScheme",
+      "@type": ["owl:NamedIndividual", "ns:RateCoding"],
+      "rdfs:label": "Rate Coding Scheme",
+      "rdfs:comment": "A coding scheme where information is represented by the average firing rate of neurons over time windows. Rate coding has been the traditional view of neural coding, robust to noise but slower than temporal codes."
+    },
+    {
+      "@id": "ns:SpikeTimingCode",
+      "@type": ["owl:NamedIndividual", "ns:NeuralCode"],
+      "rdfs:label": "Spike Timing Code",
+      "rdfs:comment": "A coding scheme based on precise temporal relationships between spikes, either within single neurons or across populations. Spike timing codes can emerge from synaptic dynamics and temporal integration windows."
+    },
+    {
+      "@id": "ns:CoincidenceDetection",
+      "@type": ["owl:NamedIndividual", "ns:ComputationalMechanism"],
+      "rdfs:label": "Coincidence Detection",
+      "rdfs:comment": "A neural mechanism sensitive to temporally synchronized inputs, implemented through short membrane time constants or specific channel properties. Coincidence detection is important for sound localization and temporal coding in auditory systems."
+    },
+    {
+      "@id": "ns:CorrelationDetector",
+      "@type": ["owl:NamedIndividual", "ns:ComputationalMechanism"],
+      "rdfs:label": "Correlation Detector",
+      "rdfs:comment": "A motion detection mechanism that multiplies delayed versions of signals from neighboring spatial locations. Correlation detectors are fundamental to fly motion vision and implement the Reichardt model of motion detection."
+    },
+    {
+      "@id": "ns:SaliencyMap",
+      "@type": ["owl:NamedIndividual", "ns:ComputationalMechanism"],
+      "rdfs:label": "Saliency Map",
+      "rdfs:comment": "A topographic representation of visual salience that guides attention to behaviorally relevant locations. Saliency maps combine bottom-up feature information to create a master map for attention deployment in visual search."
+    },
+    {
+      "@id": "ns:SpatialSummation",
+      "@type": ["owl:NamedIndividual", "ns:IntegrationMode"],
+      "rdfs:label": "Spatial Summation",
+      "rdfs:comment": "Integration of synaptic inputs across different spatial locations on a neuron. Spatial summation can be linear or nonlinear depending on dendritic properties, cable attenuation, and active conductances."
+    },
+    {
+      "@id": "ns:TemporalSummation",
+      "@type": ["owl:NamedIndividual", "ns:IntegrationMode"],
+      "rdfs:label": "Temporal Summation",
+      "rdfs:comment": "Integration of synaptic inputs arriving at different times, allowing subthreshold inputs to accumulate and reach firing threshold. Temporal summation depends on membrane time constant and synaptic kinetics."
+    },
+    {
+      "@id": "ns:Layer2_3",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Cortical Layer 2/3",
+      "rdfs:comment": "Superficial cortical layers containing pyramidal neurons that form horizontal connections within and between cortical areas. Layer 2/3 integrates information across cortical columns and implements associative connections."
+    },
+    {
+      "@id": "ns:Layer4",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Cortical Layer 4",
+      "rdfs:comment": "The primary input layer of sensory cortex receiving thalamocortical projections. Layer 4 contains spiny stellate cells and granule cells that distribute sensory information to other cortical layers."
+    },
+    {
+      "@id": "ns:Layer5",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Cortical Layer 5",
+      "rdfs:comment": "A deep cortical layer containing large pyramidal neurons that project to subcortical structures including thalamus, superior colliculus, and spinal cord. Layer 5 is the main output layer for motor and long-range projections."
+    },
+    {
+      "@id": "ns:Layer6",
+      "@type": ["owl:NamedIndividual", "ns:Cortex"],
+      "rdfs:label": "Cortical Layer 6",
+      "rdfs:comment": "The deepest cortical layer containing pyramidal neurons that project back to thalamus, providing corticothalamic feedback. Layer 6 modulates thalamic relay and implements gain control of sensory inputs."
+    },
+    {
+      "@id": "ns:StriatumRegion",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Striatum",
+      "rdfs:comment": "The input nucleus of the basal ganglia receiving cortical and thalamic projections. Striatum contains medium spiny neurons and implements action selection, habit formation, and reinforcement learning through dopamine-dependent plasticity."
+    },
+    {
+      "@id": "ns:SubstantiaNigra",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Substantia Nigra",
+      "rdfs:comment": "A midbrain structure containing dopaminergic neurons that project to striatum and modulate motor control. Degeneration of substantia nigra dopamine neurons causes Parkinson's disease."
+    },
+    {
+      "@id": "ns:VentralTegmentalArea",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Ventral Tegmental Area (VTA)",
+      "rdfs:comment": "A midbrain region containing dopaminergic neurons that project to prefrontal cortex and nucleus accumbens. VTA implements reward prediction error signals critical for reinforcement learning and motivation."
+    },
+    {
+      "@id": "ns:NucleusAccumbens",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Nucleus Accumbens",
+      "rdfs:comment": "A ventral striatal structure involved in reward processing, motivation, and addiction. Nucleus accumbens receives dopaminergic input from VTA and integrates limbic and motor information."
+    },
+    {
+      "@id": "ns:SuperiorColliculus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Superior Colliculus",
+      "rdfs:comment": "A midbrain structure involved in saccadic eye movements and orienting responses. Superior colliculus contains topographic motor maps and integrates multisensory information for gaze control."
+    },
+    {
+      "@id": "ns:InferiorColliculus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Inferior Colliculus",
+      "rdfs:comment": "A midbrain nucleus that processes auditory information and computes sound localization. Inferior colliculus integrates binaural cues and projects to auditory thalamus."
+    },
+    {
+      "@id": "ns:LocusCeruleus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Locus Ceruleus",
+      "rdfs:comment": "A brainstem nucleus containing noradrenergic neurons that project throughout the brain. Locus ceruleus regulates arousal, attention, and stress responses through widespread norepinephrine release."
+    },
+    {
+      "@id": "ns:RapheNuclei",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Raphe Nuclei",
+      "rdfs:comment": "Brainstem nuclei containing serotonergic neurons that project to forebrain. Raphe nuclei regulate mood, sleep, and arousal through serotonin release and are targets of antidepressant drugs."
+    },
+    {
+      "@id": "ns:BasalisNucleus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Nucleus Basalis",
+      "rdfs:comment": "A basal forebrain nucleus containing cholinergic neurons that project to cortex and hippocampus. Nucleus basalis regulates attention, arousal, and cortical plasticity through acetylcholine release."
+    },
+    {
+      "@id": "ns:SuperiorOlive",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Superior Olive",
+      "rdfs:comment": "A brainstem auditory nucleus that processes binaural information for sound localization. Superior olive neurons act as coincidence detectors comparing interaural time and level differences."
+    },
+    {
+      "@id": "ns:CochlearNucleus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Cochlear Nucleus",
+      "rdfs:comment": "The first central auditory processing station receiving input from cochlear nerve. Cochlear nucleus performs initial feature extraction of auditory signals including onset detection and frequency analysis."
+    },
+    {
+      "@id": "ns:RedNucleus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Red Nucleus",
+      "rdfs:comment": "A midbrain motor nucleus involved in limb movement control and motor learning. Red nucleus receives cerebellar input and projects to spinal cord for motor coordination."
+    },
+    {
+      "@id": "ns:DeepCerebellarNuclei",
+      "@type": ["owl:NamedIndividual", "ns:Cerebellum"],
+      "rdfs:label": "Deep Cerebellar Nuclei",
+      "rdfs:comment": "Output nuclei of cerebellum including dentate, interpositus, and fastigial nuclei. Deep cerebellar nuclei receive inhibitory input from Purkinje cells and excitatory input from mossy and climbing fibers."
+    },
+    {
+      "@id": "ns:InferiorOlive",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Inferior Olive",
+      "rdfs:comment": "A brainstem nucleus providing climbing fiber input to cerebellum. Inferior olive neurons exhibit synchronized oscillations and signal error or surprise for motor learning."
+    },
+    {
+      "@id": "ns:LateralGeniculateNucleus",
+      "@type": ["owl:NamedIndividual", "ns:Thalamus"],
+      "rdfs:label": "Lateral Geniculate Nucleus (LGN)",
+      "rdfs:comment": "The thalamic relay nucleus for visual information projecting to primary visual cortex. LGN has six layers with distinct receptive field properties and implements gain control of visual signals."
+    },
+    {
+      "@id": "ns:MedialGeniculateBody",
+      "@type": ["owl:NamedIndividual", "ns:Thalamus"],
+      "rdfs:label": "Medial Geniculate Body",
+      "rdfs:comment": "The thalamic relay nucleus for auditory information projecting to auditory cortex. Medial geniculate body processes tonotopic and temporal features of sound."
+    },
+    {
+      "@id": "ns:VentralPosteriorNucleus",
+      "@type": ["owl:NamedIndividual", "ns:Thalamus"],
+      "rdfs:label": "Ventral Posterior Nucleus",
+      "rdfs:comment": "The thalamic relay nucleus for somatosensory information projecting to somatosensory cortex. Ventral posterior nucleus maintains somatotopic organization and relays touch and proprioception."
+    },
+    {
+      "@id": "ns:PulvinarNucleus",
+      "@type": ["owl:NamedIndividual", "ns:Thalamus"],
+      "rdfs:label": "Pulvinar Nucleus",
+      "rdfs:comment": "A higher-order thalamic nucleus involved in visual attention and cortico-cortical communication. Pulvinar coordinates activity between visual cortical areas and modulates attentional selection."
+    },
+    {
+      "@id": "ns:ReticularNucleus",
+      "@type": ["owl:NamedIndividual", "ns:Thalamus"],
+      "rdfs:label": "Reticular Nucleus",
+      "rdfs:comment": "A shell of GABAergic neurons surrounding thalamus that regulates thalamic relay. Reticular nucleus implements gain control, attention, and sleep spindles through inhibitory connections."
+    },
+    {
+      "@id": "ns:InterpeduncularNucleus",
+      "@type": ["owl:NamedIndividual", "ns:BrainRegion"],
+      "rdfs:label": "Interpeduncular Nucleus",
+      "rdfs:comment": "A midbrain structure receiving input from habenula and involved in stress responses and aversion. Interpeduncular nucleus contains diverse neurotransmitter systems and modulates motivation."
+    },
+    {
+      "@id": "ns:WilsonCowanModel",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Wilson-Cowan Model",
+      "rdfs:comment": "A rate-based network model describing dynamics of excitatory and inhibitory neural populations. Wilson-Cowan model exhibits oscillations, bistability, and pattern formation in recurrent networks."
+    },
+    {
+      "@id": "ns:HopfieldNetwork",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Hopfield Network",
+      "rdfs:comment": "A recurrent neural network model with symmetric connections implementing associative memory through energy minimization. Hopfield networks store patterns as attractors and perform pattern completion."
+    },
+    {
+      "@id": "ns:BoltzmannMachine",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Boltzmann Machine",
+      "rdfs:comment": "A stochastic recurrent neural network that learns probability distributions over binary patterns. Boltzmann machines use simulated annealing and can model statistical structure in data."
+    },
+    {
+      "@id": "ns:LiquidStateMachine",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Liquid State Machine",
+      "rdfs:comment": "A reservoir computing model where a recurrent network of spiking neurons transforms temporal inputs into high-dimensional representations. Liquid state machines implement universal computation through readout from transient dynamics."
+    },
+    {
+      "@id": "ns:EchoStateNetwork",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Echo State Network",
+      "rdfs:comment": "A reservoir computing model with randomly connected rate units and trained readout. Echo state networks efficiently learn temporal patterns and dynamical systems through fixed recurrent weights."
+    },
+    {
+      "@id": "ns:SelfOrganizingMap",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Self-Organizing Map",
+      "rdfs:comment": "An unsupervised neural network that learns topographic representations of input space through competitive learning. Self-organizing maps model cortical map formation and dimensionality reduction."
+    },
+    {
+      "@id": "ns:RestrictedBoltzmannMachine",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Restricted Boltzmann Machine",
+      "rdfs:comment": "A generative neural network with bipartite architecture learning probability distributions. Restricted Boltzmann machines can be stacked to form deep belief networks for unsupervised feature learning."
+    },
+    {
+      "@id": "ns:ConvolutionalNeuralNetwork",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Convolutional Neural Network",
+      "rdfs:comment": "A deep learning architecture with local connectivity, weight sharing, and pooling inspired by visual cortex. Convolutional neural networks excel at image recognition through hierarchical feature extraction."
+    },
+    {
+      "@id": "ns:RecurrentNeuralNetwork",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Recurrent Neural Network",
+      "rdfs:comment": "A neural network with feedback connections enabling temporal processing and memory. Recurrent neural networks model sequential data and implement dynamical computation through hidden state evolution."
+    },
+    {
+      "@id": "ns:LongShortTermMemoryNetwork",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Long Short-Term Memory (LSTM) Network",
+      "rdfs:comment": "A recurrent neural network with gating mechanisms that can learn long-term temporal dependencies. LSTM networks overcome vanishing gradients through memory cells and multiplicative gates."
+    },
+    {
+      "@id": "ns:IzhikevichModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Izhikevich Model",
+      "rdfs:comment": "A two-dimensional spiking neuron model that reproduces diverse firing patterns with computational efficiency. Izhikevich model combines biological realism with mathematical tractability through quadratic voltage dynamics."
+    },
+    {
+      "@id": "ns:AdaptiveExponentialModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Adaptive Exponential Integrate-and-Fire Model",
+      "rdfs:comment": "A generalized integrate-and-fire model with exponential spike generation and adaptation current. AdEx model captures spike initiation dynamics and firing patterns with few parameters."
+    },
+    {
+      "@id": "ns:QuadraticIntegrateAndFire",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Quadratic Integrate-and-Fire Model",
+      "rdfs:comment": "An integrate-and-fire variant with quadratic voltage dependence exhibiting Type I excitability. Quadratic IF model approximates saddle-node bifurcation and canonical theta neuron dynamics."
+    },
+    {
+      "@id": "ns:ThetaNeuronModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Theta Neuron Model",
+      "rdfs:comment": "A phase model representing Type I neurons on a circle, derived from quadratic integrate-and-fire. Theta neurons are canonical models for studying synchronization and collective dynamics."
+    },
+    {
+      "@id": "ns:MorrisLecarModel",
+      "@type": ["owl:NamedIndividual", "ns:BiophysicalNeuronModel"],
+      "rdfs:label": "Morris-Lecar Model",
+      "rdfs:comment": "A two-variable conductance-based model describing voltage oscillations in barnacle muscle. Morris-Lecar model is widely used for bifurcation analysis and exhibits both Type I and Type II excitability."
+    },
+    {
+      "@id": "ns:HindmarshRoseModel",
+      "@type": ["owl:NamedIndividual", "ns:BiophysicalNeuronModel"],
+      "rdfs:label": "Hindmarsh-Rose Model",
+      "rdfs:comment": "A three-variable model capturing bursting and chaotic dynamics in neurons. Hindmarsh-Rose model exhibits diverse bifurcations and complex temporal patterns including chaos."
+    },
+    {
+      "@id": "ns:ConnorStevensModel",
+      "@type": ["owl:NamedIndividual", "ns:BiophysicalNeuronModel"],
+      "rdfs:label": "Connor-Stevens Model",
+      "rdfs:comment": "An extension of Hodgkin-Huxley model with A-type potassium current that produces spike frequency adaptation. Connor-Stevens model captures transient potassium currents important for repetitive firing."
+    },
+    {
+      "@id": "ns:TraubModel",
+      "@type": ["owl:NamedIndividual", "ns:BiophysicalNeuronModel"],
+      "rdfs:label": "Traub Model",
+      "rdfs:comment": "A detailed multi-compartment model of hippocampal pyramidal cells with numerous active conductances. Traub models reproduce intrinsic burst firing, dendritic spikes, and network oscillations."
+    },
+    {
+      "@id": "ns:WangBuzsakiModel",
+      "@type": ["owl:NamedIndividual", "ns:BiophysicalNeuronModel"],
+      "rdfs:label": "Wang-Buzsaki Model",
+      "rdfs:comment": "A simplified conductance-based model of fast-spiking interneurons used in network studies. Wang-Buzsaki model captures high-frequency firing and is computationally efficient for network simulations."
+    },
+    {
+      "@id": "ns:PerfectIntegrateAndFire",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Perfect Integrate-and-Fire Model",
+      "rdfs:comment": "An integrate-and-fire model without leak current where voltage strictly integrates input. Perfect IF model is analytically tractable and exhibits infinite memory of past inputs."
+    },
+    {
+      "@id": "ns:ExponentialIntegrateAndFire",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Exponential Integrate-and-Fire Model",
+      "rdfs:comment": "An IF model with exponential spike generation mechanism capturing action potential initiation. Exponential IF provides better match to biological spike onset dynamics than linear threshold."
+    },
+    {
+      "@id": "ns:ResettingModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Resetting Model",
+      "rdfs:comment": "A generic spiking neuron model defined by spike times and reset conditions. Resetting models provide abstract frameworks for studying spike-timing codes independent of subthreshold dynamics."
+    },
+    {
+      "@id": "ns:SpikeResponseModel",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Spike Response Model",
+      "rdfs:comment": "A neuron model representing voltage as a convolution of input with kernel functions. Spike response models provide generalized frameworks for integrate-and-fire dynamics with history dependence."
+    },
+    {
+      "@id": "ns:GeneralizedIntegrateAndFire",
+      "@type": ["owl:NamedIndividual", "ns:SimplifiedNeuronModel"],
+      "rdfs:label": "Generalized Integrate-and-Fire Model",
+      "rdfs:comment": "An IF model with adaptive threshold and multiple timescales capturing spike-frequency adaptation. Generalized IF unifies various IF variants through threshold dynamics and adaptation currents."
+    },
+    {
+      "@id": "ns:BCMRule",
+      "@type": ["owl:NamedIndividual", "ns:HebbianPlasticity"],
+      "rdfs:label": "BCM Plasticity Rule",
+      "rdfs:comment": "A synaptic plasticity rule with sliding threshold that implements stability and selectivity. BCM (Bienenstock-Cooper-Munro) rule explains development of orientation selectivity through rate-based Hebbian learning."
+    },
+    {
+      "@id": "ns:OjaRule",
+      "@type": ["owl:NamedIndividual", "ns:HebbianPlasticity"],
+      "rdfs:label": "Oja's Learning Rule",
+      "rdfs:comment": "A stabilized Hebbian rule with weight normalization that performs principal component analysis. Oja's rule extracts the first principal component through unsupervised learning with weight decay."
+    },
+    {
+      "@id": "ns:HomeostaticPlasticity",
+      "@type": ["owl:NamedIndividual", "ns:SynapticPlasticity"],
+      "rdfs:label": "Homeostatic Plasticity",
+      "rdfs:comment": "Slow adaptive mechanisms that maintain neural activity within operational ranges through global scaling. Homeostatic plasticity counterbalances Hebbian learning and prevents runaway excitation or silencing."
+    },
+    {
+      "@id": "ns:MetaplasticityRule",
+      "@type": ["owl:NamedIndividual", "ns:SynapticPlasticity"],
+      "rdfs:label": "Metaplasticity",
+      "rdfs:comment": "Plasticity of synaptic plasticity where the modification threshold depends on prior activity history. Metaplasticity implements sliding thresholds for LTP/LTD induction, stabilizing learning."
+    },
+    {
+      "@id": "ns:ShortTermPlasticity",
+      "@type": ["owl:NamedIndividual", "ns:SynapticPlasticity"],
+      "rdfs:label": "Short-Term Plasticity",
+      "rdfs:comment": "Activity-dependent changes in synaptic strength on timescales of milliseconds to seconds. Short-term plasticity includes facilitation and depression, implementing temporal filters and gain control."
+    },
+    {
+      "@id": "ns:SynapticScaling",
+      "@type": ["owl:NamedIndividual", "ns:SynapticPlasticity"],
+      "rdfs:label": "Synaptic Scaling",
+      "rdfs:comment": "A form of homeostatic plasticity that multiplies all synaptic weights by a common factor to regulate overall excitability. Synaptic scaling maintains relative synaptic strengths while controlling firing rates."
+    },
+    {
+      "@id": "ns:TripletSTDP",
+      "@type": ["owl:NamedIndividual", "ns:STDP"],
+      "rdfs:label": "Triplet STDP Rule",
+      "rdfs:comment": "An extension of STDP that depends on spike triplets, capturing frequency-dependent plasticity. Triplet STDP explains BCM-like behavior and the dependence of plasticity on spike rate."
+    },
+    {
+      "@id": "ns:VoltageBasedSTDP",
+      "@type": ["owl:NamedIndividual", "ns:STDP"],
+      "rdfs:label": "Voltage-Based STDP",
+      "rdfs:comment": "A plasticity rule depending on postsynaptic voltage rather than spikes, implementing graded learning. Voltage-based STDP provides biophysical mechanisms for spike-timing-dependent learning through calcium dynamics."
+    },
+    {
+      "@id": "ns:RewardModulatedSTDP",
+      "@type": ["owl:NamedIndividual", "ns:STDP"],
+      "rdfs:label": "Reward-Modulated STDP",
+      "rdfs:comment": "A three-factor learning rule where STDP is gated by reward signals like dopamine. Reward-modulated STDP implements reinforcement learning in spiking networks through eligibility traces."
+    },
+    {
+      "@id": "ns:StructuralPlasticity",
+      "@type": ["owl:NamedIndividual", "ns:SynapticPlasticity"],
+      "rdfs:label": "Structural Plasticity",
+      "rdfs:comment": "Formation and elimination of synapses and dendritic spines on longer timescales. Structural plasticity reorganizes connectivity patterns and underlies circuit refinement during development and learning."
+    },
+    {
+      "@id": "ns:PlaceFieldRemapping",
+      "@type": ["owl:NamedIndividual", "ns:SynapticPlasticity"],
+      "rdfs:label": "Place Field Remapping",
+      "rdfs:comment": "Rapid reorganization of hippocampal place cell responses in different environments or contexts. Remapping demonstrates fast reconfiguration of spatial representations through attractor dynamics."
+    },
+    {
+      "@id": "ns:SomaticDendritic",
+      "@type": ["owl:NamedIndividual", "ns:Neuron"],
+      "rdfs:label": "Somatic-Dendritic Interaction",
+      "rdfs:comment": "Bidirectional communication between soma and dendrites involving action potential backpropagation and dendritic spikes. Soma-dendrite coupling generates burst firing and implements coincidence detection."
+    },
+    {
+      "@id": "ns:DendriticSpike",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Dendritic Spike",
+      "rdfs:comment": "Local action potentials initiated in dendrites through sodium, calcium, or NMDA currents. Dendritic spikes amplify synaptic inputs and trigger burst firing through soma-dendrite interactions."
+    },
+    {
+      "@id": "ns:CalciumSpike",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Calcium Spike",
+      "rdfs:comment": "Dendritic action potentials mediated by voltage-gated calcium channels with slower kinetics. Calcium spikes amplify synaptic input, trigger neurotransmitter release, and induce plasticity."
+    },
+    {
+      "@id": "ns:NMDASpike",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "NMDA Spike",
+      "rdfs:comment": "Dendritic regenerative events mediated by NMDA receptors through voltage-dependent magnesium unblock. NMDA spikes implement local nonlinear integration of clustered synaptic inputs."
+    },
+    {
+      "@id": "ns:PlateauPotential",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Plateau Potential",
+      "rdfs:comment": "Sustained depolarizations lasting hundreds of milliseconds mediated by persistent inward currents. Plateau potentials implement bistability and working memory in motor neurons and prefrontal cortex."
+    },
+    {
+      "@id": "ns:ActionPotentialBackpropagation",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Action Potential Backpropagation",
+      "rdfs:comment": "Retrograde propagation of somatic spikes into dendritic arbors, modulated by active conductances. Backpropagation provides postsynaptic signals for STDP and dendritic integration."
+    },
+    {
+      "@id": "ns:SodiumSpike",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Sodium Spike",
+      "rdfs:comment": "Fast action potentials mediated primarily by voltage-gated sodium channels in soma and axon. Sodium spikes propagate reliably and rapidly, implementing neural communication over long distances."
+    },
+    {
+      "@id": "ns:AxonalSpike",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Axonal Spike",
+      "rdfs:comment": "Action potentials initiated in axon initial segment with high sodium channel density. Axonal spikes typically have lower thresholds than somatic spikes and propagate orthodromically."
+    },
+    {
+      "@id": "ns:ComplexSpike",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Complex Spike",
+      "rdfs:comment": "Multi-spiked responses in Purkinje cells triggered by climbing fiber input with calcium-mediated components. Complex spikes signal errors for motor learning and modulate simple spike firing."
+    },
+    {
+      "@id": "ns:SimpleSpike",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Simple Spike",
+      "rdfs:comment": "Regular sodium-mediated action potentials in Purkinje cells driven by parallel fiber input. Simple spikes represent cerebellar output and encode movement parameters through rate modulation."
+    },
+    {
+      "@id": "ns:FastSpike",
+      "@type": ["owl:NamedIndividual", "ns:ActionPotential"],
+      "rdfs:label": "Fast Spike",
+      "rdfs:comment": "Brief action potentials with rapid depolarization and repolarization characteristic of interneurons. Fast spikes enable high-frequency firing and precise temporal control of network activity."
+    },
+    {
+      "@id": "ns:GammaOscillation",
+      "@type": ["owl:NamedIndividual", "ns:LimitCycle"],
+      "rdfs:label": "Gamma Oscillation (30-80 Hz)",
+      "rdfs:comment": "Fast network oscillations generated by interactions between excitatory and inhibitory neurons. Gamma oscillations coordinate neural activity, implement attention, and support information binding."
+    },
+    {
+      "@id": "ns:BetaOscillation",
+      "@type": ["owl:NamedIndividual", "ns:LimitCycle"],
+      "rdfs:label": "Beta Oscillation (15-30 Hz)",
+      "rdfs:comment": "Mid-frequency oscillations prominent in motor cortex and basal ganglia during movement preparation. Beta oscillations are modulated by dopamine and implicated in Parkinson's disease."
+    },
+    {
+      "@id": "ns:AlphaOscillation",
+      "@type": ["owl:NamedIndividual", "ns:LimitCycle"],
+      "rdfs:label": "Alpha Oscillation (8-12 Hz)",
+      "rdfs:comment": "Prominent oscillations in posterior cortex during relaxed wakefulness and visual inattention. Alpha oscillations implement functional inhibition and are modulated by attention."
+    },
+    {
+      "@id": "ns:ThetaOscillation",
+      "@type": ["owl:NamedIndividual", "ns:LimitCycle"],
+      "rdfs:label": "Theta Oscillation (4-8 Hz)",
+      "rdfs:comment": "Rhythmic activity in hippocampus during exploration and memory encoding, coordinating place cell firing. Theta oscillations implement temporal coding through phase precession."
+    },
+    {
+      "@id": "ns:DeltaOscillation",
+      "@type": ["owl:NamedIndividual", "ns:LimitCycle"],
+      "rdfs:label": "Delta Oscillation (1-4 Hz)",
+      "rdfs:comment": "Slow oscillations prominent during deep sleep and characterized by alternating Up and Down states. Delta oscillations coordinate cortical plasticity and memory consolidation."
+    },
+    {
+      "@id": "ns:SleepSpindle",
+      "@type": ["owl:NamedIndividual", "ns:LimitCycle"],
+      "rdfs:label": "Sleep Spindle (12-15 Hz)",
+      "rdfs:comment": "Transient oscillatory bursts during non-REM sleep generated by thalamocortical circuits. Sleep spindles are associated with memory consolidation and synaptic plasticity."
+    },
+    {
+      "@id": "ns:SharpWaveRipple",
+      "@type": ["owl:NamedIndividual", "ns:LimitCycle"],
+      "rdfs:label": "Sharp-Wave Ripple (150-250 Hz)",
+      "rdfs:comment": "High-frequency oscillations in hippocampus during rest and sleep associated with memory replay. Sharp-wave ripples coordinate information transfer to neocortex for memory consolidation."
+    },
+    {
+      "@id": "ns:UpDownState",
+      "@type": ["owl:NamedIndividual", "ns:Attractor"],
+      "rdfs:label": "Up-Down State Oscillation",
+      "rdfs:comment": "Bistable transitions between active (Up) and quiescent (Down) states in cortical networks during sleep and anesthesia. Up-Down states implement memory consolidation through repeated pattern replay."
+    },
+    {
+      "@id": "ns:TravelingWave",
+      "@type": ["owl:NamedIndividual", "ns:DynamicalSystem"],
+      "rdfs:label": "Traveling Wave",
+      "rdfs:comment": "Spatially propagating patterns of neural activity observed across cortex and other structures. Traveling waves coordinate timing across brain regions and implement sequential processing."
+    },
+    {
+      "@id": "ns:SynchronizedState",
+      "@type": ["owl:NamedIndividual", "ns:Attractor"],
+      "rdfs:label": "Synchronized State",
+      "rdfs:comment": "Collective network state where neurons fire in phase, emerging through excitatory coupling or common input. Synchronization implements information binding and can arise through various mechanisms."
+    },
+    {
+      "@id": "ns:AsynchronousState",
+      "@type": ["owl:NamedIndividual", "ns:Attractor"],
+      "rdfs:label": "Asynchronous Irregular State",
+      "rdfs:comment": "Network state with irregular uncorrelated firing resembling cortex during active processing. Asynchronous states arise from balanced excitation and inhibition, maximizing information capacity."
+    },
+    {
+      "@id": "ns:BalancedState",
+      "@type": ["owl:NamedIndividual", "ns:Attractor"],
+      "rdfs:label": "Balanced State",
+      "rdfs:comment": "Network regime where excitation and inhibition track each other, generating irregular firing. Balanced states explain cortical variability and enable sensitive response to weak inputs."
+    },
+    {
+      "@id": "ns:CriticalState",
+      "@type": ["owl:NamedIndividual", "ns:Attractor"],
+      "rdfs:label": "Critical State",
+      "rdfs:comment": "Network operating near phase transition with power-law statistics and maximal information processing. Critical states optimize dynamic range and information transmission in neural systems."
+    },
+    {
+      "@id": "ns:GaborFilter",
+      "@type": ["owl:NamedIndividual", "ns:ReceptiveField"],
+      "rdfs:label": "Gabor Filter",
+      "rdfs:comment": "A linear receptive field model combining Gaussian envelope with sinusoidal carrier, resembling simple cell receptive fields. Gabor filters are optimal for joint localization in space and spatial frequency."
+    },
+    {
+      "@id": "ns:DifferenceOfGaussians",
+      "@type": ["owl:NamedIndividual", "ns:ReceptiveField"],
+      "rdfs:label": "Difference of Gaussians (DoG)",
+      "rdfs:comment": "A center-surround receptive field model using difference of two Gaussian functions. DoG filters approximate Laplacian of Gaussian and model retinal ganglion cell receptive fields."
+    },
+    {
+      "@id": "ns:ReichardtDetector",
+      "@type": ["owl:NamedIndividual", "ns:ComputationalMechanism"],
+      "rdfs:label": "Reichardt Detector",
+      "rdfs:comment": "A correlation-based motion detection mechanism multiplying delayed signals from adjacent locations. Reichardt detectors are fundamental to insect motion vision and implement elementary motion detection."
+    },
+    {
+      "@id": "ns:EnergyModel",
+      "@type": ["owl:NamedIndividual", "ns:ComputationalMechanism"],
+      "rdfs:label": "Energy Model",
+      "rdfs:comment": "A model of complex cell responses combining quadrature pairs of simple cells in visual cortex. Energy models capture phase invariance and direction selectivity through spatiotemporal filtering."
+    },
+    {
+      "@id": "ns:NormalizationModel",
+      "@type": ["owl:NamedIndividual", "ns:ComputationalMechanism"],
+      "rdfs:label": "Divisive Normalization",
+      "rdfs:comment": "A canonical neural computation dividing responses by pooled activity for gain control. Normalization explains contrast adaptation, attention effects, and surround suppression across sensory systems."
+    },
+    {
+      "@id": "ns:PredictiveCoding",
+      "@type": ["owl:NamedIndividual", "ns:ComputationalMechanism"],
+      "rdfs:label": "Predictive Coding",
+      "rdfs:comment": "A hierarchical processing framework where higher areas predict lower area activity and errors are propagated upward. Predictive coding implements efficient coding and Bayesian inference in cortical hierarchies."
+    },
+    {
+      "@id": "ns:SparseCodeing",
+      "@type": ["owl:NamedIndividual", "ns:NeuralCode"],
+      "rdfs:label": "Sparse Coding",
+      "rdfs:comment": "A coding strategy where only a small fraction of neurons are active at any time, minimizing metabolic cost. Sparse coding maximizes information capacity and emerges from unsupervised learning of natural statistics."
+    },
+    {
+      "@id": "ns:GrandmotherCell",
+      "@type": ["owl:NamedIndividual", "ns:NeuralCode"],
+      "rdfs:label": "Grandmother Cell Coding",
+      "rdfs:comment": "An extreme sparse coding scheme where single neurons represent complex concepts or specific individuals. Grandmother cells provide invariant representations but lack robustness to neuron loss."
+    },
+    {
+      "@id": "ns:CoarseCode",
+      "@type": ["owl:NamedIndividual", "ns:PopulationCoding"],
+      "rdfs:label": "Coarse Coding",
+      "rdfs:comment": "A population coding strategy with broadly tuned neurons and overlapping receptive fields. Coarse coding achieves fine discrimination through population averaging despite individual neuron imprecision."
+    },
+    {
+      "@id": "ns:PlaceCoding",
+      "@type": ["owl:NamedIndividual", "ns:PopulationCoding"],
+      "rdfs:label": "Place Coding",
+      "rdfs:comment": "A coding scheme where information is read from the identity of active neurons rather than their rate. Place coding is efficient for sparse representations and underlies labeled line theories."
+    },
+    {
+      "@id": "ns:PhaseCode",
+      "@type": ["owl:NamedIndividual", "ns:TemporalCoding"],
+      "rdfs:label": "Phase Coding",
+      "rdfs:comment": "A temporal coding scheme where spike timing relative to network oscillations carries information. Phase coding is prominent in hippocampal place cells through theta phase precession."
+    },
+    {
+      "@id": "ns:LatencyCode",
+      "@type": ["owl:NamedIndividual", "ns:TemporalCoding"],
+      "rdfs:label": "Latency Coding",
+      "rdfs:comment": "A coding scheme where information is carried by response latency or time-to-first-spike. Latency coding enables rapid processing and is observed in early sensory systems."
+    },
+    {
+      "@id": "ns:SynchronyCode",
+      "@type": ["owl:NamedIndividual", "ns:TemporalCoding"],
+      "rdfs:label": "Synchrony Coding",
+      "rdfs:comment": "A coding scheme where coincident firing of neuron groups represents features or binds features into objects. Synchrony coding implements dynamic grouping through temporal correlation."
+    },
+    {
+      "@id": "ns:RankOrderCode",
+      "@type": ["owl:NamedIndividual", "ns:TemporalCoding"],
+      "rdfs:label": "Rank Order Coding",
+      "rdfs:comment": "A coding scheme based on the temporal order of first spikes in a population. Rank order coding enables ultrafast processing within single wave of activity."
+    },
+    {
+      "@id": "ns:InterSpikeIntervalCode",
+      "@type": ["owl:NamedIndividual", "ns:TemporalCoding"],
+      "rdfs:label": "Interspike Interval Coding",
+      "rdfs:comment": "A coding scheme where information is carried by intervals between successive spikes. ISI coding can encode stimulus features beyond firing rate alone."
+    },
+    {
+      "@id": "ns:SynFireChain",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Synfire Chain",
+      "rdfs:comment": "A feedforward network architecture propagating synchronous volleys of spikes. Synfire chains implement precise temporal sequences and rapid signal propagation."
+    },
+    {
+      "@id": "ns:WinnerTakeAllNetwork",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Winner-Take-All Network",
+      "rdfs:comment": "A competitive network where lateral inhibition selects the most active neuron or group. Winner-take-all implements decision making, attention, and sparse coding."
+    },
+    {
+      "@id": "ns:ContinuousAttractorNetwork",
+      "@type": ["owl:NamedIndividual", "ns:AttractorNetwork"],
+      "rdfs:label": "Continuous Attractor Network",
+      "rdfs:comment": "An attractor network with a continuum of stable states forming manifolds in state space. Continuous attractors implement working memory with graded representations and head direction cells."
+    },
+    {
+      "@id": "ns:RingAttractor",
+      "@type": ["owl:NamedIndividual", "ns:AttractorNetwork"],
+      "rdfs:label": "Ring Attractor",
+      "rdfs:comment": "A continuous attractor with ring topology modeling head direction cells and motor planning. Ring attractors maintain angular representations through Mexican-hat connectivity."
+    },
+    {
+      "@id": "ns:BumpAttractor",
+      "@type": ["owl:NamedIndividual", "ns:AttractorNetwork"],
+      "rdfs:label": "Bump Attractor",
+      "rdfs:comment": "A continuous attractor with localized activity bumps that can be moved by external input. Bump attractors model working memory, spatial representations, and eye position integration."
+    },
+    {
+      "@id": "ns:LineAttractor",
+      "@type": ["owl:NamedIndividual", "ns:AttractorNetwork"],
+      "rdfs:label": "Line Attractor",
+      "rdfs:comment": "A continuous attractor with one-dimensional manifold of stable states. Line attractors implement neural integrators for eye position, motor planning, and decision variables."
+    },
+    {
+      "@id": "ns:DiscreteAttractorNetwork",
+      "@type": ["owl:NamedIndividual", "ns:AttractorNetwork"],
+      "rdfs:label": "Discrete Attractor Network",
+      "rdfs:comment": "An attractor network with finite number of stable states representing discrete memories or categories. Discrete attractors implement associative memory and decision making."
+    },
+    {
+      "@id": "ns:PerceptronModel",
+      "@type": ["owl:NamedIndividual", "ns:NetworkModel"],
+      "rdfs:label": "Perceptron",
+      "rdfs:comment": "A single-layer feedforward network with linear weighted sum and threshold. Perceptrons learn linearly separable classifications through supervised learning rules."
+    },
+    {
+      "@id": "ns:Backpropagation",
+      "@type": ["owl:NamedIndividual", "ns:StatisticalMethod"],
+      "rdfs:label": "Backpropagation Algorithm",
+      "rdfs:comment": "A supervised learning algorithm propagating errors backward through network layers to adjust weights. Backpropagation enables training of multi-layer neural networks through gradient descent."
+    },
+    {
+      "@id": "ns:HebbianLearningAlgorithm",
+      "@type": ["owl:NamedIndividual", "ns:StatisticalMethod"],
+      "rdfs:label": "Hebbian Learning Algorithm",
+      "rdfs:comment": "An unsupervised learning rule strengthening connections between coactive neurons. Hebbian learning extracts correlations and forms cell assemblies without external supervision."
+    },
+    {
+      "@id": "ns:ReinforcementLearning",
+      "@type": ["owl:NamedIndividual", "ns:StatisticalMethod"],
+      "rdfs:label": "Reinforcement Learning",
+      "rdfs:comment": "A learning paradigm where agents learn optimal actions through trial and error guided by reward signals. Reinforcement learning models dopaminergic systems and goal-directed behavior in biological neural networks."
+    },
+    {
+      "@id": "ns:UnsupervisedLearning",
+      "@type": ["owl:NamedIndividual", "ns:StatisticalMethod"],
+      "rdfs:label": "Unsupervised Learning",
+      "rdfs:comment": "A learning approach that discovers structure and patterns in data without explicit labels or supervision. Unsupervised learning models cortical self-organization, feature extraction, and dimensionality reduction in sensory systems."
+    },
+    {
+      "@id": "ns:TemporalDifferenceLearning",
+      "@type": ["owl:NamedIndividual", "ns:StatisticalMethod"],
+      "rdfs:label": "Temporal Difference Learning",
+      "rdfs:comment": "A reinforcement learning method that learns value functions by comparing predictions at successive time steps. Temporal difference learning models dopamine neuron responses and reward prediction errors in basal ganglia circuits."
+    }
+  ]
+}
