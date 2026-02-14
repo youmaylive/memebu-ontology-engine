@@ -71,6 +71,44 @@ Guidelines:
 After making your additions, confirm that you are done."""
 
 
+def build_review_feedback_prompt(
+    output_path: Path,
+    review_feedback: str,
+    attempt: int,
+) -> str:
+    """Build a prompt that feeds LLM reviewer feedback to the generator agent.
+
+    Parameters
+    ----------
+    output_path:
+        Path to the JSON-LD file to improve.
+    review_feedback:
+        Natural language feedback from the reviewer agent.
+    attempt:
+        Current review-fix cycle number (1-indexed).
+    """
+    return f"""A separate reviewer agent has analyzed the ontology you generated and
+found areas for improvement (review cycle {attempt}).
+
+**File**: {output_path}
+
+**Reviewer feedback**:
+```
+{review_feedback}
+```
+
+Read the feedback carefully, then edit the ontology file to address the issues.
+
+Guidelines:
+- Focus on the specific issues listed above.
+- Do NOT remove existing content — add or improve as needed.
+- Ensure the JSON remains valid after your edits.
+- Every new entity needs `rdfs:label` and `rdfs:comment`.
+- Every new property needs `rdfs:domain` and `rdfs:range`.
+
+After making your improvements, confirm that you are done."""
+
+
 def build_continuation_prompt(output_path: Path) -> str:
     """Build a prompt to continue after a non-success agent session.
 

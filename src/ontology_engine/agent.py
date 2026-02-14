@@ -1,15 +1,18 @@
 """
-Agent runner with externally enforced validation loop.
+Agent runner with externally enforced validation loop and LLM-based review.
 
-The agent generates JSON-LD ontologies. Validation is run by Python code
-via rdflib — the agent cannot skip or circumvent it.
+The agent generates JSON-LD ontologies. Structural validation is run by
+Python code via rdflib. Qualitative review is handled by a separate LLM
+reviewer agent with clean context.
 
 Flow:
-  1. Agent reads the Markdown file and generates a JSON-LD ontology (generation phase)
-  2. Python validates with rdflib + structural checks
-  3. If errors: Python feeds them back to the agent as a fix prompt
-  4. Repeat 2-3 until validation passes or max attempts exhausted
-  5. Convert validated JSON-LD to OWL/RDF-XML
+  1. Agent reads the Markdown file and generates a JSON-LD ontology
+  2. Python validates structural correctness (rdflib, domain/range, labels)
+  3. If structural errors: feed them back to the agent, repeat
+  4. Connectivity/sparsity check: if sparse, enrichment loop
+  5. LLM reviewer (fresh agent) assesses coverage & quality
+  6. If reviewer says NEEDS_IMPROVEMENT: feed feedback to generator, repeat 2-5
+  7. Convert validated + reviewed JSON-LD to OWL/RDF-XML
 """
 
 import asyncio
@@ -30,6 +33,7 @@ from ontology_engine.config import (
     MAX_VALIDATION_ATTEMPTS,
     MAX_CONTINUATION_ATTEMPTS,
     MAX_ENRICHMENT_ATTEMPTS,
+    MAX_REVIEW_ATTEMPTS,
 )
 from ontology_engine.converter import convert_to_owl
 from ontology_engine.models import OntologyResult
@@ -37,10 +41,12 @@ from ontology_engine.prompts.fix import (
     build_continuation_prompt,
     build_enrichment_prompt,
     build_fix_prompt,
+    build_review_feedback_prompt,
 )
 from ontology_engine.prompts.generation import build_generation_prompt
+from ontology_engine.prompts.review import build_review_prompt
 from ontology_engine.prompts.system import build_system_prompt
-from ontology_engine.utils import compute_minimums, console, count_lines, derive_namespace
+from ontology_engine.utils import console, count_lines, derive_namespace
 from ontology_engine.validator import validate_ontology
 
 
@@ -110,6 +116,53 @@ async def _run_agent(prompt: str, options: ClaudeAgentOptions) -> tuple[bool, st
     return success, session_id
 
 
+async def _run_review(
+    prompt: str,
+    model: str,
+) -> tuple[bool, str]:
+    """Run the LLM reviewer agent with a fresh session (clean context).
+
+    The reviewer is read-only — it can only Read, Grep, and Glob.
+
+    Returns
+    -------
+    (approved, feedback)
+        approved: True if the reviewer output contains "VERDICT: APPROVED"
+        feedback: the full text output from the reviewer
+    """
+    opts = ClaudeAgentOptions(
+        allowed_tools=["Read", "Grep", "Glob"],
+        permission_mode="bypassPermissions",
+        model=model,
+        max_turns=DEFAULT_MAX_TURNS,
+        cwd=str(PROJECT_ROOT),
+    )
+
+    feedback_parts: list[str] = []
+
+    try:
+        async for message in query(prompt=prompt, options=opts):
+            if isinstance(message, AssistantMessage):
+                for block in message.content:
+                    if isinstance(block, TextBlock):
+                        feedback_parts.append(block.text)
+                        console.print(block.text)
+                    elif hasattr(block, "name"):
+                        console.print(f"\n  [dim]Tool: {block.name}[/dim]")
+
+            elif isinstance(message, ResultMessage):
+                if hasattr(message, "total_cost_usd") and message.total_cost_usd:
+                    console.print(f"  [dim]Review cost: ${message.total_cost_usd:.4f}[/dim]")
+
+    except Exception as exc:
+        console.print(f"\n  [red]Reviewer agent error: {exc}[/red]")
+
+    feedback = "\n".join(feedback_parts)
+    approved = "VERDICT: APPROVED" in feedback
+
+    return approved, feedback
+
+
 # ---------------------------------------------------------------------------
 # Single ontology generation
 # ---------------------------------------------------------------------------
@@ -121,19 +174,21 @@ async def generate_ontology(
     model: str = DEFAULT_MODEL,
     max_turns: int = DEFAULT_MAX_TURNS,
 ) -> OntologyResult:
-    """Generate an ontology from a single Markdown file with externally enforced validation.
+    """Generate an ontology from a single Markdown file.
 
     Steps:
       1. Agent reads Markdown + generates JSON-LD, writes file
-      2. Python validates via rdflib (agent cannot skip this)
-      3. On failure: Python feeds errors to agent, agent fixes, repeat
-      4. On success: Convert JSON-LD to OWL/RDF-XML
+      2. Python validates structural correctness (rdflib, domain/range, labels)
+      3. On structural failure: feed errors to agent, repeat
+      4. Connectivity/sparsity check: if sparse, enrichment loop
+      5. LLM reviewer (fresh agent) assesses coverage & quality
+      6. If reviewer says NEEDS_IMPROVEMENT: feed feedback to generator, repeat 2-5
+      7. Convert validated + reviewed JSON-LD to OWL/RDF-XML
     """
     # Derive paths and metadata
     stem = md_path.stem
     namespace = derive_namespace(md_path.name)
     line_count = count_lines(md_path)
-    minimums = compute_minimums(line_count)
 
     json_dir = output_dir / "ontology_json"
     json_dir.mkdir(parents=True, exist_ok=True)
@@ -145,7 +200,6 @@ async def generate_ontology(
     console.print(f"  Output:     {json_path}")
     console.print(f"  Namespace:  {namespace}")
     console.print(f"  Lines:      {line_count:,}")
-    console.print(f"  Minimums:   {minimums}")
     console.print(f"  Model:      {model}")
     console.print()
 
@@ -158,7 +212,6 @@ async def generate_ontology(
         md_path=md_path,
         output_path=json_path,
         namespace=namespace,
-        minimums=minimums,
         line_count=line_count,
     )
 
@@ -196,7 +249,7 @@ async def generate_ontology(
                 )
 
     # ------------------------------------------------------------------
-    # Phase 2 & 3: External validation loop
+    # Phase 2 & 3: Structural validation loop
     # ------------------------------------------------------------------
     for attempt in range(1, MAX_VALIDATION_ATTEMPTS + 1):
         console.print(f"\n{'─' * 50}")
@@ -205,15 +258,10 @@ async def generate_ontology(
         )
         console.print(f"{'─' * 50}")
 
-        result = validate_ontology(
-            json_path=json_path,
-            min_classes=minimums["min_classes"],
-            min_properties=minimums["min_properties"],
-            min_individuals=minimums["min_individuals"],
-        )
+        result = validate_ontology(json_path=json_path)
 
         if result.success:
-            console.print(f"\n  [green]Validation passed![/green]")
+            console.print(f"\n  [green]Structural validation passed![/green]")
             console.print(f"  {result.raw_output}")
 
             # ----------------------------------------------------------
@@ -244,12 +292,7 @@ async def generate_ontology(
                     )
 
                     # Re-validate after enrichment
-                    result = validate_ontology(
-                        json_path=json_path,
-                        min_classes=minimums["min_classes"],
-                        min_properties=minimums["min_properties"],
-                        min_individuals=minimums["min_individuals"],
-                    )
+                    result = validate_ontology(json_path=json_path)
 
                     if not result.success:
                         console.print(
@@ -276,6 +319,26 @@ async def generate_ontology(
                     continue
             else:
                 console.print(f"\n{result.connectivity_report}\n")
+
+            # ----------------------------------------------------------
+            # Phase 4: LLM Review (fresh agent, clean context)
+            # ----------------------------------------------------------
+            review_approved, last_result = await _review_loop(
+                json_path=json_path,
+                md_path=md_path,
+                connectivity_report=result.connectivity_report,
+                model=model,
+                max_turns=max_turns,
+                session_id=session_id,
+            )
+
+            # If the review-fix cycle broke structural validation,
+            # re-validate with the latest result
+            if last_result is not None:
+                result = last_result
+                if not result.success:
+                    # Fall through to the structural fix loop
+                    continue
 
             # Convert to OWL/RDF-XML
             try:
@@ -351,6 +414,101 @@ async def generate_ontology(
         namespace=namespace,
         error="Unexpected: exited validation loop without result.",
     )
+
+
+async def _review_loop(
+    json_path: Path,
+    md_path: Path,
+    connectivity_report: str,
+    model: str,
+    max_turns: int,
+    session_id: str | None,
+) -> tuple[bool, "ValidationResult | None"]:
+    """Run the LLM review loop with progressive leniency.
+
+    Returns
+    -------
+    (approved, last_validation_result)
+        approved: True if the reviewer approved (or max attempts exhausted).
+        last_validation_result: the most recent ValidationResult if the
+            review-fix cycle triggered re-validation, or None if no
+            re-validation was needed (i.e., approved on first try).
+    """
+    from ontology_engine.models import ValidationResult  # avoid circular at module level
+
+    previous_feedback: str | None = None
+    last_result: ValidationResult | None = None
+
+    for review_attempt in range(1, MAX_REVIEW_ATTEMPTS + 1):
+        console.print(f"\n{'─' * 50}")
+        console.print(
+            f"[bold]LLM Review attempt {review_attempt}/{MAX_REVIEW_ATTEMPTS}[/bold]"
+        )
+        console.print(f"{'─' * 50}\n")
+
+        review_prompt = build_review_prompt(
+            json_path=json_path,
+            md_path=md_path,
+            connectivity_report=connectivity_report,
+            attempt=review_attempt,
+            max_attempts=MAX_REVIEW_ATTEMPTS,
+            previous_feedback=previous_feedback,
+        )
+
+        approved, feedback = await _run_review(
+            prompt=review_prompt,
+            model=model,
+        )
+
+        if approved:
+            console.print(f"\n  [green]Reviewer approved the ontology![/green]")
+            return True, last_result
+
+        console.print(f"\n  [yellow]Reviewer requested improvements.[/yellow]")
+        previous_feedback = feedback
+
+        if review_attempt == MAX_REVIEW_ATTEMPTS:
+            console.print(
+                f"\n  [yellow]Exhausted {MAX_REVIEW_ATTEMPTS} review attempts "
+                f"— accepting ontology as-is.[/yellow]"
+            )
+            return True, last_result
+
+        # Feed reviewer feedback to the generator agent
+        console.print(
+            f"\n[bold]Phase 4b:[/bold] Feeding reviewer feedback to generator "
+            f"(cycle {review_attempt})...\n"
+        )
+
+        feedback_prompt = build_review_feedback_prompt(
+            output_path=json_path,
+            review_feedback=feedback,
+            attempt=review_attempt,
+        )
+
+        fix_ok, session_id = await _run_agent(
+            prompt=feedback_prompt,
+            options=_agent_options(
+                model=model,
+                max_turns=max_turns,
+                session_id=session_id,
+            ),
+        )
+
+        # Re-validate structural correctness after the generator made changes
+        last_result = validate_ontology(json_path=json_path)
+
+        if not last_result.success:
+            console.print(
+                f"  [red]Review feedback fixes broke structural validation — "
+                f"returning to fix loop.[/red]"
+            )
+            return False, last_result
+
+        # Update connectivity report for the next review iteration
+        connectivity_report = last_result.connectivity_report
+
+    return True, last_result
 
 
 # ---------------------------------------------------------------------------

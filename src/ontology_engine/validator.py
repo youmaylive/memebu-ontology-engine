@@ -249,32 +249,23 @@ def _connectivity_metrics(
 
 def validate_ontology(
     json_path: Path,
-    min_classes: int,
-    min_properties: int,
-    min_individuals: int,
 ) -> ValidationResult:
-    """Validate a JSON-LD ontology file against all functional requirements.
+    """Validate a JSON-LD ontology file against structural requirements.
 
     Checks performed (in order):
       1. File exists and is valid JSON
       2. JSON-LD structure has @context and @graph
       3. Parseable by rdflib
-      4. FR-001: minimum classes
-      5. FR-002: minimum properties
-      6. FR-003: minimum individuals
-      7. FR-004: all properties have domain and range
-      8. FR-005: all entities have label and comment
+      4. FR-004: all properties have domain and range
+      5. FR-005: all entities have label and comment
+
+    Quantitative quality assessment (coverage, completeness) is handled
+    separately by the LLM reviewer agent, not by hardcoded minimums.
 
     Parameters
     ----------
     json_path:
         Path to the JSON-LD file.
-    min_classes:
-        Minimum number of owl:Class entities (FR-001).
-    min_properties:
-        Minimum number of properties (FR-002).
-    min_individuals:
-        Minimum number of owl:NamedIndividual entities (FR-003).
 
     Returns
     -------
@@ -349,34 +340,7 @@ def validate_ontology(
     }
 
     # ------------------------------------------------------------------
-    # Check 4: FR-001 — minimum classes
-    # ------------------------------------------------------------------
-    if len(classes) < min_classes:
-        errors.append(
-            f"FR-001: Too few classes: {len(classes)} found, minimum {min_classes} required"
-        )
-
-    # ------------------------------------------------------------------
-    # Check 5: FR-002 — minimum properties
-    # ------------------------------------------------------------------
-    if len(all_properties) < min_properties:
-        errors.append(
-            f"FR-002: Too few properties: {len(all_properties)} found "
-            f"(object: {len(obj_props)}, data: {len(data_props)}), "
-            f"minimum {min_properties} required"
-        )
-
-    # ------------------------------------------------------------------
-    # Check 6: FR-003 — minimum individuals
-    # ------------------------------------------------------------------
-    if len(individuals) < min_individuals:
-        errors.append(
-            f"FR-003: Too few individuals: {len(individuals)} found, "
-            f"minimum {min_individuals} required"
-        )
-
-    # ------------------------------------------------------------------
-    # Check 7: FR-004 — properties must have domain and range
+    # Check 4: FR-004 — properties must have domain and range
     # ------------------------------------------------------------------
     props_missing_domain: list[str] = []
     props_missing_range: list[str] = []
@@ -401,7 +365,7 @@ def validate_ontology(
         )
 
     # ------------------------------------------------------------------
-    # Check 8: FR-005 — entities must have label and comment
+    # Check 5: FR-005 — entities must have label and comment
     # ------------------------------------------------------------------
     all_entities = classes | all_properties | individuals
     missing_label: list[str] = []

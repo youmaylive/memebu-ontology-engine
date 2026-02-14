@@ -1,5 +1,5 @@
 """
-Utility helpers: namespace derivation, line counting, minimum computation.
+Utility helpers: namespace derivation and line counting.
 """
 
 import re
@@ -34,20 +34,3 @@ def count_lines(file_path: Path) -> int:
     """Count the number of lines in a text file."""
     with open(file_path, encoding="utf-8") as f:
         return sum(1 for _ in f)
-
-
-def compute_minimums(line_count: int) -> dict[str, int]:
-    """Compute minimum entity counts based on document size.
-
-    Returns
-    -------
-    dict with keys: min_classes, min_properties, min_individuals
-    """
-    min_classes = max(20, line_count // 100)
-    min_properties = max(15, min_classes // 2)
-    min_individuals = max(50, line_count // 50)
-    return {
-        "min_classes": min_classes,
-        "min_properties": min_properties,
-        "min_individuals": min_individuals,
-    }
