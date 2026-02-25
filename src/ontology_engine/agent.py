@@ -51,8 +51,23 @@ from ontology_engine.validator import validate_ontology
 
 
 # ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
+
+# Rolling idle timeout: if no message arrives from Claude for this many seconds,
+# the stream is considered dead and we raise asyncio.TimeoutError.
+# This prevents the pipeline from hanging for hours/days on a stale connection.
+IDLE_TIMEOUT_SECONDS = 10 * 60  # 10 minutes
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+
+class StreamIdleTimeout(Exception):
+    """Raised when the Claude Agent SDK stream produces no messages for too long."""
+    pass
 
 
 def _agent_options(
@@ -87,7 +102,25 @@ async def _run_agent(prompt: str, options: ClaudeAgentOptions) -> tuple[bool, st
     session_id = None
 
     try:
-        async for message in query(prompt=prompt, options=options):
+        # Use rolling idle timeout: if no message for IDLE_TIMEOUT_SECONDS,
+        # the stream is dead — raise StreamIdleTimeout so caller can retry.
+        stream = query(prompt=prompt, options=options).__aiter__()
+        while True:
+            try:
+                message = await asyncio.wait_for(
+                    stream.__anext__(), timeout=IDLE_TIMEOUT_SECONDS
+                )
+            except StopAsyncIteration:
+                break
+            except asyncio.TimeoutError:
+                console.print(
+                    f"\n  [red]⏰ Stream idle for {IDLE_TIMEOUT_SECONDS // 60} min "
+                    f"— connection appears dead.[/red]"
+                )
+                raise StreamIdleTimeout(
+                    f"No response from Claude for {IDLE_TIMEOUT_SECONDS // 60} minutes"
+                )
+
             # Capture session ID from the init message
             if hasattr(message, "subtype") and message.subtype == "init":
                 if hasattr(message, "session_id"):
@@ -110,6 +143,8 @@ async def _run_agent(prompt: str, options: ClaudeAgentOptions) -> tuple[bool, st
                 if hasattr(message, "total_cost_usd") and message.total_cost_usd:
                     console.print(f"  [dim]Cost: ${message.total_cost_usd:.4f}[/dim]")
 
+    except StreamIdleTimeout:
+        raise  # Let caller handle retry
     except Exception as exc:
         console.print(f"\n  [red]Agent SDK error: {exc}[/red]")
 
@@ -141,7 +176,24 @@ async def _run_review(
     feedback_parts: list[str] = []
 
     try:
-        async for message in query(prompt=prompt, options=opts):
+        # Use rolling idle timeout for reviewer too
+        stream = query(prompt=prompt, options=opts).__aiter__()
+        while True:
+            try:
+                message = await asyncio.wait_for(
+                    stream.__anext__(), timeout=IDLE_TIMEOUT_SECONDS
+                )
+            except StopAsyncIteration:
+                break
+            except asyncio.TimeoutError:
+                console.print(
+                    f"\n  [red]⏰ Review stream idle for {IDLE_TIMEOUT_SECONDS // 60} min "
+                    f"— connection appears dead.[/red]"
+                )
+                raise StreamIdleTimeout(
+                    f"No response from reviewer for {IDLE_TIMEOUT_SECONDS // 60} minutes"
+                )
+
             if isinstance(message, AssistantMessage):
                 for block in message.content:
                     if isinstance(block, TextBlock):
@@ -154,6 +206,8 @@ async def _run_review(
                 if hasattr(message, "total_cost_usd") and message.total_cost_usd:
                     console.print(f"  [dim]Review cost: ${message.total_cost_usd:.4f}[/dim]")
 
+    except StreamIdleTimeout:
+        raise  # Let caller handle retry
     except Exception as exc:
         console.print(f"\n  [red]Reviewer agent error: {exc}[/red]")
 
