@@ -7,11 +7,12 @@ quality. Subsequent attempts scale leniency so the loop converges.
 """
 
 from pathlib import Path
+from typing import Union
 
 
 def build_review_prompt(
     json_path: Path,
-    md_path: Path,
+    md_path: Union[Path, list[Path]],
     connectivity_report: str,
     attempt: int,
     max_attempts: int,
@@ -24,7 +25,8 @@ def build_review_prompt(
     json_path:
         Path to the JSON-LD ontology file to review.
     md_path:
-        Path to the original Markdown source document.
+        Path to the original Markdown source document, or a list of Paths
+        for multi-file ontology generation.
     connectivity_report:
         Agent-readable connectivity analysis from the validator.
     attempt:
@@ -36,11 +38,19 @@ def build_review_prompt(
     """
     leniency = _leniency_section(attempt, max_attempts, previous_feedback)
 
+    # Format source document(s) section
+    if isinstance(md_path, list) and len(md_path) > 1:
+        source_lines = "\n".join(f"  {i}. {p}" for i, p in enumerate(md_path, 1))
+        source_section = f"**Source documents** ({len(md_path)} files):\n{source_lines}"
+    else:
+        single_path = md_path[0] if isinstance(md_path, list) else md_path
+        source_section = f"**Source document**: {single_path}"
+
     return f"""You are an ontology quality reviewer. Your job is to assess whether
-a JSON-LD ontology adequately captures the domain knowledge from a source document.
+a JSON-LD ontology adequately captures the domain knowledge from the source document(s).
 
 **Ontology file**: {json_path}
-**Source document**: {md_path}
+{source_section}
 
 ### Graph connectivity (already analyzed — do NOT repeat this analysis):
 ```

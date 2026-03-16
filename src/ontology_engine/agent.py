@@ -16,6 +16,7 @@ Flow:
 """
 
 import asyncio
+import hashlib
 from pathlib import Path
 
 from claude_agent_sdk import (
@@ -223,15 +224,19 @@ async def _run_review(
 
 
 async def generate_ontology(
-    md_path: Path,
+    md_path: Path | list[Path],
     output_dir: Path,
     model: str = DEFAULT_MODEL,
     max_turns: int = DEFAULT_MAX_TURNS,
 ) -> OntologyResult:
-    """Generate an ontology from a single Markdown file.
+    """Generate an ontology from one or more Markdown files.
+
+    Supports both single-file and multi-file mode:
+    - Single file: same as before (backward compatible)
+    - Multiple files: Claude reads ALL files and builds ONE unified ontology
 
     Steps:
-      1. Agent reads Markdown + generates JSON-LD, writes file
+      1. Agent reads Markdown(s) + generates JSON-LD, writes file
       2. Python validates structural correctness (rdflib, domain/range, labels)
       3. On structural failure: feed errors to agent, repeat
       4. Connectivity/sparsity check: if sparse, enrichment loop
@@ -239,18 +244,34 @@ async def generate_ontology(
       6. If reviewer says NEEDS_IMPROVEMENT: feed feedback to generator, repeat 2-5
       7. Convert validated + reviewed JSON-LD to OWL/RDF-XML
     """
+    # Normalize to list for uniform handling
+    md_paths: list[Path] = [md_path] if isinstance(md_path, Path) else list(md_path)
+    is_multi = len(md_paths) > 1
+
     # Derive paths and metadata
-    stem = md_path.stem
-    namespace = derive_namespace(md_path.name)
-    line_count = count_lines(md_path)
+    if is_multi:
+        # Multi-file: use "unified" as base name with short hash of all filenames
+        stem = "unified"
+        combined_names = "_".join(sorted(p.name for p in md_paths))
+        namespace = "unified_" + hashlib.md5(combined_names.encode()).hexdigest()[:8]
+        line_count = sum(count_lines(p) for p in md_paths)
+    else:
+        stem = md_paths[0].stem
+        namespace = derive_namespace(md_paths[0].name)
+        line_count = count_lines(md_paths[0])
 
     json_dir = output_dir / "ontology_json"
     json_dir.mkdir(parents=True, exist_ok=True)
     json_path = json_dir / f"{stem}.json"
     owl_path = output_dir / f"{stem}.owl"
 
-    console.rule(f"[bold]Generating ontology: {md_path.name}[/bold]")
-    console.print(f"  Source:     {md_path}")
+    if is_multi:
+        console.rule(f"[bold]Generating unified ontology from {len(md_paths)} files[/bold]")
+        for i, p in enumerate(md_paths, 1):
+            console.print(f"  Source {i}:  {p}")
+    else:
+        console.rule(f"[bold]Generating ontology: {md_paths[0].name}[/bold]")
+        console.print(f"  Source:     {md_paths[0]}")
     console.print(f"  Output:     {json_path}")
     console.print(f"  Namespace:  {namespace}")
     console.print(f"  Lines:      {line_count:,}")
@@ -472,7 +493,7 @@ async def generate_ontology(
 
 async def _review_loop(
     json_path: Path,
-    md_path: Path,
+    md_path: Path | list[Path],
     connectivity_report: str,
     model: str,
     max_turns: int,
