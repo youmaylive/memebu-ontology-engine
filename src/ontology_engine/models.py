@@ -51,3 +51,13 @@ class OntologyResult:
 
     error: str | None = None
     """Error message if generation failed."""
+
+    # Usage tracking
+    total_cost_usd: float = 0.0
+    """Total API cost in USD for this generation run."""
+
+    input_tokens: int = 0
+    """Total input tokens consumed."""
+
+    output_tokens: int = 0
+    """Total output tokens consumed."""
