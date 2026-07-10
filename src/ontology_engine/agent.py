@@ -103,6 +103,8 @@ async def _run_agent(prompt: str, options: ClaudeAgentOptions) -> tuple[bool, st
     success = False
     session_id = None
     cost_usd = 0.0
+    input_tokens = 0
+    output_tokens = 0
 
     try:
         # Use rolling idle timeout: if no message for IDLE_TIMEOUT_SECONDS,
@@ -146,13 +148,16 @@ async def _run_agent(prompt: str, options: ClaudeAgentOptions) -> tuple[bool, st
                 if hasattr(message, "total_cost_usd") and message.total_cost_usd:
                     cost_usd = message.total_cost_usd
                     console.print(f"  [dim]Cost: ${cost_usd:.4f}[/dim]")
+                if hasattr(message, "usage") and message.usage:
+                    input_tokens = message.usage.get("input_tokens", 0) or 0
+                    output_tokens = message.usage.get("output_tokens", 0) or 0
 
     except StreamIdleTimeout:
         raise  # Let caller handle retry
     except Exception as exc:
         console.print(f"\n  [red]Agent SDK error: {exc}[/red]")
 
-    return success, session_id, cost_usd
+    return success, session_id, cost_usd, input_tokens, output_tokens
 
 
 async def _run_review(
@@ -293,14 +298,18 @@ async def generate_ontology(
         line_count=line_count,
     )
 
-    # Track cumulative cost across all agent calls
+    # Track cumulative cost + tokens across all agent calls
     cumulative_cost = 0.0
+    cumulative_input_tokens = 0
+    cumulative_output_tokens = 0
 
-    agent_ok, session_id, cost = await _run_agent(
+    agent_ok, session_id, cost, inp_tok, out_tok = await _run_agent(
         prompt=gen_prompt,
         options=_agent_options(model=model, max_turns=max_turns),
     )
     cumulative_cost += cost
+    cumulative_input_tokens += inp_tok
+    cumulative_output_tokens += out_tok
 
     # Handle non-success (token overflow / max turns) with continuation
     if not agent_ok:
@@ -309,7 +318,7 @@ async def generate_ontology(
                 f"\n  [yellow]Continuation attempt {cont_attempt}/{MAX_CONTINUATION_ATTEMPTS}...[/yellow]\n"
             )
             cont_prompt = build_continuation_prompt(output_path=json_path)
-            agent_ok, session_id, cost = await _run_agent(
+            agent_ok, session_id, cost, inp_tok, out_tok = await _run_agent(
                 prompt=cont_prompt,
                 options=_agent_options(
                     model=model,
@@ -318,6 +327,8 @@ async def generate_ontology(
                 ),
             )
             cumulative_cost += cost
+            cumulative_input_tokens += inp_tok
+            cumulative_output_tokens += out_tok
             if agent_ok:
                 break
 
@@ -365,7 +376,7 @@ async def generate_ontology(
                         connectivity_report=result.connectivity_report,
                     )
 
-                    enrich_ok, session_id, cost = await _run_agent(
+                    enrich_ok, session_id, cost, inp_tok, out_tok = await _run_agent(
                         prompt=enrich_prompt,
                         options=_agent_options(
                             model=model,
@@ -374,6 +385,8 @@ async def generate_ontology(
                         ),
                     )
                     cumulative_cost += cost
+                    cumulative_input_tokens += inp_tok
+                    cumulative_output_tokens += out_tok
 
                     # Re-validate after enrichment
                     result = validate_ontology(json_path=json_path)
@@ -443,6 +456,8 @@ async def generate_ontology(
                 namespace=namespace,
                 stats=result.stats,
                 total_cost_usd=cumulative_cost,
+                input_tokens=cumulative_input_tokens,
+                output_tokens=cumulative_output_tokens,
             )
 
         console.print(f"\n  [red]Validation failed ({result.error_count} error(s)):[/red]")
@@ -477,7 +492,7 @@ async def generate_ontology(
         )
 
         # Resume the same session so the agent has full context
-        fix_ok, session_id, cost = await _run_agent(
+        fix_ok, session_id, cost, inp_tok, out_tok = await _run_agent(
             prompt=fix_prompt,
             options=_agent_options(
                 model=model,
@@ -486,6 +501,8 @@ async def generate_ontology(
             ),
         )
         cumulative_cost += cost
+        cumulative_input_tokens += inp_tok
+        cumulative_output_tokens += out_tok
 
         if not fix_ok:
             console.print(
@@ -572,7 +589,7 @@ async def _review_loop(
             attempt=review_attempt,
         )
 
-        fix_ok, session_id, cost = await _run_agent(
+        fix_ok, session_id, cost, _it, _ot = await _run_agent(
             prompt=feedback_prompt,
             options=_agent_options(
                 model=model,
