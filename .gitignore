@@ -1,0 +1,36 @@
+# Python bytecode. 16 .pyc files were tracked before this file existed, which made
+# every source edit show a second, meaningless diff alongside it.
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Packaging / build
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# uv
+.python-version
+
+# Environment variables — never commit credentials
+.env
+.env.*
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Secrets
+*.pem
+service_account.json
