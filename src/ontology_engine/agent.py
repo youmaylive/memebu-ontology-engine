@@ -149,7 +149,21 @@ async def _run_agent(prompt: str, options: ClaudeAgentOptions) -> tuple[bool, st
                     cost_usd = message.total_cost_usd
                     console.print(f"  [dim]Cost: ${cost_usd:.4f}[/dim]")
                 if hasattr(message, "usage") and message.usage:
-                    input_tokens = message.usage.get("input_tokens", 0) or 0
+                    # Cache reads/creations ARE input tokens, billed at a different
+                    # rate. Reading only "input_tokens" undercounted this phase to
+                    # near-zero: in a cached agentic run almost all input arrives as
+                    # cache reads, so the ontology/spine phases were reporting real
+                    # output against ~0 input (measured: 118 input vs 139,318 output
+                    # across spine + lesson_expansion for one 50-lesson course).
+                    # Same key set as vibely-lesson-agent's usage.py `_INPUT_KEYS`.
+                    input_tokens = sum(
+                        message.usage.get(key, 0) or 0
+                        for key in (
+                            "input_tokens",
+                            "cache_creation_input_tokens",
+                            "cache_read_input_tokens",
+                        )
+                    )
                     output_tokens = message.usage.get("output_tokens", 0) or 0
 
     except StreamIdleTimeout:
